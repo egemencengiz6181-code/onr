@@ -247,6 +247,87 @@ export default function FullscreenMenu({ isOpen, onClose }: FullscreenMenuProps)
               </ul>
             </nav>
 
+            {/* ── İlham Alın Section ── */}
+            <motion.div
+              variants={secondaryVariants}
+              initial="closed"
+              animate="open"
+              exit="exit"
+              className="px-8 md:px-16 lg:px-24 pt-8 pb-10 border-t border-white/10"
+            >
+              <p className="text-[9px] tracking-[0.25em] uppercase font-sans text-gold/60 mb-6">
+                İlham Alın
+              </p>
+              <div className="grid grid-cols-2 gap-3">
+                {[
+                  {
+                    label: "Hediye Seçici",
+                    sub: "Mükemmel Hediyeyi Bulun",
+                    href: "/hediye-secici",
+                    icon: (
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
+                        <rect x="3" y="8" width="18" height="13" rx="1"/>
+                        <line x1="3" y1="12" x2="21" y2="12"/>
+                        <line x1="12" y1="8" x2="12" y2="21"/>
+                        <path d="M12 8C12 8 10 5 8 5a2 2 0 010-4c2.5 0 4 3 4 7z"/>
+                        <path d="M12 8c0 0 2-7 4-7a2 2 0 010 4c-2 0-4 3-4 3z"/>
+                      </svg>
+                    ),
+                  },
+                  {
+                    label: "Kişiselleştirme",
+                    sub: "Sadece Size Özel",
+                    href: "/kisisellestirme",
+                    icon: (
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M12 20h9"/>
+                        <path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>
+                      </svg>
+                    ),
+                  },
+                  {
+                    label: "En Yeni Tasarımlar",
+                    sub: "Bu Sezonun Parlayanları",
+                    href: "/yeni-tasarimlar",
+                    icon: (
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                      </svg>
+                    ),
+                  },
+                  {
+                    label: "Onun İçin",
+                    sub: "Ona Özel Küratör Seçkisi",
+                    href: "/onun-icin",
+                    icon: (
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+                      </svg>
+                    ),
+                  },
+                ].map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={onClose}
+                    className="group flex flex-col gap-2.5 p-4 border border-white/8
+                               hover:border-gold/30 hover:bg-white/[0.03]
+                               transition-all duration-300 rounded-sm"
+                  >
+                    <span className="text-white/30 group-hover:text-gold/70 transition-colors duration-300">
+                      {item.icon}
+                    </span>
+                    <span className="text-[11px] tracking-[0.18em] uppercase font-sans font-medium text-ivory-100/80 group-hover:text-gold transition-colors duration-300">
+                      {item.label}
+                    </span>
+                    <span className="text-[10px] font-sans text-white/35 leading-snug group-hover:text-white/55 transition-colors duration-300">
+                      {item.sub}
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </motion.div>
+
             {/* Footer row */}
             <motion.div
               variants={secondaryVariants}
