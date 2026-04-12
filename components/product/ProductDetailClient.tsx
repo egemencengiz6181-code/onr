@@ -224,6 +224,129 @@ function PersonalizationModal({ productName, onClose }: { productName: string; o
   );
 }
 
+/* ─── Ring Size Guide Modal ──────────────────────────────────────── */
+const ringSizeData = [
+  { tr: 10, cevre: 50, cap: "15.92" },
+  { tr: 11, cevre: 51, cap: "16.24" },
+  { tr: 12, cevre: 52, cap: "16.56" },
+  { tr: 13, cevre: 53, cap: "16.88" },
+  { tr: 14, cevre: 54, cap: "17.20" },
+  { tr: 15, cevre: 55, cap: "17.52" },
+  { tr: 16, cevre: 56, cap: "17.84" },
+  { tr: 17, cevre: 57, cap: "18.16" },
+  { tr: 18, cevre: 58, cap: "18.48" },
+  { tr: 19, cevre: 59, cap: "18.80" },
+  { tr: 20, cevre: 60, cap: "19.10" },
+];
+
+function RingSizeGuideModal({ onClose }: { onClose: () => void }) {
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = ""; };
+  }, []);
+
+  return (
+    <AnimatePresence>
+      <motion.div
+        className="fixed inset-0 z-[200] flex items-end sm:items-center justify-center"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      >
+        <motion.div className="absolute inset-0 bg-[#1A1A1A]/55 backdrop-blur-sm" onClick={onClose} />
+        <motion.div
+          className="relative z-10 bg-[#FAF9F6] w-full sm:max-w-[520px] mx-0 sm:mx-4 px-8 py-11 overflow-y-auto max-h-[90vh]"
+          initial={{ y: 56, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: 56, opacity: 0 }}
+          transition={{ duration: 0.48, ease: [0.22, 1, 0.36, 1] }}
+        >
+          {/* Close */}
+          <button
+            onClick={onClose}
+            aria-label="Kapat"
+            className="absolute top-5 right-5 text-[#1A1A1A]/25 hover:text-[#1A1A1A]/70 transition-colors p-1"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4">
+              <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+
+          {/* Gold ornament */}
+          <div className="flex items-center gap-3 mb-8">
+            <span className="flex-1 h-px bg-gold/18" />
+            <span className="text-gold/45 text-[10px]">&#9670;</span>
+            <span className="flex-1 h-px bg-gold/18" />
+          </div>
+
+          <p className="text-[8px] tracking-[0.35em] uppercase font-sans text-gold mb-3">Ölçü Rehberi</p>
+          <h3 className="font-serif font-light text-[#1A1A1A] text-[1.85rem] leading-tight mb-2">
+            Türk Yüzük Ölçüleri
+          </h3>
+          <p className="text-[#1A1A1A]/40 text-[11.5px] font-sans font-light leading-relaxed mb-8">
+            İnce bir kağıt şeridi parmağınıza sarın, işaretleyin ve mm cinsinden ölçün.
+            Ölçünüzü aşağıdaki çevre sütunuyla eşleştirin.
+          </p>
+
+          {/* Measurement steps */}
+          <ol className="space-y-4 mb-8">
+            {[
+              "İnce kağıt şeridi parmak orta boğumuna sıkıca sarın.",
+              "Şeridin uçlarının kesiştiği noktayı işaretleyin.",
+              "Cetvelle mm cinsinden ölçün — bu değer çevrenizdir.",
+              "Aşağıdaki tablodan Türk bedeninizi bulun.",
+            ].map((s, i) => (
+              <li key={i} className="flex items-start gap-3.5">
+                <span className="font-serif text-gold/50 text-lg leading-none mt-0.5 shrink-0 w-5">{String(i + 1).padStart(2, "0")}</span>
+                <span className="text-[12px] text-[#1A1A1A]/55 font-sans font-light leading-relaxed">{s}</span>
+              </li>
+            ))}
+          </ol>
+
+          {/* Size table — horizontal scroll on mobile */}
+          <div className="overflow-x-auto -mx-8 px-8">
+            <table className="w-full min-w-[360px] border-collapse">
+              <thead>
+                <tr className="border-b border-zinc-200">
+                  <th className="text-left py-3 pr-6 text-[9px] text-[#1A1A1A]/30 tracking-[0.3em] uppercase font-sans font-normal">Ölçü (TR)</th>
+                  <th className="text-left py-3 pr-6 text-[9px] text-[#1A1A1A]/30 tracking-[0.3em] uppercase font-sans font-normal">Çevre (mm)</th>
+                  <th className="text-left py-3 text-[9px] text-[#1A1A1A]/30 tracking-[0.3em] uppercase font-sans font-normal">Çap (mm)</th>
+                </tr>
+              </thead>
+              <tbody>
+                {ringSizeData.map((row) => (
+                  <tr key={row.tr} className="border-b border-zinc-100 group">
+                    <td className="py-3 pr-6 font-serif text-[#1A1A1A] text-lg font-light group-hover:text-gold transition-colors duration-300">
+                      {row.tr}
+                    </td>
+                    <td className="py-3 pr-6 font-sans text-[#1A1A1A]/55 text-[12px] font-light">{row.cevre}</td>
+                    <td className="py-3 font-sans text-[#1A1A1A]/55 text-[12px] font-light">{row.cap}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <div className="border-t border-zinc-100 pt-6 mt-6 flex items-center justify-between">
+            <Link
+              href="/yuzuk-olcu-rehberi"
+              className="text-[9px] text-[#1A1A1A]/40 tracking-[0.25em] uppercase font-sans hover:text-gold transition-colors duration-300 underline underline-offset-4 decoration-zinc-300 hover:decoration-gold"
+            >
+              Tam Rehberi Görüntüle
+            </Link>
+            <button
+              onClick={onClose}
+              className="text-[8.5px] bg-[#1A1A1A] text-[#FAF9F6] tracking-[0.28em] uppercase font-sans py-3 px-7 hover:bg-[#1A1A1A]/80 transition-colors duration-300"
+            >
+              Kapat
+            </button>
+          </div>
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>
+  );
+}
+
 /* ─── Cross-Sell Card ────────────────────────────────────────────── */
 function CrossSellCard({ product }: { product: Product }) {
   return (
@@ -255,6 +378,7 @@ function CrossSellCard({ product }: { product: Product }) {
 export default function ProductDetailClient({ product }: { product: Product }) {
   const [added, setAdded] = useState(false);
   const [expertOpen, setExpertOpen] = useState(false);
+  const [sizeGuideOpen, setSizeGuideOpen] = useState(false);
   const [mobileImg, setMobileImg] = useState(0);
   const [lightboxIdx, setLightboxIdx] = useState<number | null>(null);
   const touchStartX = useRef(0);
@@ -263,6 +387,10 @@ export default function ProductDetailClient({ product }: { product: Product }) {
 
   const related = getRelatedProducts(product, 4);
   const refNumber = `Ref. ONR-${product.id.toUpperCase().replace(/-/g, "")}`;
+  const isRing =
+    product.category === "Halkalar" ||
+    product.tags?.some((t) => /halka|ring|yüzük/i.test(t)) ||
+    false;
 
   /* Build gallery — 1 main + 2 secondary (3 total) */
   const gallery = (() => {
@@ -306,6 +434,9 @@ export default function ProductDetailClient({ product }: { product: Product }) {
 
       <AnimatePresence>
         {expertOpen && <PersonalizationModal productName={product.name} onClose={() => setExpertOpen(false)} />}
+      </AnimatePresence>
+      <AnimatePresence>
+        {sizeGuideOpen && <RingSizeGuideModal onClose={() => setSizeGuideOpen(false)} />}
       </AnimatePresence>
       <AnimatePresence>
         {lightboxIdx !== null && <Lightbox images={gallery} activeIndex={lightboxIdx} onClose={closeLightbox} onPrev={prevLightbox} onNext={nextLightbox} />}
@@ -529,6 +660,37 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                       <span className="text-[7.5px] text-[#1A1A1A]/55 tracking-[0.22em] uppercase font-sans">
                         Yalnızca {product.limitedPieces} Adet Üretilmiştir
                       </span>
+                    </motion.div>
+                  )}
+
+                  {/* ── Ring Size Guide Link (only for rings) ── */}
+                  {isRing && (
+                    <motion.div variants={fadeUp} className="flex items-center justify-between mb-3">
+                      <button
+                        onClick={() => setSizeGuideOpen(true)}
+                        className="group inline-flex items-center gap-2 border-b border-zinc-300 pb-[3px]
+                                   hover:border-gold/60 transition-colors duration-300"
+                        aria-label="Ölçü rehberini görüntüle"
+                      >
+                        {/* Ruler icon */}
+                        <svg
+                          width="11"
+                          height="11"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          className="text-[#1A1A1A]/30 group-hover:text-gold transition-colors duration-300 shrink-0"
+                        >
+                          <path d="M2 12h20M2 12l4-4M2 12l4 4M6 8v8M10 10v4M14 8v8M18 10v4" />
+                        </svg>
+                        <span
+                          className="text-[10px] tracking-[0.28em] uppercase font-sans font-light
+                                     text-[#1A1A1A]/40 group-hover:text-gold transition-colors duration-300"
+                        >
+                          Ölçü Rehberi
+                        </span>
+                      </button>
                     </motion.div>
                   )}
 

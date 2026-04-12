@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import FullscreenMenu from "@/components/navigation/FullscreenMenu";
 import MegaMenu from "@/components/layout/MegaMenu";
+import AnnouncementBar from "@/components/layout/AnnouncementBar";
 import { useCartStore } from "@/lib/cartStore";
 import { mainCategories } from "@/constants/navigation";
 
@@ -78,6 +79,9 @@ export default function Navbar() {
         onMouseLeave={scheduleMegaClose}
         onMouseEnter={cancelMegaClose}
       >
+        {/* ── Announcement Bar ── */}
+        <AnnouncementBar />
+
         {/* ── Row 1: Hamburger | Logo | Icons ── */}
         <div className="max-w-screen-2xl mx-auto px-6 md:px-10 lg:px-16">
           <div className="flex items-center justify-between h-[72px] md:h-[80px]">

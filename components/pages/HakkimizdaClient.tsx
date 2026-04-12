@@ -280,7 +280,7 @@ export default function HakkimizdaClient() {
         </section>
 
       </main>
-      <Footer />
+      <Footer hideNewsletter />
     </PageWrapper>
   );
 }

@@ -4,6 +4,7 @@ export interface MegaMenuItem {
   label: string;
   href: string;
   image?: string;
+  isBaby?: boolean;
 }
 
 export interface MegaMenuSubTab {
@@ -11,6 +12,8 @@ export interface MegaMenuSubTab {
   label: string;
   items: MegaMenuItem[];
   viewAllHref: string;
+  isBaby?: boolean;
+  isSpecial?: boolean;
 }
 
 export interface InspirationLink {
@@ -25,6 +28,8 @@ export interface NavCategory {
   hasMegaMenu: boolean;
   subTabs?: MegaMenuSubTab[];
   inspirationLinks?: InspirationLink[];
+  editorialImage?: string;
+  layoutMode?: "columns" | "grid";
 }
 
 export const mainCategories: NavCategory[] = [
@@ -35,22 +40,56 @@ export const mainCategories: NavCategory[] = [
     hasMegaMenu: false,
   },
   {
+    id: "altin",
+    label: "Altın",
+    href: "/koleksiyonlar",
+    hasMegaMenu: true,
+    editorialImage: "/images/web/7 (2).png",
+    subTabs: [
+      {
+        id: "altin-kategoriler",
+        label: "Kategoriler",
+        viewAllHref: "/koleksiyonlar",
+        items: [
+          { label: "Bileklik", href: "/koleksiyonlar/bileklikler", image: "https://images.unsplash.com/photo-1573408301185-9146fe634ad0?w=400&q=80&fit=crop&crop=center" },
+          { label: "Kolye", href: "/koleksiyonlar/kolyeler", image: "https://images.unsplash.com/photo-1599643477877-530eb83abc8e?w=400&q=80&fit=crop&crop=center" },
+          { label: "Küpe", href: "/koleksiyonlar/kupeler", image: "https://images.unsplash.com/photo-1588444837495-c6cfeb53f32d?w=400&q=80&fit=crop&crop=center" },
+          { label: "Yüzük", href: "/koleksiyonlar/halkalar", image: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=400&q=80&fit=crop&crop=center" },
+          { label: "Alyans", href: "/koleksiyonlar/halkalar?tur=alyans", image: "https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=400&q=80&fit=crop&crop=center" },
+          { label: "Kelepçe", href: "/koleksiyonlar/bileklikler?tur=kelepce", image: "https://images.unsplash.com/photo-1602751584552-8ba73aad10e1?w=400&q=80&fit=crop&crop=center" },
+          { label: "Gerdanlık", href: "/koleksiyonlar/kolyeler?tur=gerdanlik", image: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=400&q=80&fit=crop&crop=center" },
+          { label: "Setler", href: "/koleksiyonlar/setler", image: "https://images.unsplash.com/photo-1543294001-f7cd5d7fb516?w=400&q=80&fit=crop&crop=center" },
+          { label: "Piercing", href: "/koleksiyonlar/kupeler?tur=piercing", image: "https://images.unsplash.com/photo-1630019852942-f89202989a59?w=400&q=80&fit=crop&crop=center" },
+          { label: "Bebek Özel", href: "/koleksiyonlar/bebek-ozel", image: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=400&q=80&fit=crop&crop=center", isBaby: true },
+        ],
+      },
+    ],
+    inspirationLinks: [
+      { label: "Özel Tasarım", href: "/ozel-tasarim" },
+      { label: "Kişiselleştirme", href: "/kisisellestirme" },
+      { label: "Hediye Seçici", href: "/hediye-secici" },
+      { label: "Yeni Tasarımlar", href: "/yeni-tasarimlar" },
+    ],
+  },
+  {
     id: "mucevher",
     label: "Mücevher",
     href: "/koleksiyonlar",
     hasMegaMenu: true,
+    editorialImage: "/images/web/7 (2).png",
     subTabs: [
       {
         id: "yuzuk",
         label: "Yüzük",
         viewAllHref: "/koleksiyonlar/halkalar",
         items: [
-          { label: "Tektaş Pırlanta", href: "/koleksiyonlar/halkalar?tas=P%C4%B1rlanta", image: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=400&q=80&fit=crop&crop=center" },
-          { label: "Nişan Yüzüğü", href: "/koleksiyonlar/halkalar?tur=nisan", image: "https://images.unsplash.com/photo-1543294001-f7cd5d7fb516?w=400&q=80&fit=crop&crop=center" },
-          { label: "Alyans", href: "/koleksiyonlar/halkalar?tur=alyans", image: "https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=400&q=80&fit=crop&crop=center" },
-          { label: "Sonsuzluk Bandı", href: "/koleksiyonlar/halkalar?tur=sonsuzluk", image: "https://images.unsplash.com/photo-1603561591411-07134e71a2a9?w=400&q=80&fit=crop&crop=center" },
-          { label: "Kokteyl Yüzükleri", href: "/koleksiyonlar/halkalar?tur=kokteyl", image: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=400&q=80&fit=crop&crop=center" },
-          { label: "Safir & Renkli Taş", href: "/koleksiyonlar/halkalar?tas=Safir", image: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=400&q=80&fit=crop&crop=center" },
+          { label: "Tektaş Pırlanta", href: "/koleksiyonlar/halkalar?type=tektas-pirlanta", image: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=400&q=80&fit=crop&crop=center" },
+          { label: "Baget Pırlanta", href: "/koleksiyonlar/halkalar?type=baget-pirlanta", image: "https://images.unsplash.com/photo-1543294001-f7cd5d7fb516?w=400&q=80&fit=crop&crop=center" },
+          { label: "Tasarım Pırlanta", href: "/koleksiyonlar/halkalar?type=tasarim-pirlanta", image: "https://images.unsplash.com/photo-1603561591411-07134e71a2a9?w=400&q=80&fit=crop&crop=center" },
+          { label: "Beştaş Pırlanta", href: "/koleksiyonlar/halkalar?type=bestas-pirlanta", image: "https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=400&q=80&fit=crop&crop=center" },
+          { label: "Tamtur Pırlanta", href: "/koleksiyonlar/halkalar?type=tamtur-pirlanta", image: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=400&q=80&fit=crop&crop=center" },
+          { label: "Yarımtur Pırlanta", href: "/koleksiyonlar/halkalar?type=yarimtur-pirlanta", image: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=400&q=80&fit=crop&crop=center" },
+          { label: "Renkli Taşlar", href: "/koleksiyonlar/halkalar?type=renkli-taslar", image: "https://images.unsplash.com/photo-1602751584552-8ba73aad10e1?w=400&q=80&fit=crop&crop=center" },
         ],
       },
       {
@@ -58,12 +97,11 @@ export const mainCategories: NavCategory[] = [
         label: "Kolye",
         viewAllHref: "/koleksiyonlar/kolyeler",
         items: [
-          { label: "Pırlanta Kolyeler", href: "/koleksiyonlar/kolyeler?tas=P%C4%B1rlanta", image: "https://images.unsplash.com/photo-1599643477877-530eb83abc8e?w=400&q=80&fit=crop&crop=center" },
-          { label: "İnci Kolyeler", href: "/koleksiyonlar/inci", image: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&q=80&fit=crop&crop=center" },
-          { label: "Zümrüt & Safir", href: "/koleksiyonlar/kolyeler?tas=Safir", image: "https://images.unsplash.com/photo-1602751584552-8ba73aad10e1?w=400&q=80&fit=crop&crop=center" },
-          { label: "Altın Zincirler", href: "/koleksiyonlar/kolyeler?mat=18K", image: "https://images.unsplash.com/photo-1611107683227-e9060eccd846?w=400&q=80&fit=crop&crop=center" },
-          { label: "Pandantifler", href: "/koleksiyonlar/kolyeler?tur=pandantif", image: "https://images.unsplash.com/photo-1573408301185-9146fe634ad0?w=400&q=80&fit=crop&crop=center" },
-          { label: "Choker", href: "/koleksiyonlar/kolyeler?tur=choker", image: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=400&q=80&fit=crop&crop=center" },
+          { label: "Tektaş Pırlanta", href: "/koleksiyonlar/kolyeler?type=tektas-pirlanta", image: "https://images.unsplash.com/photo-1599643477877-530eb83abc8e?w=400&q=80&fit=crop&crop=center" },
+          { label: "Baget Pırlanta", href: "/koleksiyonlar/kolyeler?type=baget-pirlanta", image: "https://images.unsplash.com/photo-1611107683227-e9060eccd846?w=400&q=80&fit=crop&crop=center" },
+          { label: "Tasarım Pırlanta", href: "/koleksiyonlar/kolyeler?type=tasarim-pirlanta", image: "https://images.unsplash.com/photo-1573408301185-9146fe634ad0?w=400&q=80&fit=crop&crop=center" },
+          { label: "Harf Pırlanta", href: "/koleksiyonlar/kolyeler?type=harf-pirlanta", image: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=400&q=80&fit=crop&crop=center" },
+          { label: "Renkli Taşlar", href: "/koleksiyonlar/kolyeler?type=renkli-taslar", image: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&q=80&fit=crop&crop=center" },
         ],
       },
       {
@@ -71,12 +109,12 @@ export const mainCategories: NavCategory[] = [
         label: "Küpe",
         viewAllHref: "/koleksiyonlar/kupeler",
         items: [
-          { label: "Saplama Küpeler", href: "/koleksiyonlar/kupeler?tur=saplama", image: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=400&q=80&fit=crop&crop=center" },
-          { label: "Sarkıt Küpeler", href: "/koleksiyonlar/kupeler?tur=sark%C4%B1t", image: "https://images.unsplash.com/photo-1588444837495-c6cfeb53f32d?w=400&q=80&fit=crop&crop=center" },
-          { label: "Halka Küpeler", href: "/koleksiyonlar/kupeler?tur=halka", image: "https://images.unsplash.com/photo-1630019852942-f89202989a59?w=400&q=80&fit=crop&crop=center" },
-          { label: "Pırlanta Küpeler", href: "/koleksiyonlar/kupeler?tas=P%C4%B1rlanta", image: "https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?w=400&q=80&fit=crop&crop=center" },
-          { label: "İnci Küpeler", href: "/koleksiyonlar/inci?tur=kupe", image: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=400&q=80&fit=crop&crop=center" },
-          { label: "Asimetrik", href: "/koleksiyonlar/kupeler?tur=asimetrik", image: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=400&q=80&fit=crop&crop=center" },
+          { label: "Tektaş Pırlanta", href: "/koleksiyonlar/kupeler?type=tektas-pirlanta", image: "https://images.unsplash.com/photo-1588444837495-c6cfeb53f32d?w=400&q=80&fit=crop&crop=center" },
+          { label: "Baget Pırlanta", href: "/koleksiyonlar/kupeler?type=baget-pirlanta", image: "https://images.unsplash.com/photo-1630019852942-f89202989a59?w=400&q=80&fit=crop&crop=center" },
+          { label: "Tasarım Pırlanta", href: "/koleksiyonlar/kupeler?type=tasarim-pirlanta", image: "https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?w=400&q=80&fit=crop&crop=center" },
+          { label: "Halka Pırlanta", href: "/koleksiyonlar/kupeler?type=halka-pirlanta", image: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=400&q=80&fit=crop&crop=center" },
+          { label: "Renkli Taşlar", href: "/koleksiyonlar/kupeler?type=renkli-taslar", image: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=400&q=80&fit=crop&crop=center" },
+          { label: "Pırlanta Piercing", href: "/koleksiyonlar/kupeler?type=pirlanta-piercing", image: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=400&q=80&fit=crop&crop=center" },
         ],
       },
       {
@@ -84,12 +122,11 @@ export const mainCategories: NavCategory[] = [
         label: "Bileklik",
         viewAllHref: "/koleksiyonlar/bileklikler",
         items: [
-          { label: "Altın Bileklikler", href: "/koleksiyonlar/bileklikler?mat=18K", image: "https://images.unsplash.com/photo-1573408301185-9146fe634ad0?w=400&q=80&fit=crop&crop=center" },
-          { label: "Pırlanta Kelepçe", href: "/koleksiyonlar/bileklikler?tas=P%C4%B1rlanta", image: "https://images.unsplash.com/photo-1602751584552-8ba73aad10e1?w=400&q=80&fit=crop&crop=center" },
-          { label: "Tennis Bileklik", href: "/koleksiyonlar/bileklikler?tur=tennis", image: "https://images.unsplash.com/photo-1611107683227-e9060eccd846?w=400&q=80&fit=crop&crop=center" },
-          { label: "Charm Bileklikler", href: "/koleksiyonlar/bileklikler?tur=charm", image: "https://images.unsplash.com/photo-1603561591411-07134e71a2a9?w=400&q=80&fit=crop&crop=center" },
-          { label: "İnce Zincir", href: "/koleksiyonlar/bileklikler?tur=ince-zincir", image: "https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=400&q=80&fit=crop&crop=center" },
-          { label: "İnci Bileklikler", href: "/koleksiyonlar/inci?tur=bileklik", image: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&q=80&fit=crop&crop=center" },
+          { label: "Tasarım Pırlanta", href: "/koleksiyonlar/bileklikler?type=tasarim-pirlanta", image: "https://images.unsplash.com/photo-1573408301185-9146fe634ad0?w=400&q=80&fit=crop&crop=center" },
+          { label: "Pırlanta Su Yolu", href: "/koleksiyonlar/bileklikler?type=pirlanta-su-yolu", image: "https://images.unsplash.com/photo-1602751584552-8ba73aad10e1?w=400&q=80&fit=crop&crop=center" },
+          { label: "Baget Pırlanta", href: "/koleksiyonlar/bileklikler?type=baget-pirlanta", image: "https://images.unsplash.com/photo-1611107683227-e9060eccd846?w=400&q=80&fit=crop&crop=center" },
+          { label: "Renkli Taşlar", href: "/koleksiyonlar/bileklikler?type=renkli-taslar", image: "https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=400&q=80&fit=crop&crop=center" },
+          { label: "Charm Pırlanta", href: "/koleksiyonlar/bileklikler?type=charm-pirlanta", image: "https://images.unsplash.com/photo-1603561591411-07134e71a2a9?w=400&q=80&fit=crop&crop=center" },
         ],
       },
       {
@@ -97,35 +134,21 @@ export const mainCategories: NavCategory[] = [
         label: "Setler",
         viewAllHref: "/koleksiyonlar/setler",
         items: [
-          { label: "Düğün Setleri", href: "/koleksiyonlar/setler?tur=dug%C3%BCn", image: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=400&q=80&fit=crop&crop=center" },
-          { label: "İnci Setleri", href: "/koleksiyonlar/setler?tas=inci", image: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&q=80&fit=crop&crop=center" },
-          { label: "Hediye Setleri", href: "/koleksiyonlar/setler?tur=hediye", image: "https://images.unsplash.com/photo-1599643477877-530eb83abc8e?w=400&q=80&fit=crop&crop=center" },
-          { label: "Pırlanta Setler", href: "/koleksiyonlar/setler?tas=P%C4%B1rlanta", image: "https://images.unsplash.com/photo-1543294001-f7cd5d7fb516?w=400&q=80&fit=crop&crop=center" },
+          { label: "İnci Setler", href: "/koleksiyonlar/setler?type=inci-setler", image: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&q=80&fit=crop&crop=center" },
+          { label: "Pırlanta Setler", href: "/koleksiyonlar/setler?type=pirlanta-setler", image: "https://images.unsplash.com/photo-1543294001-f7cd5d7fb516?w=400&q=80&fit=crop&crop=center" },
         ],
       },
       {
         id: "inci",
         label: "İnci",
         viewAllHref: "/koleksiyonlar/inci",
+        isSpecial: true,
         items: [
-          { label: "Akoya İnci", href: "/koleksiyonlar/inci?inci=akoya", image: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&q=80&fit=crop&crop=center" },
-          { label: "South Sea İnci", href: "/koleksiyonlar/inci?inci=south-sea", image: "https://images.unsplash.com/photo-1573408301185-9146fe634ad0?w=400&q=80&fit=crop&crop=center" },
-          { label: "Tatlı Su İnci", href: "/koleksiyonlar/inci?inci=tatl%C4%B1Su", image: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=400&q=80&fit=crop&crop=center" },
-          { label: "Tahiti İnci", href: "/koleksiyonlar/inci?inci=tahiti", image: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=400&q=80&fit=crop&crop=center" },
-          { label: "Baroque İnci", href: "/koleksiyonlar/inci?inci=baroque", image: "https://images.unsplash.com/photo-1602751584552-8ba73aad10e1?w=400&q=80&fit=crop&crop=center" },
-          { label: "İnci Setleri", href: "/koleksiyonlar/setler?tas=inci", image: "https://images.unsplash.com/photo-1599643477877-530eb83abc8e?w=400&q=80&fit=crop&crop=center" },
-        ],
-      },
-      {
-        id: "markalar",
-        label: "Markalar",
-        viewAllHref: "/koleksiyonlar",
-        items: [
-          { label: "ONR Signature", href: "/koleksiyonlar", image: "https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?w=400&q=80&fit=crop&crop=center" },
-          { label: "ONR Heritage", href: "/koleksiyonlar", image: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=400&q=80&fit=crop&crop=center" },
-          { label: "ONR Exclusive", href: "/exclusive", image: "https://images.unsplash.com/photo-1588444837495-c6cfeb53f32d?w=400&q=80&fit=crop&crop=center" },
-          { label: "ONR İnci", href: "/koleksiyonlar/inci", image: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&q=80&fit=crop&crop=center" },
-          { label: "Özel Sipariş", href: "/ozel-tasarim", image: "https://images.unsplash.com/photo-1630019852942-f89202989a59?w=400&q=80&fit=crop&crop=center" },
+          { label: "İnci Yüzük", href: "/koleksiyonlar/inci?type=yuzuk", image: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=400&q=80&fit=crop&crop=center" },
+          { label: "İnci Kolye", href: "/koleksiyonlar/inci?type=kolye", image: "https://images.unsplash.com/photo-1599643477877-530eb83abc8e?w=400&q=80&fit=crop&crop=center" },
+          { label: "İnci Küpe", href: "/koleksiyonlar/inci?type=kupe", image: "https://images.unsplash.com/photo-1588444837495-c6cfeb53f32d?w=400&q=80&fit=crop&crop=center" },
+          { label: "İnci Bileklik", href: "/koleksiyonlar/inci?type=bileklik", image: "https://images.unsplash.com/photo-1573408301185-9146fe634ad0?w=400&q=80&fit=crop&crop=center" },
+          { label: "İnci Setler", href: "/koleksiyonlar/inci?type=setler", image: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&q=80&fit=crop&crop=center" },
         ],
       },
     ],
@@ -170,9 +193,24 @@ export interface MobileMenuItem {
   sub: string;
   isExclusive?: boolean;
   subItems?: { label: string; href: string }[];
+  subGroups?: { heading: string; items: { label: string; href: string }[] }[];
 }
 
 export const mobileMenuItems: MobileMenuItem[] = [
+  {
+    label: "Altın",
+    href: "/koleksiyonlar",
+    sub: "Tüm Altın Kategorileri",
+    subItems: [
+      { label: "Bileklik", href: "/koleksiyonlar/bileklikler" },
+      { label: "Kolye", href: "/koleksiyonlar/kolyeler" },
+      { label: "Küpe", href: "/koleksiyonlar/kupeler" },
+      { label: "Yüzük", href: "/koleksiyonlar/halkalar" },
+      { label: "Alyans", href: "/koleksiyonlar/halkalar?tur=alyans" },
+      { label: "Setler", href: "/koleksiyonlar/setler" },
+      { label: "Bebek Özel", href: "/koleksiyonlar/bebek-ozel" },
+    ],
+  },
   {
     label: "Mücevher",
     href: "/koleksiyonlar",
@@ -184,7 +222,68 @@ export const mobileMenuItems: MobileMenuItem[] = [
       { label: "Bileklik", href: "/koleksiyonlar/bileklikler" },
       { label: "Setler", href: "/koleksiyonlar/setler" },
       { label: "İnci", href: "/koleksiyonlar/inci" },
-      { label: "Markalar", href: "/koleksiyonlar" },
+    ],
+    subGroups: [
+      {
+        heading: "Yüzük",
+        items: [
+          { label: "Tektaş Pırlanta", href: "/koleksiyonlar/halkalar?type=tektas-pirlanta" },
+          { label: "Baget Pırlanta", href: "/koleksiyonlar/halkalar?type=baget-pirlanta" },
+          { label: "Tasarım Pırlanta", href: "/koleksiyonlar/halkalar?type=tasarim-pirlanta" },
+          { label: "Beştaş Pırlanta", href: "/koleksiyonlar/halkalar?type=bestas-pirlanta" },
+          { label: "Tamtur Pırlanta", href: "/koleksiyonlar/halkalar?type=tamtur-pirlanta" },
+          { label: "Yarımtur Pırlanta", href: "/koleksiyonlar/halkalar?type=yarimtur-pirlanta" },
+          { label: "Renkli Taşlar", href: "/koleksiyonlar/halkalar?type=renkli-taslar" },
+        ],
+      },
+      {
+        heading: "Kolye",
+        items: [
+          { label: "Tektaş Pırlanta", href: "/koleksiyonlar/kolyeler?type=tektas-pirlanta" },
+          { label: "Baget Pırlanta", href: "/koleksiyonlar/kolyeler?type=baget-pirlanta" },
+          { label: "Tasarım Pırlanta", href: "/koleksiyonlar/kolyeler?type=tasarim-pirlanta" },
+          { label: "Harf Pırlanta", href: "/koleksiyonlar/kolyeler?type=harf-pirlanta" },
+          { label: "Renkli Taşlar", href: "/koleksiyonlar/kolyeler?type=renkli-taslar" },
+        ],
+      },
+      {
+        heading: "Küpe",
+        items: [
+          { label: "Tektaş Pırlanta", href: "/koleksiyonlar/kupeler?type=tektas-pirlanta" },
+          { label: "Baget Pırlanta", href: "/koleksiyonlar/kupeler?type=baget-pirlanta" },
+          { label: "Tasarım Pırlanta", href: "/koleksiyonlar/kupeler?type=tasarim-pirlanta" },
+          { label: "Halka Pırlanta", href: "/koleksiyonlar/kupeler?type=halka-pirlanta" },
+          { label: "Renkli Taşlar", href: "/koleksiyonlar/kupeler?type=renkli-taslar" },
+          { label: "Pırlanta Piercing", href: "/koleksiyonlar/kupeler?type=pirlanta-piercing" },
+        ],
+      },
+      {
+        heading: "Bileklik",
+        items: [
+          { label: "Tasarım Pırlanta", href: "/koleksiyonlar/bileklikler?type=tasarim-pirlanta" },
+          { label: "Pırlanta Su Yolu", href: "/koleksiyonlar/bileklikler?type=pirlanta-su-yolu" },
+          { label: "Baget Pırlanta", href: "/koleksiyonlar/bileklikler?type=baget-pirlanta" },
+          { label: "Renkli Taşlar", href: "/koleksiyonlar/bileklikler?type=renkli-taslar" },
+          { label: "Charm Pırlanta", href: "/koleksiyonlar/bileklikler?type=charm-pirlanta" },
+        ],
+      },
+      {
+        heading: "Setler",
+        items: [
+          { label: "İnci Setler", href: "/koleksiyonlar/setler?type=inci-setler" },
+          { label: "Pırlanta Setler", href: "/koleksiyonlar/setler?type=pirlanta-setler" },
+        ],
+      },
+      {
+        heading: "İnci",
+        items: [
+          { label: "İnci Yüzük", href: "/koleksiyonlar/inci?type=yuzuk" },
+          { label: "İnci Kolye", href: "/koleksiyonlar/inci?type=kolye" },
+          { label: "İnci Küpe", href: "/koleksiyonlar/inci?type=kupe" },
+          { label: "İnci Bileklik", href: "/koleksiyonlar/inci?type=bileklik" },
+          { label: "İnci Setler", href: "/koleksiyonlar/inci?type=setler" },
+        ],
+      },
     ],
   },
   {

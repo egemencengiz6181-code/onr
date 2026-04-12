@@ -131,22 +131,16 @@ const FILTER_GROUPS = [
     options: [
       { label: "14K Altın", value: "14K" },
       { label: "18K Altın", value: "18K" },
-      { label: "Platin", value: "Platin" },
-      { label: "Rose Gold", value: "Rose Gold" },
+      { label: "22K Altın", value: "22K" },
     ],
   },
   {
     key: "stone" as const,
-    label: "Taş",
+    label: "Renk",
     options: [
-      { label: "Pırlanta", value: "Pırlanta" },
-      { label: "Akoya İnci", value: "Akoya" },
-      { label: "South Sea İnci", value: "South Sea" },
-      { label: "Tatlı Su İnci", value: "Tatlı Su" },
-      { label: "Tahiti İnci", value: "Tahiti" },
-      { label: "Safir", value: "Safir" },
-      { label: "Zümrüt", value: "Zümrüt" },
-      { label: "Turmalin", value: "Turmalin" },
+      { label: "Sarı", value: "Sarı" },
+      { label: "Beyaz", value: "Beyaz" },
+      { label: "Roze", value: "Roze" },
     ],
   },
   {
@@ -171,24 +165,28 @@ interface FilterState {
   material: string[];
   stone: string[];
   gender: string[];
+  type: string;
   sort: string;
 }
 
 /* ─── Filter Logic ─── */
 function matchesFilters(product: Product, filters: FilterState): boolean {
+  if (filters.type) {
+    const tagStr = (product.tags ?? []).join(" ").toLowerCase();
+    const nameStr = product.name.toLowerCase();
+    const typeSlug = filters.type.replace(/-/g, " ").toLowerCase();
+    if (!tagStr.includes(typeSlug) && !nameStr.includes(typeSlug))
+      return false;
+  }
   if (filters.material.length > 0) {
     const matStr = product.materials.join(" ").toLowerCase();
     if (!filters.material.some((f) => matStr.includes(f.toLowerCase())))
       return false;
   }
   if (filters.stone.length > 0) {
-    const allText = [
-      ...product.materials,
-      ...product.stoneSpecs.map((s) => s.value),
-    ]
-      .join(" ")
-      .toLowerCase();
-    if (!filters.stone.some((f) => allText.includes(f.toLowerCase())))
+    const matStr = product.materials.join(" ").toLowerCase();
+    const tagStr = (product.tags ?? []).join(" ").toLowerCase();
+    if (!filters.stone.some((f) => matStr.includes(f.toLowerCase()) || tagStr.includes(f.toLowerCase())))
       return false;
   }
   if (filters.gender.length > 0) {
@@ -606,10 +604,12 @@ function EditorialTile({ image }: { image: EditorialImage }) {
 function ActiveChips({
   filters,
   onRemove,
+  onClearType,
   onClearAll,
 }: {
   filters: FilterState;
   onRemove: (key: "material" | "stone" | "gender", value: string) => void;
+  onClearType: () => void;
   onClearAll: () => void;
 }) {
   const chips: {
@@ -627,7 +627,8 @@ function ActiveChips({
     });
   });
 
-  if (chips.length === 0) return null;
+  const hasType = !!filters.type;
+  if (chips.length === 0 && !hasType) return null;
 
   return (
     <motion.div
@@ -636,6 +637,19 @@ function ActiveChips({
       exit={{ opacity: 0, height: 0 }}
       className="flex flex-wrap items-center gap-2 pb-6"
     >
+      {hasType && (
+        <button
+          onClick={onClearType}
+          className="inline-flex items-center gap-1.5 border border-[#D4AF37]/30 bg-[#D4AF37]/5 px-3 py-1.5
+                     text-[9px] tracking-[0.18em] uppercase font-sans text-[#D4AF37]
+                     hover:border-[#D4AF37]/60 transition-colors duration-200"
+        >
+          {filters.type.replace(/-/g, " ")}
+          <svg viewBox="0 0 16 16" fill="none" className="w-2.5 h-2.5">
+            <path d="M12 4L4 12M4 4l8 8" stroke="currentColor" strokeWidth="1.4" />
+          </svg>
+        </button>
+      )}
       {chips.map((chip) => (
         <button
           key={`${chip.key}-${chip.value}`}
@@ -683,8 +697,9 @@ function CategoryPageInner({ slug }: { slug: string }) {
       searchParams.get("stone")?.split(",").filter(Boolean) ?? [];
     const gender =
       searchParams.get("gender")?.split(",").filter(Boolean) ?? [];
+    const type = searchParams.get("type") ?? "";
     const sort = searchParams.get("sort") ?? "featured";
-    return { material, stone, gender, sort };
+    return { material, stone, gender, type, sort };
   }, [searchParams]);
 
   const [filters, setFilters] = useState<FilterState>(parseFiltersFromURL);
@@ -701,6 +716,7 @@ function CategoryPageInner({ slug }: { slug: string }) {
   const syncURL = useCallback(
     (newFilters: FilterState) => {
       const params = new URLSearchParams();
+      if (newFilters.type) params.set("type", newFilters.type);
       if (newFilters.material.length)
         params.set("material", newFilters.material.join(","));
       if (newFilters.stone.length)
@@ -758,6 +774,7 @@ function CategoryPageInner({ slug }: { slug: string }) {
       material: [],
       stone: [],
       gender: [],
+      type: "",
       sort: "featured",
     };
     setFilters(next);
@@ -792,7 +809,7 @@ function CategoryPageInner({ slug }: { slug: string }) {
   );
 
   const totalActiveFilters =
-    filters.material.length + filters.stone.length + filters.gender.length;
+    filters.material.length + filters.stone.length + filters.gender.length + (filters.type ? 1 : 0);
 
   /* ─── Sidebar JSX ─── */
   const SidebarContent = (
@@ -1024,6 +1041,11 @@ function CategoryPageInner({ slug }: { slug: string }) {
                 <ActiveChips
                   filters={filters}
                   onRemove={removeFilter}
+                  onClearType={() => {
+                    const next = { ...filters, type: "" };
+                    setFilters(next);
+                    syncURL(next);
+                  }}
                   onClearAll={clearAll}
                 />
               )}

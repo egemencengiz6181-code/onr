@@ -1,9 +1,8 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import EditorialNewsletter from "./EditorialNewsletter";
 
 const footerLinks = {
   koleksiyonlar: [
@@ -16,6 +15,7 @@ const footerLinks = {
   hizmetler: [
     { label: "Özel Tasarım", href: "/ozel-tasarim" },
     { label: "Bakım & Onarım", href: "/bakim-ve-onarim" },
+    { label: "Yüzük Ölçü Rehberi", href: "/yuzuk-olcu-rehberi" },
     { label: "Randevu Al", href: "/iletisim" },
   ],
   kurumsal: [
@@ -26,69 +26,11 @@ const footerLinks = {
   ],
 };
 
-export default function Footer() {
-  const [email, setEmail] = useState("");
-  const [subscribed, setSubscribed] = useState(false);
-
-  const handleSubscribe = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (email.trim()) {
-      setSubscribed(true);
-      setEmail("");
-    }
-  };
-
+export default function Footer({ hideNewsletter = false }: { hideNewsletter?: boolean }) {
   return (
     <footer className="bg-onyx text-ivory-100/60">
-      {/* ── Newsletter Band ── */}
-      <div className="border-b border-white/8 py-14 md:py-16 px-8 md:px-16 lg:px-24">
-        <div className="max-w-screen-2xl mx-auto flex flex-col md:flex-row
-                        items-start md:items-center justify-between gap-8">
-          <div>
-            <p className="section-overline text-gold mb-2">Özel Davetiye</p>
-            <h3 className="font-serif font-light text-ivory-50 text-2xl md:text-3xl">
-              İlk Görücüye Siz Çıkın
-            </h3>
-            <p className="text-[11px] text-ivory-100/35 font-sans font-light mt-2 max-w-xs leading-relaxed">
-              Yeni koleksiyonlar, exclusive etkinlikler ve ayrıcalıklı teklifler
-              için bültenimize katılın.
-            </p>
-          </div>
-
-          <div className="w-full md:w-auto md:min-w-[380px]">
-            {subscribed ? (
-              <motion.p
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="text-gold text-sm font-sans font-light tracking-wide"
-              >
-                Teşekkürler — Hoş geldiniz, sevgili konuğumuz.
-              </motion.p>
-            ) : (
-              <form onSubmit={handleSubscribe} className="flex border-b border-white/20">
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="E-posta adresiniz"
-                  required
-                  className="flex-1 bg-transparent text-ivory-100/80 placeholder-ivory-100/20
-                             text-[11px] tracking-widest font-sans py-3 pr-4 outline-none
-                             focus:placeholder-ivory-100/40 transition-colors duration-300"
-                />
-                <button
-                  type="submit"
-                  className="text-[9px] text-gold tracking-luxury-wide uppercase font-sans
-                             py-3 pl-4 border-l border-white/10 hover:text-gold-light
-                             transition-colors duration-300 shrink-0"
-                >
-                  Abone Ol
-                </button>
-              </form>
-            )}
-          </div>
-        </div>
-      </div>
+      {/* ── Editorial Newsletter ── */}
+      {!hideNewsletter && <EditorialNewsletter />}
 
       {/* ── Main Footer Grid ── */}
       <div className="py-16 md:py-20 px-8 md:px-16 lg:px-24">

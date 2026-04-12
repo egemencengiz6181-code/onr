@@ -158,7 +158,7 @@ export default function FullscreenMenu({ isOpen, onClose }: FullscreenMenuProps)
                         </span>
 
                         {/* Main label — link or accordion trigger */}
-                        {item.subItems ? (
+                        {(item.subItems || item.subGroups) ? (
                           <button
                             onClick={() => toggleAccordion(item.label)}
                             className={`font-serif font-light text-4xl md:text-5xl lg:text-6xl
@@ -208,7 +208,7 @@ export default function FullscreenMenu({ isOpen, onClose }: FullscreenMenuProps)
 
                     {/* ── Accordion Sub-Items ── */}
                     <AnimatePresence>
-                      {item.subItems && expandedItem === item.label && (
+                      {(item.subItems || item.subGroups) && expandedItem === item.label && (
                         <motion.div
                           initial={{ height: 0, opacity: 0 }}
                           animate={{ height: "auto", opacity: 1 }}
@@ -226,18 +226,69 @@ export default function FullscreenMenu({ isOpen, onClose }: FullscreenMenuProps)
                             >
                               Tümünü Gör
                             </Link>
-                            {item.subItems.map((sub) => (
-                              <Link
-                                key={sub.label}
-                                href={sub.href}
-                                onClick={onClose}
-                                className="block py-2.5 text-lg md:text-xl font-serif font-light
-                                         text-ivory-100/60 hover:text-ivory-100
-                                         transition-colors duration-300"
-                              >
-                                {sub.label}
-                              </Link>
-                            ))}
+
+                            {/* Nested sub-groups (accordion style for Mücevher) */}
+                            {item.subGroups ? (
+                              item.subGroups.map((group) => (
+                                <div key={group.heading} className="pt-2">
+                                  <button
+                                    onClick={() => toggleAccordion(`${item.label}-${group.heading}`)}
+                                    className="flex items-center justify-between w-full py-2 text-lg md:text-xl
+                                             font-serif font-light text-ivory-100/70 hover:text-ivory-100
+                                             transition-colors duration-300"
+                                  >
+                                    {group.heading}
+                                    <motion.span
+                                      className="text-white/30 text-sm"
+                                      animate={{ rotate: expandedItem === `${item.label}-${group.heading}` ? 90 : 0 }}
+                                      transition={{ duration: 0.25 }}
+                                    >
+                                      ›
+                                    </motion.span>
+                                  </button>
+                                  <AnimatePresence>
+                                    {expandedItem === `${item.label}-${group.heading}` && (
+                                      <motion.div
+                                        initial={{ height: 0, opacity: 0 }}
+                                        animate={{ height: "auto", opacity: 1 }}
+                                        exit={{ height: 0, opacity: 0 }}
+                                        transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+                                        className="overflow-hidden"
+                                      >
+                                        <div className="pl-4 pb-2 space-y-0.5">
+                                          {group.items.map((sub) => (
+                                            <Link
+                                              key={sub.label}
+                                              href={sub.href}
+                                              onClick={onClose}
+                                              className="block py-1.5 text-base font-sans font-light
+                                                       text-ivory-100/45 hover:text-[#D4AF37]
+                                                       transition-colors duration-300"
+                                            >
+                                              {sub.label}
+                                            </Link>
+                                          ))}
+                                        </div>
+                                      </motion.div>
+                                    )}
+                                  </AnimatePresence>
+                                </div>
+                              ))
+                            ) : (
+                              /* Simple sub-items (Altın etc.) */
+                              item.subItems?.map((sub) => (
+                                <Link
+                                  key={sub.label}
+                                  href={sub.href}
+                                  onClick={onClose}
+                                  className="block py-2.5 text-lg md:text-xl font-serif font-light
+                                           text-ivory-100/60 hover:text-ivory-100
+                                           transition-colors duration-300"
+                                >
+                                  {sub.label}
+                                </Link>
+                              ))
+                            )}
                           </div>
                         </motion.div>
                       )}

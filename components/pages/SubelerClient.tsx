@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 
 /* ─────────────────────────────────────────────
@@ -94,6 +95,31 @@ const timeSlots = [
 ];
 
 const ease = [0.25, 0.46, 0.45, 0.94] as const;
+
+/* ─────────────────────────────────────────────
+   Boutique Image
+───────────────────────────────────────────── */
+function BoutiqueImage() {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.8, ease }}
+      className="relative w-full aspect-video overflow-hidden group/img"
+    >
+      <Image
+        src="/images/ma%C4%9Faza/ma%C4%9Faza.png"
+        alt="ONR Mücevherat mağaza iç görünümü"
+        fill
+        sizes="(max-width:1024px) 100vw, 50vw"
+        className="object-cover transition-transform duration-700 ease-out group-hover/img:scale-[1.02]"
+      />
+      {/* Subtle top fade for seamless map-to-image transition */}
+      <div className="absolute inset-x-0 top-0 h-8 bg-gradient-to-b from-charcoal/10 to-transparent pointer-events-none" />
+    </motion.div>
+  );
+}
 
 /* ─────────────────────────────────────────────
    Appointment Modal
@@ -343,7 +369,7 @@ export default function SubelerClient() {
             className="group border border-charcoal/8 hover:border-gold/30 hover:shadow-[0_0_24px_0_rgba(201,168,76,0.08)] transition-all duration-500 overflow-hidden"
           >
             {/* ── Map iframe ── */}
-            <div className="relative h-56 overflow-hidden bg-charcoal/5">
+            <div className="relative h-40 overflow-hidden bg-charcoal/5">
               <iframe
                 src={branch.mapEmbed}
                 title={`${branch.name} harita`}
@@ -361,6 +387,9 @@ export default function SubelerClient() {
                 </span>
               </div>
             </div>
+
+            {/* ── Store Image ── */}
+            <BoutiqueImage />
 
             {/* ── Card Info ── */}
             <div className="p-7 lg:p-8 space-y-6">

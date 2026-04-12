@@ -141,21 +141,12 @@ const MATERIAL_OPTIONS: FilterOption[] = [
   { value: "14K", label: "14K Altın" },
   { value: "18K", label: "18K Altın" },
   { value: "22K", label: "22K Altın" },
-  { value: "Platin", label: "Platin" },
 ];
 
 const GOLD_COLOR_OPTIONS: FilterOption[] = [
-  { value: "Sarı Altın", label: "Sarı Altın" },
-  { value: "Beyaz Altın", label: "Beyaz Altın" },
-  { value: "Rose", label: "Rose Altın" },
-];
-
-const STONE_OPTIONS: FilterOption[] = [
-  { value: "Pırlanta", label: "Pırlanta" },
-  { value: "Safir", label: "Safir" },
-  { value: "Zümrüt", label: "Zümrüt" },
-  { value: "Yakut", label: "Yakut" },
-  { value: "Turmalin", label: "Turmalin" },
+  { value: "Sarı", label: "Sarı" },
+  { value: "Beyaz", label: "Beyaz" },
+  { value: "Roze", label: "Roze" },
 ];
 
 const PEARL_TYPE_OPTIONS: FilterOption[] = [
@@ -510,7 +501,6 @@ export default function CategoryPLPClient({ slug }: { slug: CategorySlug }) {
       });
     add("mat", matFilter, MATERIAL_OPTIONS);
     add("renk", renkFilter, GOLD_COLOR_OPTIONS);
-    add("tas", tasFilter, STONE_OPTIONS);
     add("inci", inciFilter, PEARL_TYPE_OPTIONS);
     add("inci_renk", inciRenkFilter, PEARL_COLOR_OPTIONS);
     add("cinsiyet", cinsiyetFilter, GENDER_OPTIONS);
@@ -564,17 +554,10 @@ export default function CategoryPLPClient({ slug }: { slug: CategorySlug }) {
         onToggle={toggleFilter}
       />
       <FilterGroup
-        title="Altın Rengi"
+        title="Renk"
         options={GOLD_COLOR_OPTIONS}
         paramKey="renk"
         selected={renkFilter}
-        onToggle={toggleFilter}
-      />
-      <FilterGroup
-        title="Değerli Taş"
-        options={STONE_OPTIONS}
-        paramKey="tas"
-        selected={tasFilter}
         onToggle={toggleFilter}
       />
       <AnimatePresence>
