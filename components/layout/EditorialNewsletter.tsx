@@ -44,12 +44,12 @@ export default function EditorialNewsletter() {
           className="w-full max-w-md"
         >
           {/* Heading */}
-          <h2 className="font-sans font-bold text-white text-2xl md:text-3xl lg:text-[2rem] tracking-tight uppercase leading-tight mb-5">
+          <h2 className="font-sans font-bold text-white text-lg md:text-xl lg:text-[1.35rem] tracking-tight uppercase leading-tight mb-3">
             ONR Club&apos;a Üye Ol!
           </h2>
 
           {/* Description */}
-          <p className="font-sans font-light text-white/60 text-sm md:text-[15px] leading-relaxed mb-10">
+          <p className="font-sans font-light text-white/60 text-xs md:text-[13px] leading-relaxed mb-6">
             En yeni ürünlerimiz, kampanyalar ve daha fazlası hakkında
             güncellemeler için kaydolun.
           </p>
@@ -75,12 +75,12 @@ export default function EditorialNewsletter() {
                   placeholder="Email"
                   required
                   className="flex-1 bg-transparent text-white/90 placeholder-white/35
-                             text-sm font-sans font-light tracking-wide outline-none
+                             text-xs font-sans font-light tracking-wide outline-none
                              focus:placeholder-white/50 transition-colors duration-300"
                 />
                 <button
                   type="submit"
-                  className="shrink-0 text-[11px] text-white/70 tracking-[0.2em] uppercase font-sans font-medium
+                  className="shrink-0 text-[10px] text-white/70 tracking-[0.2em] uppercase font-sans font-medium
                              hover:text-white transition-colors duration-300"
                 >
                   Kaydol
@@ -90,7 +90,7 @@ export default function EditorialNewsletter() {
           )}
 
           {/* hCaptcha Notice */}
-          <p className="font-sans text-[10px] text-white/25 leading-relaxed mt-5 italic max-w-sm">
+          <p className="font-sans text-[9px] text-white/25 leading-relaxed mt-3 italic max-w-sm">
             Bu site hCaptcha ile korunuyor. Ayrıca bu site için{" "}
             <span className="text-white/35">hCaptcha Gizlilik Politikası</span> ve{" "}
             <span className="text-white/35">Hizmet Şartları</span> geçerlidir.
