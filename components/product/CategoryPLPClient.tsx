@@ -146,7 +146,7 @@ const MATERIAL_OPTIONS: FilterOption[] = [
 const GOLD_COLOR_OPTIONS: FilterOption[] = [
   { value: "Sarı", label: "Sarı" },
   { value: "Beyaz", label: "Beyaz" },
-  { value: "Roze", label: "Roze" },
+  { value: "Rose", label: "Rose" },
 ];
 
 const PEARL_TYPE_OPTIONS: FilterOption[] = [

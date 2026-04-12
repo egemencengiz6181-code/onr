@@ -140,7 +140,7 @@ const FILTER_GROUPS = [
     options: [
       { label: "Sarı", value: "Sarı" },
       { label: "Beyaz", value: "Beyaz" },
-      { label: "Roze", value: "Roze" },
+      { label: "Rose", value: "Rose" },
     ],
   },
   {
