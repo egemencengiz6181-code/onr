@@ -19,23 +19,23 @@ const links = [
     external: false,
   },
   {
-    label: "ONR Mücevherat",
-    href: "https://share.google/rwltju5bgU6yFAGVB",
-    external: true,
-  },
-  {
-    label: "ONR Mücevherat Exclusive",
-    href: "https://share.google/GJMxBZeT2dSLLrnxS",
+    label: "ONR Kuyumculuk",
+    href: "https://maps.app.goo.gl/AV1jLpQVemM1fYqq8",
     external: true,
   },
   {
     label: "ONR Kuyumculuk & Mücevherat",
-    href: "https://share.google/Y0bgaIwuUvID7vL6w",
+    href: "https://maps.app.goo.gl/xo54cY8ApxSdwGKA7",
     external: true,
   },
   {
-    label: "ONR Kuyumculuk & Mücevherat — Şile",
-    href: "https://share.google/0Sl9zzM61AbnQWrVf",
+    label: "ONR Mücevherat & Exclusive",
+    href: "https://maps.app.goo.gl/hEBTwqQrgKsdFSzQA",
+    external: true,
+  },
+  {
+    label: "ONR Kuyumculuk & Mücevherat (Şile)",
+    href: "https://maps.app.goo.gl/NKEANACGxhr1CMYM8",
     external: true,
   },
 ];
