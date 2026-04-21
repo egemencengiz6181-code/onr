@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "ONR Mücevherat — Bağlantılar",
@@ -70,20 +71,15 @@ export default function LinksPage() {
           className="flex flex-col items-center gap-3 opacity-0 animate-fade-up"
           style={{ animationDelay: "0ms", animationFillMode: "forwards" }}
         >
-          <span
-            className="font-serif text-[11px] font-light tracking-[0.55em] text-gold-light/60 uppercase"
-          >
-            Est. Ankara
-          </span>
-          <h1
-            className="font-serif text-[2.15rem] font-light tracking-[0.22em] text-gold uppercase leading-none"
-            style={{ letterSpacing: "0.22em" }}
-          >
-            ONR
-          </h1>
-          <p className="font-sans text-[9.5px] font-light tracking-[0.45em] text-white/30 uppercase mt-0.5">
-            Mücevherat
-          </p>
+          <h1 className="sr-only">ONR Mücevherat</h1>
+          <Image
+            src="/images/logo/onr-logo-beyaz.png"
+            alt="ONR Mücevherat"
+            width={160}
+            height={60}
+            className="object-contain"
+            priority
+          />
           <div className="mt-4 w-12 h-px bg-gradient-to-r from-transparent via-gold/50 to-transparent" />
         </header>
 
