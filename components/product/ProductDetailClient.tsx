@@ -6,7 +6,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Product } from "@/lib/types";
 import { useCartStore } from "@/lib/cartStore";
-import { getRelatedProducts } from "@/lib/products";
+import { getRelatedProducts, products } from "@/lib/products";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import PageWrapper from "@/components/ui/PageWrapper";
@@ -348,7 +348,8 @@ function RingSizeGuideModal({ onClose }: { onClose: () => void }) {
 }
 
 /* ─── Cross-Sell Card ────────────────────────────────────────────── */
-function CrossSellCard({ product }: { product: Product }) {
+function CrossSellCard({ product, showMothersDayBadge }: { product: Product; showMothersDayBadge?: boolean }) {
+  const { addItem } = useCartStore();
   return (
     <motion.div variants={fadeUp} className="group shrink-0 w-[280px] sm:w-auto">
       <Link href={`/urun/${product.slug}`} className="block">
@@ -361,6 +362,16 @@ function CrossSellCard({ product }: { product: Product }) {
             className="object-cover object-center transition-transform duration-[800ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)] group-hover:scale-[1.04]"
           />
           <div className="absolute inset-0 bg-[#1A1A1A]/0 group-hover:bg-[#1A1A1A]/8 transition-colors duration-500" />
+          {showMothersDayBadge && (
+            <div className="absolute top-3 left-3">
+              <span
+                className="text-[7px] tracking-[0.18em] uppercase font-sans font-medium px-2.5 py-1"
+                style={{ background: "#b8683a", color: "#fff" }}
+              >
+                2. Ürüne Ek %10
+              </span>
+            </div>
+          )}
         </div>
         <div className="pt-5 space-y-1.5">
           <p className="text-[7.5px] tracking-[0.22em] uppercase font-sans text-[#1A1A1A]/35">{product.category}</p>
@@ -368,6 +379,15 @@ function CrossSellCard({ product }: { product: Product }) {
           <p className="text-[11px] font-sans font-light text-[#1A1A1A]/50">{product.priceFormatted}</p>
         </div>
       </Link>
+      {showMothersDayBadge && (
+        <button
+          onClick={() => addItem(product)}
+          className="mt-3 w-full text-[7.5px] tracking-[0.22em] uppercase font-sans font-medium py-2.5 transition-all duration-300 hover:opacity-70"
+          style={{ border: "1px solid #b8683a", color: "#b8683a" }}
+        >
+          Sepete Ekle
+        </button>
+      )}
     </motion.div>
   );
 }
@@ -381,11 +401,16 @@ export default function ProductDetailClient({ product }: { product: Product }) {
   const [sizeGuideOpen, setSizeGuideOpen] = useState(false);
   const [mobileImg, setMobileImg] = useState(0);
   const [lightboxIdx, setLightboxIdx] = useState<number | null>(null);
+  const [selectedChain, setSelectedChain] = useState<string | null>(
+    product.chainOptions?.[0]?.value ?? null
+  );
   const touchStartX = useRef(0);
   const crossSellRef = useRef<HTMLDivElement>(null);
   const { addItem } = useCartStore();
 
-  const related = getRelatedProducts(product, 4);
+  const related = product.isMothersDay
+    ? products.filter((p) => p.isMothersDay && p.id !== product.id)
+    : getRelatedProducts(product, 4);
   const refNumber = `Ref. ONR-${product.id.toUpperCase().replace(/-/g, "")}`;
   const isRing =
     product.category === "Halkalar" ||
@@ -632,11 +657,32 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                   </motion.div>
 
                   {/* Price */}
-                  <motion.div variants={fadeUp} className="flex items-baseline gap-3 mb-6">
-                    <span className="font-serif font-light text-[#1A1A1A] text-[2rem] md:text-[2.2rem] leading-none">
-                      {product.priceFormatted}
-                    </span>
-                    <span className="text-[7.5px] text-[#1A1A1A]/28 tracking-[0.22em] uppercase font-sans">KDV Dahil</span>
+                  <motion.div variants={fadeUp} className="mb-6">
+                    {product.originalPriceFormatted && (
+                      <div className="flex items-center gap-2.5 mb-2">
+                        <span
+                          className="text-[7px] tracking-[0.18em] uppercase font-sans px-2.5 py-1 font-medium"
+                          style={{ background: "#b8683a", color: "#fff" }}
+                        >
+                          Anneler Günü İndirimi
+                        </span>
+                        <span className="font-sans font-light text-[#1A1A1A]/35 text-sm line-through">
+                          {product.originalPriceFormatted}
+                        </span>
+                      </div>
+                    )}
+                    <div className="flex items-baseline gap-3">
+                      <span
+                        className="font-serif font-light leading-none"
+                        style={{
+                          fontSize: "2.1rem",
+                          color: product.originalPriceFormatted ? "#b8683a" : "#1A1A1A",
+                        }}
+                      >
+                        {product.priceFormatted}
+                      </span>
+                      <span className="text-[7.5px] text-[#1A1A1A]/28 tracking-[0.22em] uppercase font-sans">KDV Dahil</span>
+                    </div>
                   </motion.div>
 
                   {/* Short description */}
@@ -652,6 +698,33 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                       </span>
                     ))}
                   </motion.div>
+
+                  {/* Chain Selection */}
+                  {product.chainOptions && product.chainOptions.length > 0 && (
+                    <motion.div variants={fadeUp} className="mb-6">
+                      <p className="text-[7.5px] tracking-[0.3em] uppercase font-sans text-[#1A1A1A]/35 mb-3">
+                        Zincir Seçimi
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        {product.chainOptions.map((opt) => (
+                          <button
+                            key={opt.value}
+                            onClick={() => setSelectedChain(opt.value)}
+                            className={`text-[9px] tracking-[0.2em] uppercase font-sans px-4 py-2.5 border transition-all duration-300 ${
+                              selectedChain === opt.value
+                                ? "border-[#1A1A1A]/60 text-[#1A1A1A] bg-[#1A1A1A]/[0.03]"
+                                : "border-[#1A1A1A]/12 text-[#1A1A1A]/45 hover:border-[#1A1A1A]/30 hover:text-[#1A1A1A]/65"
+                            }`}
+                          >
+                            {opt.label}
+                          </button>
+                        ))}
+                      </div>
+                      <p className="text-[8px] text-[#1A1A1A]/28 font-sans font-light mt-2">
+                        Zincir seçimi fiyatı etkilememektedir.
+                      </p>
+                    </motion.div>
+                  )}
 
                   {/* Limited edition badge */}
                   {product.limitedPieces && (
@@ -868,9 +941,11 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                 className="flex items-end justify-between mb-12"
               >
                 <div>
-                  <p className="text-[8px] tracking-[0.42em] uppercase font-sans text-gold mb-3">Sizin İçin Seçtiklerimiz</p>
+                  <p className="text-[8px] tracking-[0.42em] uppercase font-sans text-gold mb-3">
+                    {product.isMothersDay ? "Anneler Günü Koleksiyonu" : "Sizin İçin Seçtiklerimiz"}
+                  </p>
                   <h2 className="font-serif font-light text-[#1A1A1A] text-[1.8rem] md:text-[2.3rem]">
-                    Bu Tasarımı Tamamlayın
+                    {product.isMothersDay ? "2. Ürüne Ek %10 İndirim" : "Bu Tasarımı Tamamlayın"}
                   </h2>
                 </div>
                 {/* Scroll arrows (desktop) */}
@@ -903,7 +978,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                   className="flex sm:grid sm:grid-cols-4 gap-6 lg:gap-8 overflow-x-auto sm:overflow-visible px-6 sm:px-0 scrollbar-hide snap-x snap-mandatory"
                 >
                   {related.map((rp) => (
-                    <CrossSellCard key={rp.id} product={rp} />
+                    <CrossSellCard key={rp.id} product={rp} showMothersDayBadge={!!product.isMothersDay} />
                   ))}
                 </motion.div>
               </div>

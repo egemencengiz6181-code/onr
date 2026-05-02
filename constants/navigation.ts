@@ -26,6 +26,7 @@ export interface NavCategory {
   label: string;
   href: string;
   hasMegaMenu: boolean;
+  isMothersDay?: boolean;
   subTabs?: MegaMenuSubTab[];
   inspirationLinks?: InspirationLink[];
   editorialImage?: string;
@@ -160,6 +161,13 @@ export const mainCategories: NavCategory[] = [
     ],
   },
   {
+    id: "annelere-ozel",
+    label: "Annelere Özel",
+    href: "/anneler-gunu",
+    hasMegaMenu: false,
+    isMothersDay: true,
+  },
+  {
     id: "ozel-tasarim",
     label: "Özel Tasarım",
     href: "/ozel-tasarim",
@@ -291,6 +299,11 @@ export const mobileMenuItems: MobileMenuItem[] = [
     href: "/exclusive",
     sub: "Sadece Seçkin Misafirlerimize",
     isExclusive: true,
+  },
+  {
+    label: "Annelere Özel",
+    href: "/anneler-gunu",
+    sub: "Anneler Günü Özel Koleksiyonu",
   },
   {
     label: "Özel Tasarım",

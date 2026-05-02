@@ -39,7 +39,15 @@ export const useCartStore = create<CartState>()(
             ),
           });
         } else {
-          set({ items: [...get().items, { product, quantity: 1 }] });
+          const hasMothersDay =
+            !!product.isMothersDay &&
+            get().items.some((i) => !!i.product.isMothersDay);
+          const newItem: import("./types").CartItem = {
+            product,
+            quantity: 1,
+            ...(hasMothersDay && { discountedPrice: Math.round(product.price * 0.9) }),
+          };
+          set({ items: [...get().items, newItem] });
         }
         // Auto-open cart when item is added
         set({ isOpen: true });
@@ -68,7 +76,7 @@ export const useCartStore = create<CartState>()(
 
       subtotal: () =>
         get().items.reduce(
-          (sum, i) => sum + i.product.price * i.quantity,
+          (sum, i) => sum + (i.discountedPrice ?? i.product.price) * i.quantity,
           0
         ),
     }),

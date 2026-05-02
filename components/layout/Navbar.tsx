@@ -221,9 +221,17 @@ export default function Navbar() {
                             ? "text-charcoal/60 hover:text-charcoal"
                             : "text-ivory-100/60 hover:text-ivory-100")
                       }
-                      ${cat.id === "yuksek-mucevher" ? " !text-[#E8C880] tracking-luxury-xwide" : ""}`}
+                      ${cat.id === "yuksek-mucevher" ? " !text-[#E8C880] tracking-luxury-xwide" : ""}
+                      ${cat.id === "annelere-ozel" ? " !text-[#c07860] hover:!text-[#a05840]" : ""}`}
                   >
-                    {cat.label}
+                    {cat.isMothersDay ? (
+                      <span className="flex items-center gap-1">
+                        <span>♡</span>
+                        <span>{cat.label}</span>
+                      </span>
+                    ) : (
+                      cat.label
+                    )}
                     {/* Active indicator — Cartier-style red underline */}
                     {activeMega === cat.id && (
                       <motion.span
@@ -232,8 +240,7 @@ export default function Navbar() {
                         transition={{ type: "spring", stiffness: 500, damping: 35 }}
                       />
                     )}
-                  </Link>
-                </li>
+                  </Link>                </li>
               ))}
 
               {/* Separator + search */}

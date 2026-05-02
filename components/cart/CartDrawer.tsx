@@ -115,7 +115,7 @@ export default function CartDrawer() {
                 </div>
               ) : (
                 <ul className="divide-y divide-ivory-200">
-                  {items.map(({ product, quantity }) => (
+                  {items.map(({ product, quantity, discountedPrice }) => (
                     <li key={product.id} className="px-8 py-6 flex gap-5">
                       {/* Product image */}
                       <div className="relative w-20 h-24 shrink-0 bg-ivory-200 overflow-hidden">
@@ -165,9 +165,26 @@ export default function CartDrawer() {
                           </div>
 
                           <div className="text-right">
-                            <p className="font-serif text-charcoal text-base">
-                              {(product.price * quantity).toLocaleString("tr-TR")} ₺
-                            </p>
+                            {discountedPrice ? (
+                              <>
+                                <p className="font-serif text-base font-light" style={{ color: "#b8683a" }}>
+                                  {(discountedPrice * quantity).toLocaleString("tr-TR")} ₺
+                                </p>
+                                <p className="text-[9px] font-sans text-[#1A1A1A]/30 line-through leading-none">
+                                  {(product.price * quantity).toLocaleString("tr-TR")} ₺
+                                </p>
+                                <span
+                                  className="text-[7px] tracking-[0.15em] uppercase font-sans font-medium px-1.5 py-0.5 mt-1 inline-block"
+                                  style={{ background: "#fdf0ec", color: "#b8683a" }}
+                                >
+                                  Ek %10 İndirim
+                                </span>
+                              </>
+                            ) : (
+                              <p className="font-serif text-charcoal text-base">
+                                {(product.price * quantity).toLocaleString("tr-TR")} ₺
+                              </p>
+                            )}
                             <button
                               onClick={() => removeItem(product.id)}
                               className="text-[8px] text-charcoal-lighter/60 hover:text-red-400 tracking-widest
@@ -196,6 +213,19 @@ export default function CartDrawer() {
                     ₺{formattedSubtotal}
                   </p>
                 </div>
+                {items.some((i) => i.discountedPrice) && (
+                  <div className="flex items-center justify-between">
+                    <p className="text-[8px] font-sans tracking-luxury uppercase" style={{ color: "#b8683a" }}>
+                      Anneler Günü İndirimi
+                    </p>
+                    <p className="font-serif text-sm" style={{ color: "#b8683a" }}>
+                      −₺{items
+                        .filter((i) => i.discountedPrice !== undefined)
+                        .reduce((s, i) => s + (i.product.price - i.discountedPrice!) * i.quantity, 0)
+                        .toLocaleString("tr-TR")}
+                    </p>
+                  </div>
+                )}
                 <p className="text-[9px] text-charcoal-lighter/60 font-sans font-light leading-relaxed">
                   KDV dahil. Kargo ve sigorta ücreti ödeme adımında hesaplanır.
                 </p>

@@ -89,6 +89,14 @@ export default function ProductCard({
                 {product.limitedPieces} Adet
               </span>
             )}
+            {product.originalPriceFormatted && (
+              <span
+                className="text-[7px] tracking-widest uppercase font-sans px-2.5 py-1 font-medium"
+                style={{ background: "#b8683a", color: "#fff" }}
+              >
+                İndirim
+              </span>
+            )}
           </div>
 
           {/* Hover CTA */}
@@ -136,9 +144,19 @@ export default function ProductCard({
             {product.shortDescription}
           </p>
           <div className="flex items-center justify-between pt-1">
-            <p className="font-serif text-charcoal font-light text-base">
-              {product.priceFormatted}
-            </p>
+            <div>
+              <p
+                className="font-serif font-light text-base"
+                style={{ color: product.originalPriceFormatted ? "#b8683a" : undefined }}
+              >
+                {product.priceFormatted}
+              </p>
+              {product.originalPriceFormatted && (
+                <p className="font-sans text-[10px] text-charcoal/35 line-through leading-none mt-0.5">
+                  {product.originalPriceFormatted}
+                </p>
+              )}
+            </div>
             <span className="text-[8px] text-charcoal-lighter/60 tracking-widest uppercase
                              font-sans group-hover:text-gold transition-colors duration-300
                              flex items-center gap-1">

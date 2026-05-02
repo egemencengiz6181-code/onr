@@ -30,10 +30,13 @@ export interface Product {
   isExclusive?: boolean;
   isNew?: boolean;
   limitedPieces?: number;
+  originalPrice?: number;
+  originalPriceFormatted?: string;
+  isMothersDay?: boolean;
+  chainOptions?: { value: string; label: string }[];
 }
 
 // ─── Cart Types ───────────────────────────────────────────────────
 export interface CartItem {
   product: Product;
-  quantity: number;
-}
+  quantity: number;  discountedPrice?: number;}
