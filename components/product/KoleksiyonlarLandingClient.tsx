@@ -12,7 +12,7 @@ const ease = [0.25, 0.46, 0.45, 0.94] as const;
 const COLLECTIONS = [
   {
     slug: "halkalar",
-    label: "Halkalar",
+    label: "Yüzükler",
     subtitle: "Sonsuzluğun Sembolü",
     image: "/images/web/4 (4).png",
     span: "col-span-1 md:col-span-2 md:row-span-2",

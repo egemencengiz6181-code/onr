@@ -1,7 +1,6 @@
 "use client";
 
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
@@ -374,7 +373,7 @@ function GridLayout({
             <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A]/50 via-transparent to-transparent" />
             <div className="absolute bottom-3 left-3 right-3">
               <p className="text-[7px] text-white/75 tracking-[0.3em] uppercase font-sans leading-relaxed">
-                Altın Koleksiyonu
+                {category.label} Koleksiyonu
               </p>
             </div>
           </div>
@@ -397,17 +396,15 @@ function GridLayout({
       {/* ── Divider + Inspiration ── */}
       <div className="border-t border-charcoal/8 pt-8">
         <p className="text-[8px] tracking-[0.45em] uppercase font-sans font-semibold
-                    text-charcoal/30 text-center mb-10">
+                    text-charcoal/30 text-center mb-8">
           İlham Alın
         </p>
-        <div className="grid grid-cols-4 gap-6">
-          {category.inspirationLinks?.map((link, idx) => {
-            const floatDelays = [0, 0.75, 1.5, 2.25];
-            const inspirationMeta: Record<string, { icon: React.ReactNode; sub: string }> = {
+        <div className="flex items-center justify-center gap-10 lg:gap-14">
+          {category.inspirationLinks?.map((link) => {
+            const inspirationMeta: Record<string, { icon: React.ReactNode }> = {
               "/hediye-secici": {
-                sub: "Mükemmel Hediyeyi Bulun",
                 icon: (
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2">
                     <polyline points="20 12 20 22 4 22 4 12"/>
                     <rect x="2" y="7" width="20" height="5"/>
                     <line x1="12" y1="22" x2="12" y2="7"/>
@@ -416,74 +413,37 @@ function GridLayout({
                   </svg>
                 ),
               },
-              "/kisisellestirme": {
-                sub: "Sadece Size Özel",
-                icon: (
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2">
-                    <path d="M12 20h9"/>
-                    <path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>
-                  </svg>
-                ),
-              },
               "/yeni-tasarimlar": {
-                sub: "Bu Sezonun Parlayanları",
                 icon: (
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2">
                     <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
                   </svg>
                 ),
               },
               "/onun-icin": {
-                sub: "Ona Özel Küratör Seçkisi",
                 icon: (
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2">
                     <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
                   </svg>
                 ),
               },
             };
-            const m = inspirationMeta[link.href] ?? { icon: null, sub: "" };
+            const m = inspirationMeta[link.href];
             return (
-              <motion.div
+              <Link
                 key={link.label}
-                animate={{ y: [0, -7, 0] }}
-                whileHover={{
-                  y: 0,
-                  scale: 1.05,
-                  transition: { duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] },
-                }}
-                transition={{
-                  repeat: Infinity,
-                  duration: 4,
-                  ease: "easeInOut",
-                  delay: floatDelays[idx],
-                }}
-                style={{ willChange: "transform" }}
+                href={link.href}
+                onClick={onClose}
+                className="group flex items-center gap-2 text-[9px] tracking-[0.2em] uppercase font-sans font-medium
+                         text-charcoal/40 hover:text-[#D4AF37] transition-colors duration-300"
               >
-                <Link
-                  href={link.href}
-                  onClick={onClose}
-                  className="group flex flex-col items-center text-center gap-3 px-4 py-5
-                           border border-transparent hover:border-gold/20
-                           transition-colors duration-300 rounded-[2px] cursor-pointer"
-                >
-                  <span className="text-charcoal/45 group-hover:text-gold transition-colors duration-300">
+                {m?.icon && (
+                  <span className="text-charcoal/30 group-hover:text-[#D4AF37] transition-colors duration-300">
                     {m.icon}
                   </span>
-                  <span className="relative inline-block text-[9.5px] tracking-wider uppercase
-                                 font-sans font-semibold text-charcoal/70 group-hover:text-charcoal
-                                 transition-colors duration-300 leading-relaxed">
-                    {link.label}
-                    <span className="absolute -bottom-1.5 left-1/4 right-1/4 h-px
-                                   bg-transparent group-hover:bg-gold/50
-                                   transition-all duration-400" />
-                  </span>
-                  <span className="text-[8.5px] font-sans font-light text-charcoal/40
-                                 group-hover:text-charcoal/60 transition-colors duration-300 leading-snug">
-                    {m.sub}
-                  </span>
-                </Link>
-              </motion.div>
+                )}
+                {link.label}
+              </Link>
             );
           })}
         </div>

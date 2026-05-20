@@ -9,6 +9,8 @@ import FullscreenMenu from "@/components/navigation/FullscreenMenu";
 import MegaMenu from "@/components/layout/MegaMenu";
 import AnnouncementBar from "@/components/layout/AnnouncementBar";
 import { useCartStore } from "@/lib/cartStore";
+import { useAuthStore } from "@/lib/authStore";
+import { createClient } from "@/lib/supabase/client";
 import { mainCategories } from "@/constants/navigation";
 
 export default function Navbar() {
@@ -18,7 +20,23 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeMega, setActiveMega] = useState<string | null>(null);
   const { openCart, totalItems } = useCartStore();
-  const cartCount = totalItems();
+  const { user, openAuthModal } = useAuthStore();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  const cartCount = mounted ? totalItems() : 0;
+
+  const handleAccountClick = async () => {
+    if (user) {
+      window.location.href = "/profil";
+    } else {
+      openAuthModal("login");
+    }
+  };
+
+  const handleSignOut = async () => {
+    const supabase = createClient();
+    await supabase.auth.signOut();
+  };
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Track scroll & close mega menu on scroll
@@ -73,7 +91,7 @@ export default function Navbar() {
         transition={{ duration: 0.9, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.2 }}
         className={`fixed top-0 inset-x-0 z-40 transition-all duration-700 ease-luxury
           ${showSolid
-            ? "bg-ivory-100/98 navbar-glass shadow-[0_1px_0_0_rgba(201,168,76,0.15)]"
+            ? "bg-ivory-100/75 navbar-glass shadow-[0_1px_0_0_rgba(201,168,76,0.15)]"
             : "bg-transparent"
           }`}
         onMouseLeave={scheduleMegaClose}
@@ -155,13 +173,6 @@ export default function Navbar() {
 
             {/* Right: Icons */}
             <div className="flex items-center gap-4">
-              <button
-                aria-label="Ara"
-                className={`p-1 transition-colors duration-300 lg:hidden
-                  ${showSolid ? "text-charcoal hover:text-gold" : "text-ivory-100/80 hover:text-ivory-100"}`}
-              >
-                <SearchIcon />
-              </button>
               {/* WhatsApp (mobile) */}
               <a
                 href="https://wa.me/905323999944"
@@ -174,11 +185,20 @@ export default function Navbar() {
                 <WhatsAppIcon />
               </a>
               <button
+                onClick={handleAccountClick}
                 aria-label="Hesabım"
-                className={`p-1 transition-colors duration-300 hidden sm:block
-                  ${showSolid ? "text-charcoal hover:text-gold" : "text-ivory-100/80 hover:text-ivory-100"}`}
+                title={user ? (user.user_metadata?.full_name || user.email) : "Giriş Yap"}
+                className={`p-1 transition-colors duration-300 hidden sm:flex items-center gap-1.5
+                  ${showSolid ? "text-charcoal hover:text-gold" : "text-ivory-100/80 hover:text-ivory-100"}
+                  ${user ? "text-gold" : ""}`}
               >
                 <AccountIcon />
+                {user && (
+                  <span className={`text-[8px] tracking-widest uppercase font-sans hidden lg:block
+                    ${showSolid ? "text-gold" : "text-gold"}`}>
+                    Hesabım
+                  </span>
+                )}
               </button>
               <button
                 onClick={openCart}
@@ -218,7 +238,7 @@ export default function Navbar() {
                       ${activeMega === cat.id
                         ? (showSolid ? "text-charcoal" : "text-ivory-100")
                         : (showSolid
-                            ? "text-charcoal/60 hover:text-charcoal"
+                            ? "text-charcoal/75 hover:text-charcoal"
                             : "text-ivory-100/60 hover:text-ivory-100")
                       }
                       ${cat.id === "yuksek-mucevher" ? " !text-[#E8C880] tracking-luxury-xwide" : ""}
@@ -243,19 +263,6 @@ export default function Navbar() {
                   </Link>                </li>
               ))}
 
-              {/* Separator + search */}
-              <li className="flex items-center" aria-hidden="true">
-                <span className={`w-px h-4 transition-colors duration-500 ${showSolid ? "bg-charcoal/15" : "bg-white/15"}`} />
-              </li>
-              <li>
-                <button
-                  aria-label="Ara"
-                  className={`p-1 transition-colors duration-300
-                    ${showSolid ? "text-charcoal/50 hover:text-charcoal" : "text-ivory-100/50 hover:text-ivory-100"}`}
-                >
-                  <SearchIcon />
-                </button>
-              </li>
             </ul>
           </div>
         </nav>

@@ -10,12 +10,20 @@ export default function EditorialNewsletter() {
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
 
-  const handleSubscribe = (e: React.FormEvent) => {
+  const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email.trim()) {
-      setSubscribed(true);
-      setEmail("");
+    if (!email.trim()) return;
+    try {
+      await fetch("/api/newsletter", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email.trim() }),
+      });
+    } catch {
+      // fail silently — still show success
     }
+    setSubscribed(true);
+    setEmail("");
   };
 
   return (
@@ -23,8 +31,8 @@ export default function EditorialNewsletter() {
       {/* ── Left: Editorial Image ── */}
       <div className="relative h-48 md:h-auto overflow-hidden">
         <Image
-          src="/images/web/8 (1).png"
-          alt="ONR Mücevherat editoryal görsel"
+          src="/images/onrclub/onrclub1.png"
+          alt="ONR Club üyelik görseli"
           fill
           sizes="(max-width:768px) 100vw, 50vw"
           className="object-cover object-center"

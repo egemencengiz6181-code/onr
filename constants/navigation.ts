@@ -43,33 +43,32 @@ export const mainCategories: NavCategory[] = [
   {
     id: "altin",
     label: "Altın",
-    href: "/koleksiyonlar",
+    href: "/altin",
     hasMegaMenu: true,
-    editorialImage: "/images/web/7 (2).png",
+    editorialImage: "/images/products/vera-pirlanta-kolye/1.png",
     subTabs: [
       {
         id: "altin-kategoriler",
         label: "Kategoriler",
-        viewAllHref: "/koleksiyonlar",
+        viewAllHref: "/altin",
         items: [
-          { label: "Bileklik", href: "/koleksiyonlar/bileklikler", image: "https://images.unsplash.com/photo-1573408301185-9146fe634ad0?w=400&q=80&fit=crop&crop=center" },
-          { label: "Kolye", href: "/koleksiyonlar/kolyeler", image: "https://images.unsplash.com/photo-1599643477877-530eb83abc8e?w=400&q=80&fit=crop&crop=center" },
-          { label: "Küpe", href: "/koleksiyonlar/kupeler", image: "https://images.unsplash.com/photo-1588444837495-c6cfeb53f32d?w=400&q=80&fit=crop&crop=center" },
-          { label: "Yüzük", href: "/koleksiyonlar/halkalar", image: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=400&q=80&fit=crop&crop=center" },
-          { label: "Alyans", href: "/koleksiyonlar/halkalar?tur=alyans", image: "https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=400&q=80&fit=crop&crop=center" },
-          { label: "Kelepçe", href: "/koleksiyonlar/bileklikler?tur=kelepce", image: "https://images.unsplash.com/photo-1602751584552-8ba73aad10e1?w=400&q=80&fit=crop&crop=center" },
-          { label: "Gerdanlık", href: "/koleksiyonlar/kolyeler?tur=gerdanlik", image: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=400&q=80&fit=crop&crop=center" },
-          { label: "Setler", href: "/koleksiyonlar/setler", image: "https://images.unsplash.com/photo-1543294001-f7cd5d7fb516?w=400&q=80&fit=crop&crop=center" },
-          { label: "Piercing", href: "/koleksiyonlar/kupeler?tur=piercing", image: "https://images.unsplash.com/photo-1630019852942-f89202989a59?w=400&q=80&fit=crop&crop=center" },
+          { label: "Bileklik", href: "/altin/bileklikler", image: "https://images.unsplash.com/photo-1573408301185-9146fe634ad0?w=400&q=80&fit=crop&crop=center" },
+          { label: "Kolye", href: "/altin/kolyeler", image: "https://images.unsplash.com/photo-1599643477877-530eb83abc8e?w=400&q=80&fit=crop&crop=center" },
+          { label: "Küpe", href: "/altin/kupeler", image: "https://images.unsplash.com/photo-1588444837495-c6cfeb53f32d?w=400&q=80&fit=crop&crop=center" },
+          { label: "Yüzük", href: "/altin/halkalar", image: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=400&q=80&fit=crop&crop=center" },
+          { label: "Alyans", href: "/altin/halkalar?tur=alyans", image: "https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=400&q=80&fit=crop&crop=center" },
+          { label: "Kelepçe", href: "/altin/bileklikler?tur=kelepce", image: "https://images.unsplash.com/photo-1602751584552-8ba73aad10e1?w=400&q=80&fit=crop&crop=center" },
+          { label: "Gerdanlık", href: "/altin/kolyeler?tur=gerdanlik", image: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=400&q=80&fit=crop&crop=center" },
+          { label: "Setler", href: "/altin/setler", image: "https://images.unsplash.com/photo-1543294001-f7cd5d7fb516?w=400&q=80&fit=crop&crop=center" },
+          { label: "Piercing", href: "/altin/kupeler?tur=piercing", image: "https://images.unsplash.com/photo-1630019852942-f89202989a59?w=400&q=80&fit=crop&crop=center" },
           { label: "Bebek Özel", href: "/koleksiyonlar/bebek-ozel", image: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=400&q=80&fit=crop&crop=center", isBaby: true },
         ],
       },
     ],
     inspirationLinks: [
-      { label: "Özel Tasarım", href: "/ozel-tasarim" },
-      { label: "Kişiselleştirme", href: "/kisisellestirme" },
       { label: "Hediye Seçici", href: "/hediye-secici" },
-      { label: "Yeni Tasarımlar", href: "/yeni-tasarimlar" },
+      { label: "En Yeni Tasarımlar", href: "/yeni-tasarimlar" },
+      { label: "Onun İçin Mücevher", href: "/onun-icin" },
     ],
   },
   {
@@ -77,7 +76,7 @@ export const mainCategories: NavCategory[] = [
     label: "Mücevher",
     href: "/koleksiyonlar",
     hasMegaMenu: true,
-    editorialImage: "/images/web/7 (2).png",
+    editorialImage: "/images/products/bleu-pirlanta-yuzuk/1.png",
     subTabs: [
       {
         id: "yuzuk",
@@ -155,17 +154,9 @@ export const mainCategories: NavCategory[] = [
     ],
     inspirationLinks: [
       { label: "Hediye Seçici", href: "/hediye-secici" },
-      { label: "Kişiselleştirme", href: "/kisisellestirme" },
       { label: "En Yeni Tasarımlar", href: "/yeni-tasarimlar" },
       { label: "Onun İçin Mücevher", href: "/onun-icin" },
     ],
-  },
-  {
-    id: "annelere-ozel",
-    label: "Annelere Özel",
-    href: "/anneler-gunu",
-    hasMegaMenu: false,
-    isMothersDay: true,
   },
   {
     id: "ozel-tasarim",
@@ -299,11 +290,6 @@ export const mobileMenuItems: MobileMenuItem[] = [
     href: "/exclusive",
     sub: "Sadece Seçkin Misafirlerimize",
     isExclusive: true,
-  },
-  {
-    label: "Annelere Özel",
-    href: "/anneler-gunu",
-    sub: "Anneler Günü Özel Koleksiyonu",
   },
   {
     label: "Özel Tasarım",

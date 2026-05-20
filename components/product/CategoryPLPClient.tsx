@@ -647,17 +647,17 @@ export default function CategoryPLPClient({ slug }: { slug: CategorySlug }) {
         )}
       </AnimatePresence>
 
-      <main className="min-h-screen bg-[#FAF9F6] pt-[72px] md:pt-[126px]">
+      <main className="min-h-screen bg-[#FAF9F6] pt-[108px] md:pt-[162px]">
 
         {/* ── Hero ──────────────────────────────────────────────── */}
         <HeroSlider images={meta.hero} title={meta.title} subtitle={meta.subtitle} />
 
         {/* ── Breadcrumb ─────────────────────────────────────────── */}
         <nav className="px-6 md:px-10 lg:px-16 py-[13px] border-b border-[#1A1A1A]/[0.05]">
-          <div className="max-w-[1440px] mx-auto flex items-center gap-2 text-[7.5px] font-sans tracking-[0.24em] uppercase text-[#1A1A1A]/30">
+          <div className="max-w-[1440px] mx-auto flex items-center gap-2 text-[7.5px] font-sans tracking-[0.24em] uppercase text-[#1A1A1A]/50">
             <Link href="/" className="hover:text-gold transition-colors">Ana Sayfa</Link>
             <span>/</span>
-            <span className="text-[#1A1A1A]/55">{meta.title}</span>
+            <span className="text-[#1A1A1A]/70">{meta.title}</span>
           </div>
         </nav>
 

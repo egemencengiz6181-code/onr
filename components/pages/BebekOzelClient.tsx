@@ -193,7 +193,7 @@ export default function BebekOzelClient() {
                 transition={{ duration: 0.7, ease, delay: i * 0.08 }}
               >
                 <Link
-                  href={`/koleksiyonlar/bebek-ozel?kategori=${cat.slug}`}
+                  href={`/koleksiyonlar/bebek-ozel/${cat.slug}`}
                   className="group block rounded-2xl overflow-hidden transition-all duration-500 hover:shadow-xl hover:shadow-black/8 hover:-translate-y-1"
                   style={{ background: cat.bg }}
                 >

@@ -32,12 +32,12 @@ interface CategoryMeta {
 
 const CATEGORY_META: Record<string, CategoryMeta> = {
   halkalar: {
-    label: "Halkalar",
+    label: "Yüzükler",
     subtitle: "Sonsuzluğun Sembolü",
     description:
       "Platin ve altın üzeri pırlanta yüzük koleksiyonu. Tektaştan sonsuzluk bandına, her halka bir söz taşır.",
     heroSlides: [
-      { src: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=1600&q=90&fit=crop&crop=center", alt: "Halkalar Koleksiyonu" },
+      { src: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=1600&q=90&fit=crop&crop=center", alt: "Yüzükler Koleksiyonu" },
       { src: "https://images.unsplash.com/photo-1543294001-f7cd5d7fb516?w=1600&q=90&fit=crop&crop=center", alt: "Pırlanta Yüzükler" },
       { src: "https://images.unsplash.com/photo-1603561591411-07134e71a2a9?w=1600&q=90&fit=crop&crop=center", alt: "Halka Detay" },
     ],
@@ -121,6 +121,160 @@ const CATEGORY_META: Record<string, CategoryMeta> = {
       { src: "https://images.unsplash.com/photo-1611107683227-e9060eccd846?w=1200&q=90&fit=crop&crop=center", alt: "Hediye Seti", title: "Kusursuz Hediye" },
     ],
   },
+  "altin-halkalar": {
+    label: "Altın Yüzükler",
+    subtitle: "Altının Sonsuzluğu",
+    description: "22K ve 18K altın yüzük koleksiyonu. Alyans, tektaş ve özel tasarım altın yüzükler.",
+    heroSlides: [
+      { src: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=1600&q=90&fit=crop&crop=center", alt: "Altın Yüzükler" },
+      { src: "https://images.unsplash.com/photo-1543294001-f7cd5d7fb516?w=1600&q=90&fit=crop&crop=center", alt: "Altın Halka" },
+      { src: "https://images.unsplash.com/photo-1603561591411-07134e71a2a9?w=1600&q=90&fit=crop&crop=center", alt: "Altın Yüzük Detay" },
+    ],
+    editorialImages: [
+      { src: "https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=1200&q=90&fit=crop&crop=center", alt: "Altın İşçilik", title: "Altın Zarafet" },
+      { src: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=1200&q=90&fit=crop&crop=center", alt: "Altın Detay", title: "Saf Altın" },
+    ],
+  },
+  "altin-kolyeler": {
+    label: "Altın Kolyeler",
+    subtitle: "Altının Parlaklığı",
+    description: "22K ve 18K altın kolye koleksiyonu. Gerdanlıktan ince zincire, her boyun için bir altın.",
+    heroSlides: [
+      { src: "https://images.unsplash.com/photo-1599643477877-530eb83abc8e?w=1600&q=90&fit=crop&crop=center", alt: "Altın Kolyeler" },
+      { src: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=1600&q=90&fit=crop&crop=center", alt: "Altın Gerdanlık" },
+      { src: "https://images.unsplash.com/photo-1573408301185-9146fe634ad0?w=1600&q=90&fit=crop&crop=center", alt: "Altın Kolye Detay" },
+    ],
+    editorialImages: [
+      { src: "https://images.unsplash.com/photo-1611107683227-e9060eccd846?w=1200&q=90&fit=crop&crop=center", alt: "Altın Parlaklığı", title: "Altın Parlaklığı" },
+      { src: "https://images.unsplash.com/photo-1602751584552-8ba73aad10e1?w=1200&q=90&fit=crop&crop=center", alt: "Altın Detay", title: "Saf Altın Zincir" },
+    ],
+  },
+  "altin-kupeler": {
+    label: "Altın Küpeler",
+    subtitle: "Altının Işığı",
+    description: "22K ve 18K altın küpe koleksiyonu. Klasik küpeden modern tasarımlara, yüzünüzü altınla çerçeveleyin.",
+    heroSlides: [
+      { src: "https://images.unsplash.com/photo-1588444837495-c6cfeb53f32d?w=1600&q=90&fit=crop&crop=center", alt: "Altın Küpeler" },
+      { src: "https://images.unsplash.com/photo-1630019852942-f89202989a59?w=1600&q=90&fit=crop&crop=center", alt: "Altın Küpe Detay" },
+      { src: "https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?w=1600&q=90&fit=crop&crop=center", alt: "Altın Küpe Koleksiyonu" },
+    ],
+    editorialImages: [
+      { src: "https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?w=1200&q=90&fit=crop&crop=center", alt: "Altın Küpe", title: "Altın Işığı" },
+      { src: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=1200&q=90&fit=crop&crop=center", alt: "Minimal Altın", title: "Minimal Altın" },
+    ],
+  },
+  "altin-bileklikler": {
+    label: "Altın Bileklikler",
+    subtitle: "Altının Dokunuşu",
+    description: "22K ve 18K altın bileklik koleksiyonu. Kelepçeden ince zincir bilekliğe, her bileğe altının dokunuşu.",
+    heroSlides: [
+      { src: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=1600&q=90&fit=crop&crop=top", alt: "Altın Bileklikler" },
+      { src: "https://images.unsplash.com/photo-1602751584552-8ba73aad10e1?w=1600&q=90&fit=crop&crop=center", alt: "Altın Kelepçe" },
+      { src: "https://images.unsplash.com/photo-1573408301185-9146fe634ad0?w=1600&q=90&fit=crop&crop=center", alt: "Altın Bileklik Detay" },
+    ],
+    editorialImages: [
+      { src: "https://images.unsplash.com/photo-1603561591411-07134e71a2a9?w=1200&q=90&fit=crop&crop=center", alt: "Altın Kelepçe", title: "Kelepçe Sanatı" },
+      { src: "https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=1200&q=90&fit=crop&crop=center", alt: "Altın Zincir", title: "Saf Altın Zincir" },
+    ],
+  },
+  "altin-setler": {
+    label: "Altın Setler",
+    subtitle: "Uyumun Altını",
+    description: "22K ve 18K altın set koleksiyonu. Kolye, küpe ve yüzükten oluşan kusursuz altın setler.",
+    heroSlides: [
+      { src: "https://images.unsplash.com/photo-1543294001-f7cd5d7fb516?w=1600&q=90&fit=crop&crop=center", alt: "Altın Setler" },
+      { src: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=1600&q=90&fit=crop&crop=center", alt: "Altın Set Detay" },
+      { src: "https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=1600&q=90&fit=crop&crop=center", alt: "Altın Set Koleksiyon" },
+    ],
+    editorialImages: [
+      { src: "https://images.unsplash.com/photo-1599643477877-530eb83abc8e?w=1200&q=90&fit=crop&crop=center", alt: "Altın Set", title: "Uyumun Altını" },
+      { src: "https://images.unsplash.com/photo-1611107683227-e9060eccd846?w=1200&q=90&fit=crop&crop=center", alt: "Altın Hediye", title: "Altın Hediye" },
+    ],
+  },
+  "bebek-ozel": {
+    label: "Bebek Özel",
+    subtitle: "Minik Ellere Büyük Sevgi",
+    description: "Bebekler ve çocuklar için özel altın koleksiyon. Her minik ele sevgiyle tasarlandı.",
+    heroSlides: [
+      { src: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=1600&q=90&fit=crop&crop=top", alt: "Bebek Özel Koleksiyon" },
+      { src: "https://images.unsplash.com/photo-1573408301185-9146fe634ad0?w=1600&q=90&fit=crop&crop=center", alt: "Bebek Bileklik" },
+      { src: "https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=1600&q=90&fit=crop&crop=center", alt: "Bebek Küpe" },
+    ],
+    editorialImages: [
+      { src: "https://images.unsplash.com/photo-1599643477877-530eb83abc8e?w=1200&q=90&fit=crop&crop=center", alt: "Bebek Hediye", title: "Minik Sevgiler" },
+      { src: "https://images.unsplash.com/photo-1602751584552-8ba73aad10e1?w=1200&q=90&fit=crop&crop=center", alt: "Bebek Kolye", title: "İlk Mücevher" },
+    ],
+  },
+};
+
+/* ─── Tur (sub-slug) label overrides ─── */
+const TUR_LABELS: Record<string, { label: string; subtitle: string; description: string }> = {
+  alyans: {
+    label: "Alyans",
+    subtitle: "Sonsuzluğun Halkası",
+    description: "Birbirinize bağlılığınızın simgesi. Platin ve altın alyans koleksiyonu.",
+  },
+  kelepce: {
+    label: "Altın Kelepçe",
+    subtitle: "Güçlü & Zarif",
+    description: "Altın kelepçe bileklik koleksiyonu. Her bileğe güç ve zarafet katan tasarımlar.",
+  },
+  gerdanlik: {
+    label: "Altın Gerdanlık",
+    subtitle: "Boyunuzun Tacı",
+    description: "Görkemli altın gerdanlık koleksiyonu. Özel geceler için özel tasarımlar.",
+  },
+  piercing: {
+    label: "Altın Piercing",
+    subtitle: "Modern & İnce",
+    description: "Hipoalerjenik altın piercing koleksiyonu. Minimal ve modern tasarımlar.",
+  },
+};
+
+/* ─── Sub-type options per category (for Mücevher filter sidebar) ─── */
+const CATEGORY_SUB_TYPES: Record<string, { label: string; value: string }[]> = {
+  halkalar: [
+    { label: "Tektaş Pırlanta", value: "tektas-pirlanta" },
+    { label: "Baget Pırlanta", value: "baget-pirlanta" },
+    { label: "Tasarım Pırlanta", value: "tasarim-pirlanta" },
+    { label: "Beştaş Pırlanta", value: "bestas-pirlanta" },
+    { label: "Tamtur Pırlanta", value: "tamtur-pirlanta" },
+    { label: "Yarımtur Pırlanta", value: "yarimtur-pirlanta" },
+    { label: "Renkli Taşlar", value: "renkli-taslar" },
+  ],
+  kolyeler: [
+    { label: "Tektaş Pırlanta", value: "tektas-pirlanta" },
+    { label: "Baget Pırlanta", value: "baget-pirlanta" },
+    { label: "Tasarım Pırlanta", value: "tasarim-pirlanta" },
+    { label: "Harf Pırlanta", value: "harf-pirlanta" },
+    { label: "Renkli Taşlar", value: "renkli-taslar" },
+  ],
+  kupeler: [
+    { label: "Tektaş Pırlanta", value: "tektas-pirlanta" },
+    { label: "Baget Pırlanta", value: "baget-pirlanta" },
+    { label: "Tasarım Pırlanta", value: "tasarim-pirlanta" },
+    { label: "Halka Pırlanta", value: "halka-pirlanta" },
+    { label: "Renkli Taşlar", value: "renkli-taslar" },
+    { label: "Pırlanta Piercing", value: "pirlanta-piercing" },
+  ],
+  bileklikler: [
+    { label: "Tasarım Pırlanta", value: "tasarim-pirlanta" },
+    { label: "Pırlanta Su Yolu", value: "pirlanta-su-yolu" },
+    { label: "Baget Pırlanta", value: "baget-pirlanta" },
+    { label: "Renkli Taşlar", value: "renkli-taslar" },
+    { label: "Charm Pırlanta", value: "charm-pirlanta" },
+  ],
+  setler: [
+    { label: "İnci Setler", value: "inci-setler" },
+    { label: "Pırlanta Setler", value: "pirlanta-setler" },
+  ],
+  inci: [
+    { label: "İnci Yüzük", value: "yuzuk" },
+    { label: "İnci Kolye", value: "kolye" },
+    { label: "İnci Küpe", value: "kupe" },
+    { label: "İnci Bileklik", value: "bileklik" },
+    { label: "İnci Setler", value: "setler" },
+  ],
 };
 
 /* ─── Filter Definitions ─── */
@@ -683,11 +837,21 @@ function ActiveChips({
 /* ═══════════════════════════════════════════════
    INNER CLIENT (uses useSearchParams)
 ═══════════════════════════════════════════════ */
-function CategoryPageInner({ slug }: { slug: string }) {
+function CategoryPageInner({ slug, initialProducts }: { slug: string; initialProducts?: Product[] }) {
   const meta = CATEGORY_META[slug] ?? CATEGORY_META["halkalar"];
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+
+  /* ─── tur param override ─── */
+  const turParam = searchParams.get("tur") ?? "";
+  const turOverride = turParam ? TUR_LABELS[turParam] : null;
+  const displayLabel = turOverride?.label ?? meta.label;
+  const displaySubtitle = turOverride?.subtitle ?? meta.subtitle;
+  const displayDescription = turOverride?.description ?? meta.description;
+
+  /* ─── Sub-types for this category (only Mücevher slugs) ─── */
+  const subTypes = CATEGORY_SUB_TYPES[slug] ?? [];
 
   /* ─── Parse URL → State ─── */
   const parseFiltersFromURL = useCallback((): FilterState => {
@@ -704,7 +868,7 @@ function CategoryPageInner({ slug }: { slug: string }) {
 
   const [filters, setFilters] = useState<FilterState>(parseFiltersFromURL);
   const [openAccordions, setOpenAccordions] = useState<Set<string>>(
-    new Set(["Materyal"])
+    () => new Set(subTypes.length > 0 ? ["Koleksiyon Türü"] : ["Materyal"])
   );
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -792,8 +956,11 @@ function CategoryPageInner({ slug }: { slug: string }) {
 
   /* ─── Products ─── */
   const categoryProducts = useMemo(
-    () => products.filter((p) => p.categorySlug === slug && !p.isExclusive),
-    [slug]
+    () =>
+      initialProducts
+        ? initialProducts.filter((p) => !p.isExclusive)
+        : products.filter((p) => p.categorySlug === slug && !p.isExclusive),
+    [slug, initialProducts]
   );
 
   const displayProducts = useMemo(() => {
@@ -819,7 +986,7 @@ function CategoryPageInner({ slug }: { slug: string }) {
           Filtrele
         </p>
         <p className="font-serif text-charcoal text-lg leading-tight">
-          {meta.label}
+          {displayLabel}
         </p>
         <p className="text-[11px] font-sans text-charcoal/35 mt-1">
           {displayProducts.length} ürün
@@ -836,6 +1003,74 @@ function CategoryPageInner({ slug }: { slug: string }) {
           onOpenToggle={() => toggleAccordion(group.label)}
         />
       ))}
+
+      {/* Sub-type (Koleksiyon Türü) filter — only for Mücevher categories */}
+      {subTypes.length > 0 && (
+        <div className="border-b border-charcoal/8">
+          <button
+            onClick={() => toggleAccordion("Koleksiyon Türü")}
+            className="w-full flex items-center justify-between py-5 text-left"
+            aria-expanded={openAccordions.has("Koleksiyon Türü")}
+          >
+            <span className="text-[10px] tracking-[0.22em] uppercase text-charcoal font-sans font-medium">
+              Koleksiyon Türü
+            </span>
+            <motion.svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.2"
+              className="w-3.5 h-3.5 text-charcoal/30"
+              animate={{ rotate: openAccordions.has("Koleksiyon Türü") ? 180 : 0 }}
+              transition={{ duration: 0.35 }}
+            >
+              <path d="M6 9l6 6 6-6" />
+            </motion.svg>
+          </button>
+          <AnimatePresence initial={false}>
+            {openAccordions.has("Koleksiyon Türü") && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.4, ease }}
+                className="overflow-hidden"
+              >
+                <div className="pb-5 space-y-3">
+                  {subTypes.map((opt) => {
+                    const isActive = filters.type === opt.value;
+                    return (
+                      <button
+                        key={opt.value}
+                        onClick={() => {
+                          const next = { ...filters, type: isActive ? "" : opt.value };
+                          setFilters(next);
+                          syncURL(next);
+                        }}
+                        className="flex items-center gap-3 w-full text-left group/st"
+                      >
+                        <div className={`w-4 h-4 border flex-shrink-0 flex items-center justify-center
+                                        transition-all duration-200
+                                        ${ isActive ? "border-gold bg-gold" : "border-charcoal/20 group-hover/st:border-charcoal/50" }`}>
+                          {isActive && (
+                            <svg viewBox="0 0 16 16" fill="none" className="w-2.5 h-2.5">
+                              <path d="M3 8l4 4 6-6" stroke="white" strokeWidth="1.8" />
+                            </svg>
+                          )}
+                        </div>
+                        <span className={`text-[11px] font-sans transition-colors duration-200
+                                         ${ isActive ? "text-charcoal font-medium" : "text-charcoal/55 group-hover/st:text-charcoal/80" }`}>
+                          {opt.label}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      )}
 
       {/* Sort in sidebar */}
       <div className="border-b border-charcoal/8">
@@ -933,9 +1168,9 @@ function CategoryPageInner({ slug }: { slug: string }) {
         {/* ── Hero Slider (full-width) ── */}
         <HeroSlider
           slides={meta.heroSlides}
-          label={meta.label}
-          subtitle={meta.subtitle}
-          description={meta.description}
+          label={displayLabel}
+          subtitle={displaySubtitle}
+          description={displayDescription}
         />
 
         {/* ── Breadcrumb ── */}
@@ -957,7 +1192,7 @@ function CategoryPageInner({ slug }: { slug: string }) {
           </Link>
           <span className="text-charcoal/15 text-[10px]">/</span>
           <span className="text-[10px] tracking-widest uppercase text-charcoal font-sans font-medium">
-            {meta.label}
+            {displayLabel}
           </span>
         </nav>
 
@@ -1217,10 +1452,10 @@ function CategoryPageInner({ slug }: { slug: string }) {
 /* ═══════════════════════════════════════════════
    EXPORTED WRAPPER — Suspense for useSearchParams
 ═══════════════════════════════════════════════ */
-export default function CategoryPageClient({ slug }: { slug: string }) {
+export default function CategoryPageClient({ slug, initialProducts }: { slug: string; initialProducts?: Product[] }) {
   return (
     <Suspense fallback={null}>
-      <CategoryPageInner slug={slug} />
+      <CategoryPageInner slug={slug} initialProducts={initialProducts} />
     </Suspense>
   );
 }

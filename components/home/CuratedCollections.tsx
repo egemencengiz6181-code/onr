@@ -8,12 +8,11 @@ import { motion, useInView } from "framer-motion";
 const collections = [
   {
     id: 1,
-    name: "Sonsuzluk Halkaları",
-    category: "Halkalar",
+    name: "Yüzükler",
+    category: "Yüzük Çeşitlerimiz",
     href: "/koleksiyonlar/halkalar",
-    image:
-      "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=900&q=85&fit=crop&crop=center",
-    imageAlt: "Pırlanta sonsuzluk halkası koleksiyonu",
+    image: "/images/products/bleu-pirlanta-yuzuk/1.png",
+    imageAlt: "Bleu pırlanta yüzük",
     pieces: "24 Parça",
   },
   {
@@ -21,9 +20,8 @@ const collections = [
     name: "İkonik Kolyeler",
     category: "Kolyeler",
     href: "/koleksiyonlar/kolyeler",
-    image:
-      "https://images.unsplash.com/photo-1599643477877-530eb83abc8e?w=900&q=85&fit=crop&crop=center",
-    imageAlt: "Elmas kolye koleksiyonu",
+    image: "/images/products/vera-pirlanta-kolye/1.png",
+    imageAlt: "Vera pırlanta kolye",
     pieces: "18 Parça",
   },
   {
@@ -31,9 +29,8 @@ const collections = [
     name: "Zarif Bileklikler",
     category: "Bileklikler",
     href: "/koleksiyonlar/bileklikler",
-    image:
-      "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=900&q=85&fit=crop&crop=top",
-    imageAlt: "Lüks altın bileklik koleksiyonu",
+    image: "/images/products/eclat-pirlanta-bileklik/1.png",
+    imageAlt: "Éclat pırlanta bileklik",
     pieces: "15 Parça",
   },
   {
@@ -41,9 +38,8 @@ const collections = [
     name: "Küpe Atölyesi",
     category: "Küpeler",
     href: "/koleksiyonlar/kupeler",
-    image:
-      "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=900&q=85&fit=crop&crop=center",
-    imageAlt: "Elmas küpe koleksiyonu",
+    image: "/images/products/fleur-renkli-tas-kupe/1.png",
+    imageAlt: "Fleur renkli taş küpe",
     pieces: "31 Parça",
   },
 ];

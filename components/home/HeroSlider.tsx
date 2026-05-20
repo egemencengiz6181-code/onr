@@ -24,7 +24,7 @@ const slides = [
     headline: "Altın\nMiras",
     subline:
       "Nesilden nesile taşınan zarafet. Ustalıkla işlenmiş saf altın koleksiyonumuz.",
-    cta: { label: "Halkalar", href: "/halkalar" },
+    cta: { label: "Yüzükler", href: "/halkalar" },
     align: "left",
   },
   {

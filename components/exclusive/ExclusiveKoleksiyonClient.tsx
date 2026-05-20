@@ -6,10 +6,11 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCartStore } from "@/lib/cartStore";
 import { getExclusiveProducts } from "@/lib/products";
+import type { Product } from "@/lib/types";
 
 const GOLD = "#D4AF37";
 
-const products = getExclusiveProducts();
+const staticProducts = getExclusiveProducts();
 
 /* ─── Inquiry Modal (lightweight) ───────────────────────── */
 function QuickInquiryModal({
@@ -135,7 +136,7 @@ function ExclusiveCard({
   index,
   onInquiry,
 }: {
-  product: ReturnType<typeof getExclusiveProducts>[number];
+  product: Product;
   index: number;
   onInquiry: (name: string) => void;
 }) {
@@ -259,7 +260,8 @@ function ExclusiveCard({
 }
 
 /* ─── Main Component ─────────────────────────────────────── */
-export default function ExclusiveKoleksiyonClient() {
+export default function ExclusiveKoleksiyonClient({ initialProducts }: { initialProducts?: Product[] }) {
+  const products = initialProducts ?? staticProducts;
   const [inquiryProduct, setInquiryProduct] = useState<string | null>(null);
   const { openCart, totalItems } = useCartStore();
 

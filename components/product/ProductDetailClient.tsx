@@ -413,7 +413,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
     : getRelatedProducts(product, 4);
   const refNumber = `Ref. ONR-${product.id.toUpperCase().replace(/-/g, "")}`;
   const isRing =
-    product.category === "Halkalar" ||
+    product.category === "Yüzükler" ||
     product.tags?.some((t) => /halka|ring|yüzük/i.test(t)) ||
     false;
 
@@ -467,18 +467,18 @@ export default function ProductDetailClient({ product }: { product: Product }) {
         {lightboxIdx !== null && <Lightbox images={gallery} activeIndex={lightboxIdx} onClose={closeLightbox} onPrev={prevLightbox} onNext={nextLightbox} />}
       </AnimatePresence>
 
-      <main className="min-h-screen bg-[#FAF9F6] pt-[72px] md:pt-[126px]">
+      <main className="min-h-screen bg-[#FAF9F6] pt-[108px] md:pt-[162px]">
 
         {/* ── Breadcrumb ───────────────────────────────────────── */}
         <nav className="px-6 md:px-10 lg:px-20 py-[14px] border-b border-[#1A1A1A]/[0.05]">
-          <div className="max-w-[1440px] mx-auto flex items-center gap-2 text-[8px] font-sans tracking-[0.24em] uppercase text-[#1A1A1A]/30">
+          <div className="max-w-[1440px] mx-auto flex items-center gap-2 text-[8px] font-sans tracking-[0.24em] uppercase text-[#1A1A1A]/50">
             <Link href="/" className="hover:text-gold transition-colors duration-200">Ana Sayfa</Link>
             <span>/</span>
             <Link href="/koleksiyonlar" className="hover:text-gold transition-colors duration-200">Koleksiyonlar</Link>
             <span>/</span>
             <Link href={`/${product.categorySlug}`} className="hover:text-gold transition-colors duration-200">{product.category}</Link>
             <span>/</span>
-            <span className="text-[#1A1A1A]/55 truncate max-w-[180px]">{product.name}</span>
+            <span className="text-[#1A1A1A]/70 truncate max-w-[180px]">{product.name}</span>
           </div>
         </nav>
 
@@ -991,7 +991,13 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                 className="text-center mt-14"
               >
                 <Link
-                  href="/koleksiyonlar"
+                  href={
+                    product.categorySlug === "bebek-ozel"
+                      ? "/koleksiyonlar/bebek-ozel"
+                      : product.categorySlug.startsWith("altin-")
+                      ? `/altin/${product.categorySlug.replace("altin-", "")}`
+                      : `/koleksiyonlar/${product.categorySlug}`
+                  }
                   className="inline-flex items-center gap-3 text-[8.5px] tracking-[0.3em] uppercase font-sans text-[#1A1A1A]/40 border border-[#1A1A1A]/10 px-10 py-3.5 hover:border-[#1A1A1A]/28 hover:text-[#1A1A1A]/65 transition-all duration-300"
                 >
                   Tüm Koleksiyonu İncele

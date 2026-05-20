@@ -34,7 +34,7 @@ export default function KisisellestirmeClient() {
   return (
     <PageWrapper>
       <Navbar />
-      <main className="min-h-screen bg-[#FAF9F6] pt-[72px] md:pt-[126px]">
+      <main className="min-h-screen bg-[#FAF9F6] pt-[108px] md:pt-[162px]">
 
         {/* Hero — full bleed */}
         <div className="relative h-[60vh] md:h-[70vh] bg-[#0A0A0A] overflow-hidden flex items-end">

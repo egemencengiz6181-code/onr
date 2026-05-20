@@ -1,6 +1,10 @@
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import CategoryPageClient from "@/components/product/CategoryPageClient";
+import { getProductsFromDB } from "@/lib/supabase/products";
+
+// Revalidate every 60 seconds so admin changes reflect quickly
+export const revalidate = 60;
 
 const VALID_SLUGS = [
   "halkalar",
@@ -13,7 +17,7 @@ const VALID_SLUGS = [
 
 const META: Record<string, { title: string; description: string }> = {
   halkalar: {
-    title: "Halkalar Koleksiyonu — ONR Mücevherat",
+    title: "Yüzükler Koleksiyonu — ONR Mücevherat",
     description:
       "Pırlanta tektaştan ebediyet halkasına, platin ve altın yüzük koleksiyonunu keşfedin.",
   },
@@ -68,5 +72,14 @@ export default async function CategoryPage({
   if (!VALID_SLUGS.includes(slug as (typeof VALID_SLUGS)[number])) {
     notFound();
   }
-  return <CategoryPageClient slug={slug} />;
+
+  // Fetch from Supabase — falls back to static in CategoryPageClient if empty
+  const dbProducts = await getProductsFromDB(slug);
+
+  return (
+    <CategoryPageClient
+      slug={slug}
+      initialProducts={dbProducts.length > 0 ? dbProducts : undefined}
+    />
+  );
 }

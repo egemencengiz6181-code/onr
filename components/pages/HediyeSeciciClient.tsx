@@ -19,11 +19,11 @@ const steps = [
     question: "Kime alıyorsunuz?",
     subtitle: "Hediyeyi alacak kişiyi seçin.",
     options: [
-      { label: "Sevgilim / Eşim", value: "partner", icon: "♡", tags: ["Halkalar", "Kolyeler"] },
+      { label: "Sevgilim / Eşim", value: "partner", icon: "♡", tags: ["Yüzükler", "Kolyeler"] },
       { label: "Annem", value: "mother", icon: "✦", tags: ["Kolyeler", "Küpeler"] },
       { label: "Kız Kardeşim", value: "sister", icon: "◎", tags: ["Bileklikler", "Küpeler"] },
       { label: "Arkadaşım", value: "friend", icon: "◇", tags: ["Bileklikler", "Kolyeler"] },
-      { label: "Kendime", value: "self", icon: "◈", tags: ["Halkalar", "Kolyeler", "Bileklikler"] },
+      { label: "Kendime", value: "self", icon: "◈", tags: ["Yüzükler", "Kolyeler", "Bileklikler"] },
     ],
   },
   {
@@ -31,9 +31,9 @@ const steps = [
     question: "Özel gün ne?",
     subtitle: "En anlamlı mücevheri birlikte seçelim.",
     options: [
-      { label: "Nişan / Evlilik", value: "wedding", icon: "◉", tags: ["Halkalar"] },
+      { label: "Nişan / Evlilik", value: "wedding", icon: "◉", tags: ["Yüzükler"] },
       { label: "Doğum Günü", value: "birthday", icon: "✦", tags: ["Kolyeler", "Bileklikler"] },
-      { label: "Yıldönümü", value: "anniversary", icon: "♡", tags: ["Halkalar", "Kolyeler"] },
+      { label: "Yıldönümü", value: "anniversary", icon: "♡", tags: ["Yüzükler", "Kolyeler"] },
       { label: "Özel Bir An", value: "special", icon: "◈", tags: ["Kolyeler", "Küpeler"] },
       { label: "Sadece Sevgi", value: "love", icon: "◇", tags: ["Bileklikler", "Küpeler"] },
     ],
@@ -44,8 +44,8 @@ const steps = [
     subtitle: "Kişilik ve zevk tercihini belirleyin.",
     options: [
       { label: "Minimal & Zarif", value: "minimal", icon: "—", tags: ["Bileklikler"] },
-      { label: "Gösterişli & Büyük", value: "bold", icon: "◉", tags: ["Kolyeler", "Halkalar"] },
-      { label: "Klasik & Zamansız", value: "classic", icon: "◇", tags: ["Halkalar", "Küpeler"] },
+      { label: "Gösterişli & Büyük", value: "bold", icon: "◉", tags: ["Kolyeler", "Yüzükler"] },
+      { label: "Klasik & Zamansız", value: "classic", icon: "◇", tags: ["Yüzükler", "Küpeler"] },
       { label: "Modern & Avangard", value: "modern", icon: "◈", tags: ["Küpeler", "Bileklikler"] },
       { label: "Romantik & Feminen", value: "romantic", icon: "♡", tags: ["Kolyeler", "Küpeler"] },
     ],
@@ -177,7 +177,7 @@ export default function HediyeSeciciClient() {
   return (
     <PageWrapper>
       <Navbar />
-      <main className="min-h-screen bg-[#FAF9F6] pt-[72px] md:pt-[126px]">
+      <main className="min-h-screen bg-[#FAF9F6] pt-[108px] md:pt-[162px]">
         {/* Hero */}
         <div className="border-b border-[#1A1A1A]/[0.05] px-6 md:px-16 py-14 md:py-20">
           <div className="max-w-[1200px] mx-auto">

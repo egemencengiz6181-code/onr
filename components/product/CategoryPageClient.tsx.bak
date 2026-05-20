@@ -31,7 +31,7 @@ interface CategoryMeta {
 
 const CATEGORY_META: Record<string, CategoryMeta> = {
   halkalar: {
-    label: "Halkalar",
+    label: "Yüzükler",
     subtitle: "Sonsuzluğun Sembolü",
     heroSlides: ["/images/web/4 (4).png", "/images/web/9 (2).png"],
     editorialCards: [

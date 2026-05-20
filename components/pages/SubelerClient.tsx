@@ -20,6 +20,7 @@ interface Branch {
   hours: string;
   mapEmbed: string;
   mapDirections: string;
+  image: string;
 }
 
 const HOURS = "Pazartesi – Cumartesi: 09:30 – 18:30 · Pazar: Kapalı";
@@ -40,6 +41,7 @@ const branches: Branch[] = [
       "https://maps.google.com/maps?q=G%C3%BCvenlik+Caddesi+34%2FA+Ayranc%C4%B1+%C3%87ankaya+Ankara&output=embed&hl=tr",
     mapDirections:
       "https://www.google.com/maps/dir/?api=1&destination=G%C3%BCvenlik+Caddesi+34%2FA+Ayranc%C4%B1+%C3%87ankaya+Ankara",
+    image: "/images/ma%C4%9Faza/ONR%20M%C3%BCcevherat.jpeg",
   },
   {
     id: 2,
@@ -55,6 +57,7 @@ const branches: Branch[] = [
       "https://maps.google.com/maps?q=Tunal%C4%B1+Hilmi+Cd.+No:13+%C3%87ankaya+Ankara&output=embed&hl=tr",
     mapDirections:
       "https://www.google.com/maps/dir/?api=1&destination=Tunal%C4%B1+Hilmi+Cd.+13%2F2-3+%C3%87ankaya+Ankara",
+    image: "/images/ma%C4%9Faza/ONR%20M%C3%BCcevherat%20Exclusive.jpg",
   },
   {
     id: 3,
@@ -70,6 +73,7 @@ const branches: Branch[] = [
       "https://maps.google.com/maps?q=G%C3%BCvenlik+Cd.+12%2FC+Ayranc%C4%B1+%C3%87ankaya+Ankara&output=embed&hl=tr",
     mapDirections:
       "https://www.google.com/maps/dir/?api=1&destination=G%C3%BCvenlik+Cd.+12%2FC+Ayranc%C4%B1+%C3%87ankaya+Ankara",
+    image: "/images/ma%C4%9Faza/ONR%20Kuyumculuk%20%26%20M%C3%BCcevherat.jpg",
   },
   {
     id: 4,
@@ -85,6 +89,7 @@ const branches: Branch[] = [
       "https://maps.google.com/maps?q=%C5%9Eile+Meydanı+%C3%9Csk%C3%BCdar+Cad+34980+%C5%9Eile+%C4%B0stanbul&output=embed&hl=tr",
     mapDirections:
       "https://www.google.com/maps/dir/?api=1&destination=%C5%9Eile+Meydanı+%C3%9Csk%C3%BCdar+Cad+34980+%C5%9Eile+%C4%B0stanbul",
+    image: "/images/ma%C4%9Faza/ONR%20Kuyumculuk%20%26%20M%C3%BCcevherat%20%E2%80%94%20%C5%9Eile.jpeg",
   },
 ];
 
@@ -99,7 +104,7 @@ const ease = [0.25, 0.46, 0.45, 0.94] as const;
 /* ─────────────────────────────────────────────
    Boutique Image
 ───────────────────────────────────────────── */
-function BoutiqueImage() {
+function BoutiqueImage({ src, alt }: { src: string; alt: string }) {
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -109,13 +114,12 @@ function BoutiqueImage() {
       className="relative w-full aspect-video overflow-hidden group/img"
     >
       <Image
-        src="/images/ma%C4%9Faza/ma%C4%9Faza.png"
-        alt="ONR Mücevherat mağaza iç görünümü"
+        src={src}
+        alt={alt}
         fill
         sizes="(max-width:1024px) 100vw, 50vw"
-        className="object-cover transition-transform duration-700 ease-out group-hover/img:scale-[1.02]"
+        className="object-cover object-center transition-transform duration-700 ease-out group-hover/img:scale-[1.02]"
       />
-      {/* Subtle top fade for seamless map-to-image transition */}
       <div className="absolute inset-x-0 top-0 h-8 bg-gradient-to-b from-charcoal/10 to-transparent pointer-events-none" />
     </motion.div>
   );
@@ -389,7 +393,7 @@ export default function SubelerClient() {
             </div>
 
             {/* ── Store Image ── */}
-            <BoutiqueImage />
+            <BoutiqueImage src={branch.image} alt={`${branch.name} mağaza görünümü`} />
 
             {/* ── Card Info ── */}
             <div className="p-7 lg:p-8 space-y-6">

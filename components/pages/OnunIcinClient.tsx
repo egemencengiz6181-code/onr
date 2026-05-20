@@ -10,7 +10,7 @@ import PageWrapper from "@/components/ui/PageWrapper";
 import { products } from "@/lib/products";
 
 const womenCategories = ["Kolyeler", "Küpeler", "Bileklikler"];
-const menCategories = ["Halkalar", "Bileklikler"];
+const menCategories = ["Yüzükler", "Bileklikler"];
 
 const womenProducts = products
   .filter((p) => !p.isExclusive && womenCategories.includes(p.category))
@@ -74,7 +74,7 @@ export default function OnunIcinClient() {
       <Navbar />
       <div className="bg-onyx min-h-screen">
       {/* ── Page Header ──────────────────────────────────── */}
-      <div className="text-center pt-24 pb-12 px-8">
+      <div className="text-center pt-[108px] md:pt-[162px] pb-12 px-8">
         <motion.p
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}

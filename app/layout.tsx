@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Cormorant_Garamond, Montserrat } from "next/font/google";
 import "./globals.css";
 import CartDrawer from "@/components/cart/CartDrawer";
+import AuthProvider from "@/components/auth/AuthProvider";
+import AuthModal from "@/components/auth/AuthModal";
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
@@ -39,8 +41,11 @@ export default function RootLayout({
   return (
     <html lang="tr" className={`${cormorant.variable} ${montserrat.variable}`}>
       <body className="font-sans antialiased bg-ivory-100 text-charcoal">
-        {children}
-        <CartDrawer />
+        <AuthProvider>
+          {children}
+          <CartDrawer />
+          <AuthModal />
+        </AuthProvider>
       </body>
     </html>
   );

@@ -7,9 +7,9 @@ import EditorialNewsletter from "./EditorialNewsletter";
 const footerLinks = {
   koleksiyonlar: [
     { label: "Tüm Koleksiyonlar", href: "/koleksiyonlar" },
-    { label: "Yüzükler", href: "/koleksiyonlar" },
-    { label: "Kolyeler", href: "/koleksiyonlar" },
-    { label: "Bileklikler", href: "/koleksiyonlar" },
+    { label: "Yüzükler", href: "/halkalar" },
+    { label: "Kolyeler", href: "/kolyeler" },
+    { label: "Bileklikler", href: "/bileklikler" },
     { label: "Exclusive", href: "/exclusive" },
   ],
   hizmetler: [
@@ -80,7 +80,7 @@ export default function Footer({ hideNewsletter = false }: { hideNewsletter?: bo
               <p className="section-overline text-gold/80 mb-6">{group.title}</p>
               <ul className="space-y-3.5">
                 {group.links.map((link) => (
-                  <li key={link.href}>
+                  <li key={link.label}>
                     <Link
                       href={link.href}
                       className="text-[10px] font-sans font-light text-ivory-100/40
