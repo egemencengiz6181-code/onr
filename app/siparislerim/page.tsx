@@ -12,11 +12,12 @@ import { useAuthStore } from "@/lib/authStore";
 import { useOrderStore, type Order } from "@/lib/orderStore";
 
 const STATUS_LABELS: Record<Order["status"], { label: string; className: string }> = {
-  confirmed: { label: "Onaylandı", className: "text-gold" },
-  processing: { label: "Hazırlanıyor", className: "text-blue-500" },
-  shipped: { label: "Kargoya Verildi", className: "text-purple-500" },
-  delivered: { label: "Teslim Edildi", className: "text-green-600" },
-  cancelled: { label: "İptal Edildi", className: "text-red-500" },
+  pending:    { label: "Beklemede",      className: "text-yellow-600" },
+  confirmed:  { label: "Onaylandı",      className: "text-gold" },
+  processing: { label: "Hazırlanıyor",   className: "text-blue-500" },
+  shipped:    { label: "Kargoya Verildi",className: "text-purple-500" },
+  delivered:  { label: "Teslim Edildi",  className: "text-green-600" },
+  cancelled:  { label: "İptal Edildi",   className: "text-red-500" },
 };
 
 export default function SiparislerimPage() {
