@@ -1,12 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { useAuthStore } from "@/lib/authStore";
 
-export default function AdminLoginPage() {
+function AdminLoginInner() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { setUser, setSession } = useAuthStore();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -22,23 +23,13 @@ export default function AdminLoginPage() {
   const [updateSuccess, setUpdateSuccess] = useState(false);
 
   useEffect(() => {
-    const hash = window.location.hash.substring(1);
-    const params = new URLSearchParams(hash);
-    if (params.get("type") === "recovery") {
-      const accessToken = params.get("access_token");
-      const refreshToken = params.get("refresh_token");
-      if (accessToken && refreshToken) {
-        const supabase = createClient();
-        supabase.auth
-          .setSession({ access_token: accessToken, refresh_token: refreshToken })
-          .then(() => setIsRecovery(true))
-          .catch(() => setError("Şifre sıfırlama linki geçersiz veya süresi dolmuş."));
-      } else {
-        setError("Şifre sıfırlama linki geçersiz veya süresi dolmuş.");
-      }
+    // PKCE flow: callback redirects here with ?recovery=true after code exchange
+    if (searchParams.get("recovery") === "true") {
+      setIsRecovery(true);
+      // Clean up query param from URL
       window.history.replaceState(null, "", window.location.pathname);
     }
-  }, []);
+  }, [searchParams]);
 
   const handleUpdatePassword = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -82,7 +73,7 @@ export default function AdminLoginPage() {
     setError("");
     const supabase = createClient();
     const { error: resetError } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/admin/login`,
+      redirectTo: `${window.location.origin}/auth/callback?type=recovery`,
     });
     setResetLoading(false);
     if (resetError) { setError("Mail gönderilemedi: " + resetError.message); return; }
@@ -193,5 +184,13 @@ export default function AdminLoginPage() {
         </p>
       </div>
     </div>
+  );
+}
+
+export default function AdminLoginPage() {
+  return (
+    <Suspense>
+      <AdminLoginInner />
+    </Suspense>
   );
 }

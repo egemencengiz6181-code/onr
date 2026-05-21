@@ -11,9 +11,9 @@ export async function GET(request: Request) {
     const supabase = await createClient();
     const { error } = await supabase.auth.exchangeCodeForSession(code);
     if (!error) {
-      // Password recovery → go to admin login so user can sign in with new password
+      // Password recovery → redirect to admin login with recovery flag
       if (type === "recovery") {
-        return NextResponse.redirect(`${origin}/admin/login`);
+        return NextResponse.redirect(`${origin}/admin/login?recovery=true`);
       }
       return NextResponse.redirect(`${origin}${next}`);
     }
