@@ -59,7 +59,7 @@ const branches: Branch[] = [
       "https://maps.google.com/maps?q=Tunal%C4%B1+Hilmi+Cd.+No:13+%C3%87ankaya+Ankara&output=embed&hl=tr",
     mapDirections:
       "https://www.google.com/maps/dir/?api=1&destination=Tunal%C4%B1+Hilmi+Cd.+13%2F2-3+%C3%87ankaya+Ankara",
-    image: "/images/ma%C4%9Faza/ONR%20Mu%CC%88cevherat%20Exclusive.png",
+    image: "/images/ma%C4%9Faza/ONR%20M%C3%BCcevherat%20Exclusive.png",
   },
   {
     id: 3,
