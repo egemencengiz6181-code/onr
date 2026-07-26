@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import HediyeSeciciClient from "@/components/pages/HediyeSeciciClient";
+import { getAllPublishedProductsFromDB } from "@/lib/supabase/products";
 
 export const metadata: Metadata = {
   title: "Mücevher Hediye Seçici — Kişisel Danışman",
@@ -29,6 +30,9 @@ export const metadata: Metadata = {
   },
 };
 
-export default function HediyeSeciciPage() {
-  return <HediyeSeciciClient />;
+export const revalidate = 60;
+
+export default async function HediyeSeciciPage() {
+  const products = await getAllPublishedProductsFromDB();
+  return <HediyeSeciciClient initialProducts={products} />;
 }

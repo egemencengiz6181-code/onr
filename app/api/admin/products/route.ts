@@ -11,14 +11,37 @@ async function verifyAdmin() {
   return user;
 }
 
-export async function GET() {
+/** Liste tablosunun gerçekten gösterdiği kolonlar. description / specs gibi
+ *  ağır alanları çekmemek listeyi onlarca kat küçültüyor. */
+const LIST_COLUMNS =
+  "id, name, category, sku, price, stock_count, is_published, images, created_at";
+
+export async function GET(request: Request) {
   const user = await verifyAdmin();
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
+  const { searchParams } = new URL(request.url);
+  const id = searchParams.get("id");
+  const view = searchParams.get("view");
+
   const admin = await createAdminClient();
+
+  // Tek ürün — düzenleme sayfası tüm katalogu indirmek zorunda kalmasın.
+  if (id) {
+    const { data, error } = await admin
+      .from("products")
+      .select("*")
+      .eq("id", id)
+      .maybeSingle();
+
+    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (!data) return NextResponse.json({ error: "Ürün bulunamadı" }, { status: 404 });
+    return NextResponse.json(data);
+  }
+
   const { data, error } = await admin
     .from("products")
-    .select("*")
+    .select(view === "list" ? LIST_COLUMNS : "*")
     .order("created_at", { ascending: false });
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });

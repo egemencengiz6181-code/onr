@@ -1,21 +1,20 @@
 "use client";
 
-import { useRef } from "react";
+import { useMemo, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, useInView } from "framer-motion";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import PageWrapper from "@/components/ui/PageWrapper";
-import { products } from "@/lib/products";
-
-const newProducts = products.filter((p) => p.isNew && !p.isExclusive);
+import { products as staticProducts } from "@/lib/products";
+import type { Product } from "@/lib/types";
 
 function EditorialCard({
   product,
   index,
 }: {
-  product: (typeof newProducts)[0];
+  product: Product;
   index: number;
 }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -126,8 +125,16 @@ function EditorialCard({
   );
 }
 
-export default function YeniTasarimlarClient() {
+export default function YeniTasarimlarClient({ initialProducts }: { initialProducts?: Product[] }) {
   const heroRef = useRef<HTMLDivElement>(null);
+
+  // DB'den gelen "Yeni Tasarım" işaretli ürünler önceliklidir;
+  // DB boşsa statik katalog gösterilir.
+  const newProducts = useMemo(
+    () => (initialProducts?.length ? initialProducts : staticProducts.filter((p) => p.isNew))
+      .filter((p) => !p.isExclusive),
+    [initialProducts]
+  );
 
   return (
     <PageWrapper>

@@ -2,6 +2,10 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
+    // AVIF/WebP — ürün fotoğraflarında JPEG'e göre belirgin kazanç.
+    formats: ["image/avif", "image/webp"],
+    // Optimize edilmiş varyantlar 1 yıl cache'lensin; dosya adları benzersiz.
+    minimumCacheTTL: 31536000,
     remotePatterns: [
       {
         protocol: "https",

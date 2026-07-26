@@ -26,7 +26,8 @@ export default function AdminUrunlerPage() {
 
   const load = useCallback(async () => {
     setLoading(true);
-    const res = await fetch("/api/admin/products");
+    // view=list → sadece tabloda görünen kolonlar gelir, açıklama/spec alanları değil.
+    const res = await fetch("/api/admin/products?view=list");
     if (res.ok) setProducts(await res.json());
     setLoading(false);
   }, []);

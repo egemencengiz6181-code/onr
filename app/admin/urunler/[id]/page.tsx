@@ -2,8 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { useRouter, useParams } from "next/navigation";
-import Image from "next/image";
-import { createClient } from "@/lib/supabase/client";
+import ImageUploader from "@/components/admin/ImageUploader";
 
 const CATEGORY_GROUPS = [
   {
@@ -217,10 +216,10 @@ export default function ProductFormPage() {
 
   const load = useCallback(async () => {
     if (isNew) { setLoaded(true); return; }
-    const res = await fetch("/api/admin/products");
+    // Tek ürün çeker — eskiden tüm katalog inip client'ta find ediliyordu.
+    const res = await fetch(`/api/admin/products?id=${encodeURIComponent(id!)}`);
     if (res.ok) {
-      const products = await res.json();
-      const p = products.find((x: { id: string }) => x.id === id);
+      const p = await res.json();
       if (p) {
         setForm({
           name: p.name ?? "",
@@ -261,36 +260,26 @@ export default function ProductFormPage() {
   // Auto category_slug + auto bebek tag from category
   const handleCategoryChange = (category: string) => {
     const autoTag = CATEGORY_AUTO_TAGS[category];
+    const categorySlug = CATEGORY_SLUG_MAP[category] ?? slugify(category);
     setForm((f) => {
       const tagArr = f.tags.split(",").map((s) => s.trim()).filter((t) => t && !BEBEK_TAGS.includes(t));
       if (autoTag) tagArr.push(autoTag);
       return {
         ...f,
         category,
-        category_slug: CATEGORY_SLUG_MAP[category] ?? slugify(category),
+        category_slug: categorySlug,
         tags: tagArr.join(", "),
+        // Exclusive koleksiyon sayfası kategoriye değil bu bayrağa bakıyor;
+        // kategori seçilip bayrak unutulursa ürün hiçbir yerde görünmezdi.
+        is_exclusive: categorySlug === "exclusive" ? true : f.is_exclusive,
       };
     });
   };
 
-  const handleImageUpload = async (idx: number, file: File) => {
-    setUploading(true);
-    setError("");
-    try {
-      const supabase = createClient();
-      const ext = file.name.split(".").pop();
-      const path = `${slugify(form.name || "product")}-${Date.now()}-${idx}.${ext}`;
-      const { error: uploadErr } = await supabase.storage.from("product-images").upload(path, file, { upsert: true });
-      if (uploadErr) throw new Error(uploadErr.message);
-      const { data: { publicUrl } } = supabase.storage.from("product-images").getPublicUrl(path);
-      const newImages = form.images.map((img, i) => i === idx ? { ...img, src: publicUrl } : img);
-      set("images", newImages);
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "Yükleme başarısız");
-    } finally {
-      setUploading(false);
-    }
-  };
+  const handleImagesChange = useCallback(
+    (images: ImageRow[]) => setForm((f) => ({ ...f, images })),
+    []
+  );
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -362,7 +351,7 @@ export default function ProductFormPage() {
             Vazgeç
           </button>
           <button type="submit" disabled={saving || uploading} className="px-6 py-2.5 text-sm font-sans bg-[#C9A84C] text-white rounded hover:bg-[#B8965A] transition-colors disabled:opacity-60">
-            {saving ? "Kaydediliyor..." : "Kaydet"}
+            {uploading ? "Görsel yükleniyor..." : saving ? "Kaydediliyor..." : "Kaydet"}
           </button>
         </div>
       </div>
@@ -419,42 +408,16 @@ export default function ProductFormPage() {
 
           {/* Images */}
           <div className="bg-white rounded-lg p-6">
-            <h2 className="font-sans font-medium text-gray-700 mb-5 text-sm">Görseller</h2>
-            <div className="space-y-4">
-              {form.images.map((img, i) => (
-                <div key={i} className="flex gap-3 items-start">
-                  {/* Preview */}
-                  <div className="relative w-14 h-16 bg-gray-100 rounded overflow-hidden shrink-0">
-                    {img.src ? (
-                      <Image src={img.src} alt={img.alt || "preview"} fill sizes="56px" className="object-cover" />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center text-gray-300 text-xs">?</div>
-                    )}
-                  </div>
-                  <div className="flex-1 space-y-2">
-                    <div className="flex gap-2">
-                      <input value={img.src} onChange={(e) => set("images", form.images.map((x, j) => j === i ? { ...x, src: e.target.value } : x))} placeholder="Görsel URL veya yükle" className={`${inputClass} flex-1`} />
-                      <label className="shrink-0 cursor-pointer bg-gray-100 hover:bg-gray-200 transition-colors rounded px-3 py-2.5 text-xs font-sans text-gray-600 flex items-center gap-1.5">
-                        {uploading ? "..." : (
-                          <>
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="16 16 12 12 8 16" /><line x1="12" y1="12" x2="12" y2="21" /><path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3" /></svg>
-                            Yükle
-                          </>
-                        )}
-                        <input type="file" accept="image/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) handleImageUpload(i, f); }} />
-                      </label>
-                    </div>
-                    <input value={img.alt} onChange={(e) => set("images", form.images.map((x, j) => j === i ? { ...x, alt: e.target.value } : x))} placeholder="Alt metin (erişilebilirlik)" className={inputClass} />
-                  </div>
-                  <button type="button" onClick={() => set("images", form.images.filter((_, j) => j !== i))} className="text-red-400 hover:text-red-600 pt-2">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
-                  </button>
-                </div>
-              ))}
-              <button type="button" onClick={() => set("images", [...form.images, { src: "", alt: "" }])} className="text-xs font-sans text-[#C9A84C] hover:underline">
-                + Görsel ekle
-              </button>
+            <div className="flex items-baseline justify-between mb-5">
+              <h2 className="font-sans font-medium text-gray-700 text-sm">Görseller</h2>
+              <p className="text-[11px] font-sans text-gray-400">İlk görsel kapak olarak kullanılır</p>
             </div>
+            <ImageUploader
+              value={form.images}
+              onChange={handleImagesChange}
+              namePrefix={slugify(form.name || "urun")}
+              onBusyChange={setUploading}
+            />
           </div>
 
           {/* Specs */}

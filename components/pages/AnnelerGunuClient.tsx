@@ -2,7 +2,8 @@
 
 import { useMemo } from "react";
 import { motion } from "framer-motion";
-import { products } from "@/lib/products";
+import { products as staticProducts } from "@/lib/products";
+import type { Product } from "@/lib/types";
 import ProductCard from "@/components/product/ProductCard";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
@@ -18,12 +19,17 @@ const MOTHERS_DAY_IDS = [
   "k-013", // Emerald Eternal Verdant Luxe
 ];
 
-export default function AnnelerGunuClient() {
-  const mothersDayProducts = useMemo(() =>
-    MOTHERS_DAY_IDS
-      .map((id) => products.find((p) => p.id === id))
-      .filter(Boolean) as typeof products,
-    []
+export default function AnnelerGunuClient({ initialProducts }: { initialProducts?: Product[] }) {
+  // Admin'de "Anneler Günü" işaretlenen ürünler önceliklidir;
+  // hiç işaretli ürün yoksa aşağıdaki statik seçki gösterilir.
+  const mothersDayProducts = useMemo(
+    () =>
+      initialProducts?.length
+        ? initialProducts
+        : (MOTHERS_DAY_IDS.map((id) => staticProducts.find((p) => p.id === id)).filter(
+            Boolean
+          ) as Product[]),
+    [initialProducts]
   );
 
   return (

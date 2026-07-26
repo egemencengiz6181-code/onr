@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import AnnelerGunuClient from "@/components/pages/AnnelerGunuClient";
+import { getMothersDayProductsFromDB } from "@/lib/supabase/products";
 
 export const metadata: Metadata = {
   title: "Anneler Günü Özel Koleksiyonu — Pırlanta & Altın Hediye",
@@ -29,6 +30,9 @@ export const metadata: Metadata = {
   },
 };
 
-export default function AnnelerGunuPage() {
-  return <AnnelerGunuClient />;
+export const revalidate = 60;
+
+export default async function AnnelerGunuPage() {
+  const products = await getMothersDayProductsFromDB();
+  return <AnnelerGunuClient initialProducts={products} />;
 }

@@ -24,6 +24,8 @@ interface Branch {
 }
 
 const HOURS = "Pazartesi – Cumartesi: 09:30 – 18:30 · Pazar: Kapalı";
+/** Exclusive şubesi pazar günü de açık. */
+const HOURS_EXCLUSIVE = "Pazartesi – Cumartesi: 09:30 – 18:30 · Pazar: 13:30 – 18:00";
 const EMAIL = "info@onrmucevherat.com";
 
 const branches: Branch[] = [
@@ -52,12 +54,12 @@ const branches: Branch[] = [
     whatsapp: "+90 (507) 626 46 66",
     whatsappRaw: "905076264666",
     email: EMAIL,
-    hours: HOURS,
+    hours: HOURS_EXCLUSIVE,
     mapEmbed:
       "https://maps.google.com/maps?q=Tunal%C4%B1+Hilmi+Cd.+No:13+%C3%87ankaya+Ankara&output=embed&hl=tr",
     mapDirections:
       "https://www.google.com/maps/dir/?api=1&destination=Tunal%C4%B1+Hilmi+Cd.+13%2F2-3+%C3%87ankaya+Ankara",
-    image: "/images/ma%C4%9Faza/ONR%20M%C3%BCcevherat%20Exclusive.jpg",
+    image: "/images/ma%C4%9Faza/ONR%20Mu%CC%88cevherat%20Exclusive.png",
   },
   {
     id: 3,

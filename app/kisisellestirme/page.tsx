@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import KisisellestirmeClient from "@/components/pages/KisisellestirmeClient";
+import { getAllPublishedProductsFromDB } from "@/lib/supabase/products";
 
 export const metadata: Metadata = {
   title: "Mücevher Kişiselleştirme — Gravür & Özel Tasarım",
@@ -29,6 +30,9 @@ export const metadata: Metadata = {
   },
 };
 
-export default function KisisellestirmePage() {
-  return <KisisellestirmeClient />;
+export const revalidate = 60;
+
+export default async function KisisellestirmePage() {
+  const products = await getAllPublishedProductsFromDB();
+  return <KisisellestirmeClient initialProducts={products} />;
 }

@@ -35,17 +35,16 @@ export default function AdminDashboard() {
   useEffect(() => {
     async function load() {
       try {
-        const [ordersRes, customersRes, productsRes] = await Promise.all([
-          fetch("/api/admin/orders"),
-          fetch("/api/admin/customers"),
-          fetch("/api/admin/products"),
-        ]);
-        const orders: RecentOrder[] = ordersRes.ok ? await ordersRes.json() : [];
-        const customers: unknown[] = customersRes.ok ? await customersRes.json() : [];
-        const products: unknown[] = productsRes.ok ? await productsRes.json() : [];
-        const revenue = orders.reduce((s, o) => s + (o.total ?? 0), 0);
-        setStats({ products: products.length, orders: orders.length, customers: customers.length, revenue });
-        setRecentOrders(orders.slice(0, 8));
+        const res = await fetch("/api/admin/stats");
+        if (!res.ok) return;
+        const data = await res.json();
+        setStats({
+          products: data.products,
+          orders: data.orders,
+          customers: data.customers,
+          revenue: data.revenue,
+        });
+        setRecentOrders(data.recentOrders ?? []);
       } finally {
         setLoading(false);
       }

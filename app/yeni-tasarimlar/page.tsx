@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import YeniTasarimlarClient from "@/components/pages/YeniTasarimlarClient";
+import { getNewProductsFromDB } from "@/lib/supabase/products";
 
 export const metadata: Metadata = {
   title: "En Yeni Mücevher Tasarımları 2026 — Sınırlı Koleksiyon",
@@ -28,6 +29,9 @@ export const metadata: Metadata = {
   },
 };
 
-export default function YeniTasarimlarPage() {
-  return <YeniTasarimlarClient />;
+export const revalidate = 60;
+
+export default async function YeniTasarimlarPage() {
+  const products = await getNewProductsFromDB();
+  return <YeniTasarimlarClient initialProducts={products} />;
 }

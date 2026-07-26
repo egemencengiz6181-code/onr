@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import OnunIcinClient from "@/components/pages/OnunIcinClient";
+import { getAllPublishedProductsFromDB } from "@/lib/supabase/products";
 
 export const metadata: Metadata = {
   title: "Onun İçin Mücevher Hediyesi — Sevgiliye Özel",
@@ -29,6 +30,9 @@ export const metadata: Metadata = {
   },
 };
 
-export default function OnunIcinPage() {
-  return <OnunIcinClient />;
+export const revalidate = 60;
+
+export default async function OnunIcinPage() {
+  const products = await getAllPublishedProductsFromDB();
+  return <OnunIcinClient initialProducts={products} />;
 }

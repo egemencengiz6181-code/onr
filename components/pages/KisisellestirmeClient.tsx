@@ -1,13 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import PageWrapper from "@/components/ui/PageWrapper";
-import { products } from "@/lib/products";
+import { products as staticProducts } from "@/lib/products";
+import type { Product } from "@/lib/types";
 
 const ease = [0.25, 0.46, 0.45, 0.94] as const;
 
@@ -18,7 +19,6 @@ const fonts = [
   { name: "Antika Block", sample: "SONSUZLUK", class: "font-serif font-light text-3xl tracking-[0.25em]" },
 ];
 
-const personalizable = products.filter((p) => !p.isExclusive).slice(0, 4);
 
 const steps = [
   { num: "01", title: "Ürünü Seçin", desc: "Gravür veya kişiselleştirme istediğiniz parçayı belirleyin." },
@@ -26,7 +26,14 @@ const steps = [
   { num: "03", title: "Onay & Üretim", desc: "Uzmanımız sizinle iletişime geçer, 10-15 iş gününde teslim." },
 ];
 
-export default function KisisellestirmeClient() {
+export default function KisisellestirmeClient({ initialProducts }: { initialProducts?: Product[] }) {
+  const personalizable = useMemo(
+    () => (initialProducts?.length ? initialProducts : staticProducts)
+      .filter((p) => !p.isExclusive)
+      .slice(0, 4),
+    [initialProducts]
+  );
+
   const [activeFont, setActiveFont] = useState(0);
   const [formData, setFormData] = useState({ name: "", email: "", phone: "", product: "", text: "", note: "" });
   const [sent, setSent] = useState(false);

@@ -1,4 +1,4 @@
-import { createClient } from "./server";
+import { createPublicClient } from "./public";
 import type { Product } from "@/lib/types";
 
 // ── Supabase row shape ────────────────────────────────────────────
@@ -65,7 +65,7 @@ export function mapDbToProduct(row: SupabaseProduct): Product {
 // ── Fetch all published products (optionally by category) ─────────
 export async function getProductsFromDB(categorySlug?: string): Promise<Product[]> {
   try {
-    const supabase = await createClient();
+    const supabase = createPublicClient();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let query: any = supabase
       .from("products")
@@ -88,7 +88,7 @@ export async function getProductsFromDB(categorySlug?: string): Promise<Product[
 // ── Fetch single published product by slug ────────────────────────
 export async function getProductBySlugFromDB(slug: string): Promise<Product | null> {
   try {
-    const supabase = await createClient();
+    const supabase = createPublicClient();
     const { data, error } = await supabase
       .from("products")
       .select("*")
@@ -105,7 +105,7 @@ export async function getProductBySlugFromDB(slug: string): Promise<Product | nu
 // ── Fetch all published exclusive products ────────────────────────
 export async function getExclusiveProductsFromDB(): Promise<Product[]> {
   try {
-    const supabase = await createClient();
+    const supabase = createPublicClient();
     const { data, error } = await supabase
       .from("products")
       .select("*")
@@ -119,10 +119,68 @@ export async function getExclusiveProductsFromDB(): Promise<Product[]> {
   }
 }
 
+// ── Fetch every published product ─────────────────────────────────
+export async function getAllPublishedProductsFromDB(): Promise<Product[]> {
+  try {
+    const supabase = createPublicClient();
+    const { data, error } = await supabase
+      .from("products")
+      .select("*")
+      .eq("is_published", true)
+      .order("created_at", { ascending: false });
+    if (error || !data) return [];
+    return (data as SupabaseProduct[]).map(mapDbToProduct);
+  } catch {
+    return [];
+  }
+}
+
+// ── Published products carrying a boolean flag (is_new, is_mothers_day…) ──
+async function getFlaggedProductsFromDB(
+  column: "is_new" | "is_mothers_day"
+): Promise<Product[]> {
+  try {
+    const supabase = createPublicClient();
+    const { data, error } = await supabase
+      .from("products")
+      .select("*")
+      .eq("is_published", true)
+      .eq(column, true)
+      .order("created_at", { ascending: false });
+    if (error || !data) return [];
+    return (data as SupabaseProduct[]).map(mapDbToProduct);
+  } catch {
+    return [];
+  }
+}
+
+/** Admin'deki "Yeni Tasarım" anahtarı → /yeni-tasarimlar */
+export const getNewProductsFromDB = () => getFlaggedProductsFromDB("is_new");
+
+/** Admin'deki "Anneler Günü" anahtarı → /anneler-gunu */
+export const getMothersDayProductsFromDB = () => getFlaggedProductsFromDB("is_mothers_day");
+
+// ── Fetch all published bebek-ozel products ───────────────────────
+export async function getBebekOzelProductsFromDB(): Promise<Product[]> {
+  try {
+    const supabase = createPublicClient();
+    const { data, error } = await supabase
+      .from("products")
+      .select("*")
+      .eq("is_published", true)
+      .eq("category_slug", "bebek-ozel")
+      .order("created_at", { ascending: false });
+    if (error || !data) return [];
+    return (data as SupabaseProduct[]).map(mapDbToProduct);
+  } catch {
+    return [];
+  }
+}
+
 // ── Fetch published bebek-ozel products filtered by sub-tag ───────
 export async function getBebekOzelSubProductsFromDB(subTag: string): Promise<Product[]> {
   try {
-    const supabase = await createClient();
+    const supabase = createPublicClient();
     const { data, error } = await supabase
       .from("products")
       .select("*")

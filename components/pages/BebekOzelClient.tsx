@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useMemo, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useInView } from "framer-motion";
@@ -8,7 +8,8 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import PageWrapper from "@/components/ui/PageWrapper";
 import ProductCard from "@/components/product/ProductCard";
-import { products } from "@/lib/products";
+import { products as staticProducts } from "@/lib/products";
+import type { Product } from "@/lib/types";
 
 /* ── Palette ─────────────────────────────────────────────────── */
 const BABY_BLUE = "#CFDFEF";
@@ -63,15 +64,21 @@ const CATEGORIES = [
 
 const ease = [0.25, 0.46, 0.45, 0.94] as const;
 
-/* ── Baby products ───────────────────────────────────────────── */
-const babyProducts = products.filter(
-  (p) =>
-    p.tags?.some((t) => t.toLowerCase().includes("bebek")) ||
-    p.categorySlug === "bebek-ozel"
-);
-
 /* ── Component ───────────────────────────────────────────────── */
-export default function BebekOzelClient() {
+export default function BebekOzelClient({ initialProducts }: { initialProducts?: Product[] }) {
+  // DB'deki bebek-ozel ürünleri önceliklidir; boşsa statik katalog.
+  const babyProducts = useMemo(
+    () =>
+      initialProducts?.length
+        ? initialProducts
+        : staticProducts.filter(
+            (p) =>
+              p.tags?.some((t) => t.toLowerCase().includes("bebek")) ||
+              p.categorySlug === "bebek-ozel"
+          ),
+    [initialProducts]
+  );
+
   const heroRef = useRef<HTMLDivElement>(null);
   const heroInView = useInView(heroRef, { once: true });
 

@@ -7,7 +7,7 @@ import Image from "next/image";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import PageWrapper from "@/components/ui/PageWrapper";
-import { products } from "@/lib/products";
+import { products as staticProducts } from "@/lib/products";
 import type { Product } from "@/lib/types";
 
 const ease = [0.25, 0.46, 0.45, 0.94] as const;
@@ -52,7 +52,7 @@ const steps = [
   },
 ];
 
-function getRecommendations(answers: Record<string, string>): Product[] {
+function getRecommendations(answers: Record<string, string>, catalog: Product[]): Product[] {
   const tagScores: Record<string, number> = {};
   steps.forEach((step) => {
     const chosen = step.options.find((o) => o.value === answers[step.id]);
@@ -60,7 +60,7 @@ function getRecommendations(answers: Record<string, string>): Product[] {
       chosen.tags.forEach((t) => { tagScores[t] = (tagScores[t] ?? 0) + 1; });
     }
   });
-  const scored = products
+  const scored = catalog
     .filter((p) => !p.isExclusive)
     .map((p) => ({ p, score: tagScores[p.category] ?? 0 }))
     .sort((a, b) => b.score - a.score || (b.p.isNew ? 1 : 0) - (a.p.isNew ? 1 : 0));
@@ -147,7 +147,8 @@ function ResultCard({ product }: { product: Product }) {
 }
 
 /* ── Main Component ────────────────────────────────────────────── */
-export default function HediyeSeciciClient() {
+export default function HediyeSeciciClient({ initialProducts }: { initialProducts?: Product[] }) {
+  const catalog = initialProducts?.length ? initialProducts : staticProducts;
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [showResults, setShowResults] = useState(false);
@@ -172,7 +173,7 @@ export default function HediyeSeciciClient() {
     setShowResults(false);
   };
 
-  const recommendations = showResults ? getRecommendations(answers) : [];
+  const recommendations = showResults ? getRecommendations(answers, catalog) : [];
 
   return (
     <PageWrapper>

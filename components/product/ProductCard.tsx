@@ -41,17 +41,28 @@ export default function ProductCard({
       >
         {/* ── Image ── */}
         <div className={`relative ${aspectClass} overflow-hidden bg-ivory-200`}>
-          {/* Primary image */}
-          <Image
-            src={product.images[0].src}
-            alt={product.images[0].alt}
-            fill
-            sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 33vw"
-            className={`object-cover object-center transition-all duration-[1200ms]
-              ease-[cubic-bezier(0.25,0.46,0.45,0.94)]
-              ${activeImg === 1 && product.images[1] ? "opacity-0" : "opacity-100"}
-              group-hover:scale-105`}
-          />
+          {/* Primary image — görselsiz kaydedilmiş bir ürün sayfayı
+              düşürmesin diye boş dizi durumu ayrıca ele alınıyor. */}
+          {product.images[0] ? (
+            <Image
+              src={product.images[0].src}
+              alt={product.images[0].alt || product.name}
+              fill
+              sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 33vw"
+              className={`object-cover object-center transition-all duration-[1200ms]
+                ease-[cubic-bezier(0.25,0.46,0.45,0.94)]
+                ${activeImg === 1 && product.images[1] ? "opacity-0" : "opacity-100"}
+                group-hover:scale-105`}
+            />
+          ) : (
+            <div className="absolute inset-0 flex items-center justify-center text-charcoal-lighter/40">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2">
+                <rect x="3" y="3" width="18" height="18" rx="2" />
+                <circle cx="8.5" cy="8.5" r="1.5" />
+                <polyline points="21 15 16 10 5 21" />
+              </svg>
+            </div>
+          )}
           {/* Second image (hover) */}
           {product.images[1] && (
             <Image

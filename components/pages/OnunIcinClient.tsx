@@ -1,31 +1,36 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import PageWrapper from "@/components/ui/PageWrapper";
-import { products } from "@/lib/products";
+import { products as staticProducts } from "@/lib/products";
+import type { Product } from "@/lib/types";
 
 const womenCategories = ["Kolyeler", "Küpeler", "Bileklikler"];
 const menCategories = ["Yüzükler", "Bileklikler"];
 
-const womenProducts = products
-  .filter((p) => !p.isExclusive && womenCategories.includes(p.category))
-  .slice(0, 3);
-
-const menProducts = products
-  .filter((p) => !p.isExclusive && menCategories.includes(p.category))
-  .slice(0, 3);
+/** DB ürünlerinde admin'in seçtiği "Cinsiyet" alanına göre ayırır.
+ *  Statik katalogda bu alan olmadığı için kategori etiketine düşer. */
+function pickBySide(list: Product[], side: "Kadın" | "Erkek", fallbackCategories: string[]) {
+  const byGender = list.filter(
+    (p) => !p.isExclusive && (p.gender ?? []).some((g) => g === side || g === "Unisex")
+  );
+  const source = byGender.length
+    ? byGender
+    : list.filter((p) => !p.isExclusive && fallbackCategories.includes(p.category));
+  return source.slice(0, 3);
+}
 
 type Side = "women" | "men" | null;
 
 function ProductRow({
   product,
 }: {
-  product: (typeof womenProducts)[0];
+  product: Product;
 }) {
   return (
     <Link
@@ -66,8 +71,12 @@ function ProductRow({
   );
 }
 
-export default function OnunIcinClient() {
+export default function OnunIcinClient({ initialProducts }: { initialProducts?: Product[] }) {
   const [hovered, setHovered] = useState<Side>(null);
+
+  const source = initialProducts?.length ? initialProducts : staticProducts;
+  const womenProducts = useMemo(() => pickBySide(source, "Kadın", womenCategories), [source]);
+  const menProducts = useMemo(() => pickBySide(source, "Erkek", menCategories), [source]);
 
   return (
     <PageWrapper>
