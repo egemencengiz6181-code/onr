@@ -10,6 +10,7 @@ const VALID_SLUGS = [
   "kupeler",
   "halkalar",
   "setler",
+  "tespihler",
   "bebek-ozel",
 ] as const;
 

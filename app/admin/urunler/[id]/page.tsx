@@ -24,6 +24,7 @@ const CATEGORY_GROUPS = [
       { label: "Altın Gerdanlık", slug: "altin-kolyeler" },
       { label: "Altın Set",       slug: "altin-setler" },
       { label: "Altın Piercing",  slug: "altin-kupeler" },
+      { label: "Altın Tespih",    slug: "altin-tespihler" },
     ],
   },
   {

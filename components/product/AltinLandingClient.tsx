@@ -83,6 +83,14 @@ const COLLECTIONS = [
     aspect: "aspect-[3/4]",
   },
   {
+    href: "/altin/tespihler",
+    label: "Tespih",
+    subtitle: "Sabrın Altını",
+    image: "/images/web/1 (3).png",
+    span: "col-span-1",
+    aspect: "aspect-[3/4]",
+  },
+  {
     href: "/koleksiyonlar/bebek-ozel",
     label: "Bebek Özel",
     subtitle: "En Masum Armağan",

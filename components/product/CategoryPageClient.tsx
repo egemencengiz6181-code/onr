@@ -191,6 +191,20 @@ const CATEGORY_META: Record<string, CategoryMeta> = {
       { src: "https://images.unsplash.com/photo-1611107683227-e9060eccd846?w=1200&q=90&fit=crop&crop=center", alt: "Altın Hediye", title: "Altın Hediye" },
     ],
   },
+  "altin-tespihler": {
+    label: "Altın Tespih",
+    subtitle: "Sabrın Altını",
+    description: "22K ve 18K altın tespih koleksiyonu. Usta işçilikle hazırlanan, nesilden nesile aktarılacak tespihler.",
+    heroSlides: [
+      { src: "https://images.unsplash.com/photo-1543294001-f7cd5d7fb516?w=1600&q=90&fit=crop&crop=center", alt: "Altın Tespih" },
+      { src: "https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=1600&q=90&fit=crop&crop=center", alt: "Altın Tespih Detay" },
+      { src: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=1600&q=90&fit=crop&crop=center", alt: "Altın Tespih Koleksiyonu" },
+    ],
+    editorialImages: [
+      { src: "https://images.unsplash.com/photo-1611107683227-e9060eccd846?w=1200&q=90&fit=crop&crop=center", alt: "Altın İşçilik", title: "Usta İşçiliği" },
+      { src: "https://images.unsplash.com/photo-1602751584552-8ba73aad10e1?w=1200&q=90&fit=crop&crop=center", alt: "Altın Detay", title: "Saf Altın" },
+    ],
+  },
   "bebek-ozel": {
     label: "Bebek Özel",
     subtitle: "Minik Ellere Büyük Sevgi",
