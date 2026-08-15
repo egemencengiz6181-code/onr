@@ -15,6 +15,9 @@ interface Product {
   is_published: boolean;
   images: { src: string; alt: string }[];
   created_at: string;
+  price_by_milyem?: boolean;
+  gram?: number | null;
+  milyem?: number | null;
 }
 
 export default function AdminUrunlerPage() {
@@ -135,7 +138,17 @@ export default function AdminUrunlerPage() {
                     </td>
                     <td className="px-5 py-3 text-gray-500 whitespace-nowrap">{product.category}</td>
                     <td className="px-5 py-3 font-mono text-xs text-gray-400">{product.sku ?? "—"}</td>
-                    <td className="px-5 py-3 font-medium text-gray-700 whitespace-nowrap">₺{product.price?.toLocaleString("tr-TR")}</td>
+                    <td className="px-5 py-3 whitespace-nowrap">
+                      <span className="font-medium text-gray-700">₺{product.price?.toLocaleString("tr-TR")}</span>
+                      {product.price_by_milyem && (
+                        <span
+                          className="block text-[10px] text-[#C9A84C]"
+                          title="Fiyat gram altına göre otomatik güncelleniyor"
+                        >
+                          {product.gram ?? "?"} gr · {product.milyem ?? "?"} milyem
+                        </span>
+                      )}
+                    </td>
                     <td className="px-5 py-3">
                       <span className={`text-xs font-medium ${product.stock_count > 0 ? "text-green-600" : "text-red-500"}`}>
                         {product.stock_count}

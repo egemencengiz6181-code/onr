@@ -3,6 +3,13 @@
 import { useEffect, useState, useCallback } from "react";
 import { useRouter, useParams } from "next/navigation";
 import ImageUploader from "@/components/admin/ImageUploader";
+import {
+  computeMilyemPrice,
+  effectiveRate,
+  formatTRY,
+  resolveTierRate,
+  type GoldSettings,
+} from "@/lib/goldPricing";
 
 const CATEGORY_GROUPS = [
   {
@@ -121,6 +128,9 @@ interface ProductForm {
   category_slug: string;
   sku: string;
   price: string;
+  price_by_milyem: boolean;
+  gram: string;
+  milyem: string;
   original_price: string;
   short_description: string;
   description: string;
@@ -145,7 +155,8 @@ const CATEGORY_SLUG_MAP: Record<string, string> = Object.fromEntries(
 
 const empty: ProductForm = {
   name: "", slug: "", category: "Altın Kolye", category_slug: "altin-kolyeler",
-  sku: "", price: "", original_price: "", short_description: "", description: "",
+  sku: "", price: "", price_by_milyem: false, gram: "", milyem: "",
+  original_price: "", short_description: "", description: "",
   stock_count: "0", is_published: true, is_new: false, is_exclusive: false,
   is_mothers_day: false, limited_pieces: "", materials: "", tags: "", gender: "Kadın",
   images: [{ src: "", alt: "" }],
@@ -210,6 +221,8 @@ export default function ProductFormPage() {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
   const [loaded, setLoaded] = useState(false);
+  const [gold, setGold] = useState<GoldSettings | null>(null);
+  const [goldError, setGoldError] = useState("");
 
   const set = (key: keyof ProductForm, val: unknown) =>
     setForm((f) => ({ ...f, [key]: val }));
@@ -228,6 +241,9 @@ export default function ProductFormPage() {
           category_slug: p.category_slug ?? "kolyeler",
           sku: p.sku ?? "",
           price: String(p.price ?? ""),
+          price_by_milyem: p.price_by_milyem ?? false,
+          gram: p.gram != null ? String(p.gram) : "",
+          milyem: p.milyem != null ? String(p.milyem) : "",
           original_price: String(p.original_price ?? ""),
           short_description: p.short_description ?? "",
           description: p.description ?? "",
@@ -251,6 +267,21 @@ export default function ProductFormPage() {
   }, [id, isNew]);
 
   useEffect(() => { load(); }, [load]);
+
+  // Milyem çarpan tablosu — fiyatı formda anlık göstermek için.
+  useEffect(() => {
+    fetch("/api/admin/gold")
+      .then(async (res) => {
+        const data = await res.json().catch(() => null);
+        if (res.ok && data?.settings) setGold(data.settings as GoldSettings);
+        else setGoldError(data?.error ?? "Altın fiyat ayarları okunamadı");
+      })
+      .catch(() => setGoldError("Altın fiyat ayarları okunamadı"));
+  }, []);
+
+  const gramNum = parseFloat(form.gram.replace(",", "."));
+  const milyemNum = parseFloat(form.milyem.replace(",", "."));
+  const computedPrice = gold ? computeMilyemPrice(gramNum, milyemNum, gold) : 0;
 
   // Auto-slug from name (only auto-update when new or slug is still empty)
   const handleNameChange = (name: string) => {
@@ -293,7 +324,12 @@ export default function ProductFormPage() {
       category: form.category,
       category_slug: form.category_slug,
       sku: form.sku || null,
-      price: parseFloat(form.price) || 0,
+      // Milyem modunda fiyatı sunucu yeniden hesaplar; burada gönderilen değer
+      // sadece istek/yanıt arasında tutarlılık için.
+      price: form.price_by_milyem ? computedPrice : (parseFloat(form.price) || 0),
+      price_by_milyem: form.price_by_milyem,
+      gram: form.price_by_milyem && gramNum > 0 ? gramNum : null,
+      milyem: form.price_by_milyem && milyemNum > 0 ? milyemNum : null,
       original_price: form.original_price ? parseFloat(form.original_price) : null,
       short_description: form.short_description,
       description: form.description,
@@ -437,10 +473,93 @@ export default function ProductFormPage() {
           <div className="bg-white rounded-lg p-6">
             <h2 className="font-sans font-medium text-gray-700 mb-5 text-sm">Fiyat ve Stok</h2>
             <div className="space-y-4">
-              <div>
-                <label className={labelClass}>Satış Fiyatı (₺) *</label>
-                <input required type="number" value={form.price} onChange={(e) => set("price", e.target.value)} placeholder="145000" className={inputClass} />
+
+              {/* Milyem modu anahtarı — altın ürünlerde açılır */}
+              <div className="border border-gray-200 rounded p-3">
+                <label className="flex items-center justify-between cursor-pointer">
+                  <span className="text-sm font-sans text-gray-700">Milyem ile fiyatla</span>
+                  <button
+                    type="button"
+                    onClick={() => set("price_by_milyem", !form.price_by_milyem)}
+                    className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors ${form.price_by_milyem ? "bg-[#C9A84C]" : "bg-gray-200"}`}
+                  >
+                    <span className={`inline-block h-3.5 w-3.5 transform rounded-full bg-white transition-transform ${form.price_by_milyem ? "translate-x-4" : "translate-x-1"}`} />
+                  </button>
+                </label>
+                <p className="text-[10px] font-sans text-gray-400 mt-1.5 leading-relaxed">
+                  Altın ürünler için. Fiyat gramdan hesaplanır ve gram altın fiyatı
+                  değiştikçe otomatik revize olur.
+                </p>
               </div>
+
+              {form.price_by_milyem ? (
+                <>
+                  {goldError && (
+                    <p className="text-[11px] font-sans text-red-500 bg-red-50 border border-red-200 rounded p-2.5 leading-relaxed">
+                      {goldError}
+                    </p>
+                  )}
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className={labelClass}>Gram *</label>
+                      <input
+                        required
+                        type="text"
+                        inputMode="decimal"
+                        value={form.gram}
+                        onChange={(e) => set("gram", e.target.value)}
+                        placeholder="5"
+                        className={inputClass}
+                      />
+                    </div>
+                    <div>
+                      <label className={labelClass}>Milyem *</label>
+                      <input
+                        required
+                        type="text"
+                        inputMode="decimal"
+                        value={form.milyem}
+                        onChange={(e) => set("milyem", e.target.value)}
+                        placeholder="130"
+                        className={inputClass}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Hesaplanan fiyat */}
+                  <div className="bg-[#C9A84C]/8 border border-[#C9A84C]/30 rounded p-4">
+                    <p className="text-[10px] font-sans tracking-wider uppercase text-[#9c7f2e] mb-1">
+                      Hesaplanan Satış Fiyatı
+                    </p>
+                    <p className="text-2xl font-serif font-light text-gray-800">
+                      {computedPrice > 0 ? formatTRY(computedPrice) : "—"}
+                    </p>
+                    {gold && milyemNum > 0 && (
+                      <p className="text-[11px] font-sans text-gray-500 mt-2 leading-relaxed">
+                        {milyemNum} milyem → <strong>{resolveTierRate(milyemNum, gold.tiers).toLocaleString("tr-TR")} ₺</strong> basamağı
+                        {gold.currentGramPrice !== gold.baseGramPrice && (
+                          <> · gram altın farkıyla <strong>{effectiveRate(milyemNum, gold).toLocaleString("tr-TR")} ₺</strong></>
+                        )}
+                        {gramNum > 0 && <> × {gramNum} gram</>}
+                      </p>
+                    )}
+                    {gold && (
+                      <p className="text-[10px] font-sans text-gray-400 mt-1">
+                        Güncel gram altın: {gold.currentGramPrice.toLocaleString("tr-TR")} ₺
+                        {gold.baseGramPrice !== gold.currentGramPrice && (
+                          <> (baz {gold.baseGramPrice.toLocaleString("tr-TR")} ₺)</>
+                        )}
+                      </p>
+                    )}
+                  </div>
+                </>
+              ) : (
+                <div>
+                  <label className={labelClass}>Satış Fiyatı (₺) *</label>
+                  <input required type="number" value={form.price} onChange={(e) => set("price", e.target.value)} placeholder="145000" className={inputClass} />
+                </div>
+              )}
+
               <div>
                 <label className={labelClass}>Orijinal Fiyat (₺)</label>
                 <input type="number" value={form.original_price} onChange={(e) => set("original_price", e.target.value)} placeholder="İndirim öncesi (opsiyonel)" className={inputClass} />

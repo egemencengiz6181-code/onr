@@ -11,6 +11,10 @@ export interface SupabaseProduct {
   sku: string | null;
   price: number;
   original_price: number | null;
+  /** Açıksa price, gram × milyem çarpanı ile sunucuda hesaplanır. */
+  price_by_milyem?: boolean;
+  gram?: number | null;
+  milyem?: number | null;
   short_description: string | null;
   description: string | null;
   images: { src: string; alt: string }[] | null;

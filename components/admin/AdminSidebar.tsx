@@ -26,6 +26,16 @@ const navItems = [
     ),
   },
   {
+    href: "/admin/altin-fiyat",
+    label: "Altın Fiyatı",
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <circle cx="12" cy="12" r="9" />
+        <path d="M12 7v10M9.5 9.5h4a1.75 1.75 0 010 3.5h-4M9.5 13h4.25a1.75 1.75 0 010 3.5H9.5" />
+      </svg>
+    ),
+  },
+  {
     href: "/admin/siparisler",
     label: "Siparişler",
     icon: (
