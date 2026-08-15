@@ -13,6 +13,7 @@ interface Product {
   price: number;
   stock_count: number;
   is_published: boolean;
+  is_sold_out?: boolean;
   images: { src: string; alt: string }[];
   created_at: string;
   price_by_milyem?: boolean;
@@ -150,9 +151,15 @@ export default function AdminUrunlerPage() {
                       )}
                     </td>
                     <td className="px-5 py-3">
-                      <span className={`text-xs font-medium ${product.stock_count > 0 ? "text-green-600" : "text-red-500"}`}>
-                        {product.stock_count}
-                      </span>
+                      {product.is_sold_out ? (
+                        <span className="text-[10px] tracking-wider uppercase px-2 py-1 rounded border border-gray-200 bg-gray-50 text-gray-500 whitespace-nowrap">
+                          Tükendi
+                        </span>
+                      ) : (
+                        <span className={`text-xs font-medium ${product.stock_count > 0 ? "text-green-600" : "text-red-500"}`}>
+                          {product.stock_count}
+                        </span>
+                      )}
                     </td>
                     <td className="px-5 py-3" onClick={(e) => e.stopPropagation()}>
                       <button

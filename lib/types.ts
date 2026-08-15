@@ -29,6 +29,8 @@ export interface Product {
   gender?: string[];
   isExclusive?: boolean;
   isNew?: boolean;
+  /** Yayında ama stokta yok — sepete eklenemez, "Gelince Haber Ver" formu çıkar. */
+  isSoldOut?: boolean;
   limitedPieces?: number;
   originalPrice?: number;
   originalPriceFormatted?: string;

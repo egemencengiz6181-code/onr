@@ -680,6 +680,14 @@ function ProductTile({
 
           {/* Badges */}
           <div className="absolute top-3.5 left-3.5 flex flex-col gap-1.5">
+            {product.isSoldOut && (
+              <span
+                className="bg-onyx/80 backdrop-blur-sm text-white/85 text-[7px] tracking-[0.2em]
+                               uppercase font-sans font-medium px-2.5 py-1"
+              >
+                Tükendi
+              </span>
+            )}
             {product.isNew && (
               <span
                 className="bg-gold text-onyx text-[7px] tracking-[0.2em] uppercase

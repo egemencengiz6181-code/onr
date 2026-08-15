@@ -11,6 +11,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import PageWrapper from "@/components/ui/PageWrapper";
 import PearlCareBanner from "@/components/product/PearlCareBanner";
+import StockNotifyModal from "@/components/product/StockNotifyModal";
 
 /* ─── Animation Helpers ──────────────────────────────────────────── */
 const ease = [0.25, 0.46, 0.45, 0.94];
@@ -379,7 +380,7 @@ function CrossSellCard({ product, showMothersDayBadge }: { product: Product; sho
           <p className="text-[11px] font-sans font-light text-[#1A1A1A]/50">{product.priceFormatted}</p>
         </div>
       </Link>
-      {showMothersDayBadge && (
+      {showMothersDayBadge && !product.isSoldOut && (
         <button
           onClick={() => addItem(product)}
           className="mt-3 w-full text-[7.5px] tracking-[0.22em] uppercase font-sans font-medium py-2.5 transition-all duration-300 hover:opacity-70"
@@ -397,6 +398,7 @@ function CrossSellCard({ product, showMothersDayBadge }: { product: Product; sho
    ═══════════════════════════════════════════════════════════════════ */
 export default function ProductDetailClient({ product }: { product: Product }) {
   const [added, setAdded] = useState(false);
+  const [notifyOpen, setNotifyOpen] = useState(false);
   const [expertOpen, setExpertOpen] = useState(false);
   const [sizeGuideOpen, setSizeGuideOpen] = useState(false);
   const [mobileImg, setMobileImg] = useState(0);
@@ -463,6 +465,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
       <AnimatePresence>
         {sizeGuideOpen && <RingSizeGuideModal onClose={() => setSizeGuideOpen(false)} />}
       </AnimatePresence>
+      <StockNotifyModal product={product} open={notifyOpen} onClose={() => setNotifyOpen(false)} />
       <AnimatePresence>
         {lightboxIdx !== null && <Lightbox images={gallery} activeIndex={lightboxIdx} onClose={closeLightbox} onPrev={prevLightbox} onNext={nextLightbox} />}
       </AnimatePresence>
@@ -769,24 +772,45 @@ export default function ProductDetailClient({ product }: { product: Product }) {
 
                   {/* ── CTA Buttons ── */}
                   <motion.div variants={fadeUp} className="space-y-3 mb-4">
-                    {/* Primary: SEPETE EKLE */}
-                    <button
-                      onClick={handleAddToCart}
-                      className={`w-full flex items-center justify-center gap-2.5 text-[9px] tracking-[0.3em] uppercase font-sans font-medium py-[16px] border transition-all duration-500 ${
-                        added
-                          ? "bg-[#1A1A1A]/70 border-[#1A1A1A]/70 text-[#FAF9F6]"
-                          : "bg-[#1A1A1A] border-[#1A1A1A] text-[#FAF9F6] hover:bg-[#1A1A1A]/80"
-                      }`}
-                    >
-                      {added ? (
-                        <>
-                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="20 6 9 17 4 12" /></svg>
-                          Sepete Eklendi
-                        </>
-                      ) : (
-                        "Sepete Ekle"
-                      )}
-                    </button>
+                    {/* Primary: SEPETE EKLE — tükenen üründe yerini haber ver formu alır */}
+                    {product.isSoldOut ? (
+                      <div className="space-y-3">
+                        <div className="flex items-center justify-center gap-2.5 py-[15px] border border-[#1A1A1A]/12 bg-[#1A1A1A]/[0.03]">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#1A1A1A]/25" />
+                          <span className="text-[9px] tracking-[0.3em] uppercase font-sans font-medium text-[#1A1A1A]/45">
+                            Tükendi
+                          </span>
+                        </div>
+                        <button
+                          onClick={() => setNotifyOpen(true)}
+                          className="w-full flex items-center justify-center gap-2.5 text-[9px] tracking-[0.3em] uppercase font-sans font-medium py-[16px] border bg-[#1A1A1A] border-[#1A1A1A] text-[#FAF9F6] hover:bg-[#1A1A1A]/80 transition-all duration-500"
+                        >
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                            <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" />
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                          </svg>
+                          Gelince Haber Ver
+                        </button>
+                      </div>
+                    ) : (
+                      <button
+                        onClick={handleAddToCart}
+                        className={`w-full flex items-center justify-center gap-2.5 text-[9px] tracking-[0.3em] uppercase font-sans font-medium py-[16px] border transition-all duration-500 ${
+                          added
+                            ? "bg-[#1A1A1A]/70 border-[#1A1A1A]/70 text-[#FAF9F6]"
+                            : "bg-[#1A1A1A] border-[#1A1A1A] text-[#FAF9F6] hover:bg-[#1A1A1A]/80"
+                        }`}
+                      >
+                        {added ? (
+                          <>
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="20 6 9 17 4 12" /></svg>
+                            Sepete Eklendi
+                          </>
+                        ) : (
+                          "Sepete Ekle"
+                        )}
+                      </button>
+                    )}
 
                     {/* Secondary: Bize Ulaşın */}
                     <button

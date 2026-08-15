@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { Product } from "@/lib/types";
 import { useCartStore } from "@/lib/cartStore";
 import { useState } from "react";
+import StockNotifyModal from "@/components/product/StockNotifyModal";
 
 interface ProductCardProps {
   product: Product;
@@ -19,6 +20,7 @@ export default function ProductCard({
   variant = "default",
 }: ProductCardProps) {
   const [activeImg, setActiveImg] = useState(0);
+  const [notifyOpen, setNotifyOpen] = useState(false);
   const { addItem } = useCartStore();
 
   const aspectClass = variant === "large" ? "aspect-[2/3]" : "aspect-[3/4]";
@@ -82,6 +84,12 @@ export default function ProductCard({
 
           {/* Badges */}
           <div className="absolute top-4 left-4 flex flex-col gap-2">
+            {product.isSoldOut && (
+              <span className="bg-onyx/80 backdrop-blur-sm text-ivory-100/85 text-[7px]
+                               tracking-widest uppercase font-sans px-2.5 py-1">
+                Tükendi
+              </span>
+            )}
             {product.isNew && (
               <span className="bg-gold text-onyx text-[7px] tracking-widest uppercase
                                font-sans px-2.5 py-1">
@@ -117,12 +125,17 @@ export default function ProductCard({
             <button
               onClick={(e) => {
                 e.preventDefault();
-                addItem(product);
+                if (product.isSoldOut) setNotifyOpen(true);
+                else addItem(product);
               }}
               className="flex-1 btn-luxury-light text-[8px] py-2.5 justify-center"
-              aria-label={`${product.name} sepete ekle`}
+              aria-label={
+                product.isSoldOut
+                  ? `${product.name} stoğa girince haber ver`
+                  : `${product.name} sepete ekle`
+              }
             >
-              Sepete Ekle
+              {product.isSoldOut ? "Gelince Haber Ver" : "Sepete Ekle"}
             </button>
           </div>
 
@@ -179,6 +192,10 @@ export default function ProductCard({
           </div>
         </div>
       </Link>
+
+      {product.isSoldOut && (
+        <StockNotifyModal product={product} open={notifyOpen} onClose={() => setNotifyOpen(false)} />
+      )}
     </motion.article>
   );
 }

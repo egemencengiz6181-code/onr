@@ -27,6 +27,7 @@ export interface SupabaseProduct {
   gender: string[] | null;
   is_exclusive: boolean;
   is_new: boolean;
+  is_sold_out?: boolean;
   is_mothers_day: boolean;
   is_published: boolean;
   stock_count: number;
@@ -56,6 +57,7 @@ export function mapDbToProduct(row: SupabaseProduct): Product {
     gender: row.gender ?? [],
     isExclusive: row.is_exclusive ?? false,
     isNew: row.is_new ?? false,
+    isSoldOut: row.is_sold_out ?? false,
     isMothersDay: row.is_mothers_day ?? false,
     limitedPieces: row.limited_pieces ?? undefined,
     originalPrice: row.original_price ? Number(row.original_price) : undefined,

@@ -140,6 +140,7 @@ interface ProductForm {
   is_new: boolean;
   is_exclusive: boolean;
   is_mothers_day: boolean;
+  is_sold_out: boolean;
   limited_pieces: string;
   materials: string;
   tags: string;
@@ -159,7 +160,8 @@ const empty: ProductForm = {
   sku: "", price: "", price_by_milyem: false, gram: "", milyem: "",
   original_price: "", short_description: "", description: "",
   stock_count: "0", is_published: true, is_new: false, is_exclusive: false,
-  is_mothers_day: false, limited_pieces: "", materials: "", tags: "", gender: "Kadın",
+  is_mothers_day: false, is_sold_out: false,
+  limited_pieces: "", materials: "", tags: "", gender: "Kadın",
   images: [{ src: "", alt: "" }],
   stone_specs: [{ label: "", value: "" }],
   certificate_info: [{ label: "", value: "" }],
@@ -253,6 +255,7 @@ export default function ProductFormPage() {
           is_new: p.is_new ?? false,
           is_exclusive: p.is_exclusive ?? false,
           is_mothers_day: p.is_mothers_day ?? false,
+          is_sold_out: p.is_sold_out ?? false,
           limited_pieces: String(p.limited_pieces ?? ""),
           materials: (p.materials ?? []).join(", "),
           tags: (p.tags ?? []).join(", "),
@@ -339,6 +342,7 @@ export default function ProductFormPage() {
       is_new: form.is_new,
       is_exclusive: form.is_exclusive,
       is_mothers_day: form.is_mothers_day,
+      is_sold_out: form.is_sold_out,
       limited_pieces: form.limited_pieces ? parseInt(form.limited_pieces) : null,
       materials: form.materials.split(",").map((s) => s.trim()).filter(Boolean),
       tags: form.tags.split(",").map((s) => s.trim()).filter(Boolean),
@@ -585,6 +589,7 @@ export default function ProductFormPage() {
                 { key: "is_new",       label: "Yeni Tasarım" },
                 { key: "is_exclusive", label: "Exclusive" },
                 { key: "is_mothers_day", label: "Anneler Günü" },
+                { key: "is_sold_out", label: "Tükendi" },
               ] as { key: keyof ProductForm; label: string }[]).map(({ key, label }) => (
                 <label key={key} className="flex items-center justify-between cursor-pointer">
                   <span className="text-sm font-sans text-gray-600">{label}</span>
@@ -598,6 +603,13 @@ export default function ProductFormPage() {
                 </label>
               ))}
             </div>
+            {form.is_sold_out && (
+              <p className="text-[10px] font-sans text-gray-400 mt-4 pt-4 border-t border-gray-100 leading-relaxed">
+                Ürün yayında kalır ama sepete eklenemez. Yerine &quot;Gelince Haber Ver&quot;
+                butonu çıkar; gelen talepleri <strong className="text-gray-500">Haber Ver Talepleri</strong>{" "}
+                sayfasından görebilirsiniz.
+              </p>
+            )}
           </div>
 
           {/* Meta */}

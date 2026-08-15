@@ -16,7 +16,7 @@ async function verifyAdmin() {
 /** Liste tablosunun gerçekten gösterdiği kolonlar. description / specs gibi
  *  ağır alanları çekmemek listeyi onlarca kat küçültüyor. */
 const LIST_COLUMNS =
-  "id, name, category, sku, price, stock_count, is_published, images, created_at, price_by_milyem, gram, milyem";
+  "id, name, category, sku, price, stock_count, is_published, is_sold_out, images, created_at, price_by_milyem, gram, milyem";
 
 /** Milyem ile fiyatlanan ürünlerde satış fiyatını istemciye bırakmıyoruz —
  *  tek doğru kaynak sunucudaki çarpan tablosu ve güncel gram altın. */
