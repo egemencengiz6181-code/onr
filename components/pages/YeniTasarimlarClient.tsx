@@ -96,7 +96,7 @@ function EditorialCard({
                 Fiyat
               </p>
               <p className="font-serif text-2xl text-onyx">
-                {product.priceFormatted}
+                {product.isSoldOut ? "" : product.priceFormatted}
               </p>
             </div>
             <Link

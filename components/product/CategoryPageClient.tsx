@@ -678,16 +678,18 @@ function ProductTile({
             />
           )}
 
+          {/* Tükendi — ana görselin sağ üstü */}
+          {product.isSoldOut && (
+            <span
+              className="absolute top-3.5 right-3.5 z-10 bg-onyx/75 backdrop-blur-sm text-white/90
+                         text-[7px] tracking-[0.2em] uppercase font-sans font-medium px-2 py-[3px]"
+            >
+              Tükendi
+            </span>
+          )}
+
           {/* Badges */}
           <div className="absolute top-3.5 left-3.5 flex flex-col gap-1.5">
-            {product.isSoldOut && (
-              <span
-                className="bg-onyx/80 backdrop-blur-sm text-white/85 text-[7px] tracking-[0.2em]
-                               uppercase font-sans font-medium px-2.5 py-1"
-              >
-                Tükendi
-              </span>
-            )}
             {product.isNew && (
               <span
                 className="bg-gold text-onyx text-[7px] tracking-[0.2em] uppercase
@@ -726,7 +728,7 @@ function ProductTile({
             {product.name}
           </h3>
           <p className="text-charcoal font-sans font-light text-[13px] tracking-wide">
-            {product.priceFormatted}
+            {product.isSoldOut ? "" : product.priceFormatted}
           </p>
         </div>
       </Link>

@@ -163,7 +163,7 @@ export default function ProductCarousel({ products }: { products: Product[] }) {
                   {product.name}
                 </h3>
                 <p className="mt-2 text-xs font-sans text-charcoal-lighter">
-                  {product.priceFormatted}
+                  {product.isSoldOut ? "" : product.priceFormatted}
                 </p>
               </div>
             </Link>

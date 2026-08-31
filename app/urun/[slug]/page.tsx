@@ -77,11 +77,17 @@ export default async function ProductPage({
       img.src.startsWith("http") ? img.src : `${BASE_URL}${img.src}`
     ),
     brand: { "@type": "Brand", name: "ONR Mücevherat" },
+    // Tükenen üründe fiyat sitede gösterilmiyor; arama sonuçlarında da
+    // yayınlamıyoruz, sadece stok durumunu bildiriyoruz.
     offers: {
       "@type": "Offer",
-      priceCurrency: "TRY",
-      price: product.price.toString(),
-      availability: "https://schema.org/InStock",
+      ...(product.isSoldOut
+        ? { availability: "https://schema.org/OutOfStock" }
+        : {
+            priceCurrency: "TRY",
+            price: product.price.toString(),
+            availability: "https://schema.org/InStock",
+          }),
       url: `${BASE_URL}/urun/${slug}`,
       seller: { "@type": "Organization", name: "ONR Mücevherat" },
     },

@@ -53,7 +53,7 @@ function ProductRow({
         <p className="text-white/60 text-xs mt-0.5">{product.category}</p>
       </div>
       <div className="flex-shrink-0 text-right">
-        <p className="text-white/90 text-sm font-light">{product.priceFormatted}</p>
+        <p className="text-white/90 text-sm font-light">{product.isSoldOut ? "" : product.priceFormatted}</p>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="w-4 h-4 text-white/20 group-hover:text-white/60 transition-all duration-300 ml-auto mt-1 group-hover:translate-x-1"

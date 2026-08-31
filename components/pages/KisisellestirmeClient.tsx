@@ -152,7 +152,7 @@ export default function KisisellestirmeClient({ initialProducts }: { initialProd
                   </div>
                   <p className="text-[7.5px] tracking-[0.22em] uppercase font-sans text-[#1A1A1A]/35 mb-1">{p.category}</p>
                   <p className="font-serif font-light text-[#1A1A1A] text-[1.1rem] leading-snug">{p.name}</p>
-                  <p className="text-[11px] font-sans font-light text-[#1A1A1A]/50 mt-1">{p.priceFormatted}</p>
+                  <p className="text-[11px] font-sans font-light text-[#1A1A1A]/50 mt-1">{p.isSoldOut ? "" : p.priceFormatted}</p>
                 </Link>
               ))}
             </div>

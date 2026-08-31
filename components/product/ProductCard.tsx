@@ -82,14 +82,17 @@ export default function ProductCard({
           <div className="absolute inset-0 bg-onyx/0 group-hover:bg-onyx/15
                           transition-colors duration-700" />
 
+          {/* Tükendi — ana görselin sağ üstü */}
+          {product.isSoldOut && (
+            <span className="absolute top-4 right-4 z-10 bg-onyx/75 backdrop-blur-sm
+                             text-ivory-100/90 text-[7px] tracking-widest uppercase
+                             font-sans px-2 py-[3px]">
+              Tükendi
+            </span>
+          )}
+
           {/* Badges */}
           <div className="absolute top-4 left-4 flex flex-col gap-2">
-            {product.isSoldOut && (
-              <span className="bg-onyx/80 backdrop-blur-sm text-ivory-100/85 text-[7px]
-                               tracking-widest uppercase font-sans px-2.5 py-1">
-                Tükendi
-              </span>
-            )}
             {product.isNew && (
               <span className="bg-gold text-onyx text-[7px] tracking-widest uppercase
                                font-sans px-2.5 py-1">
@@ -108,7 +111,7 @@ export default function ProductCard({
                 {product.limitedPieces} Adet
               </span>
             )}
-            {product.originalPriceFormatted && (
+            {product.originalPriceFormatted && !product.isSoldOut && (
               <span
                 className="text-[7px] tracking-widest uppercase font-sans px-2.5 py-1 font-medium"
                 style={{ background: "#b8683a", color: "#fff" }}
@@ -169,16 +172,20 @@ export default function ProductCard({
           </p>
           <div className="flex items-center justify-between pt-1">
             <div>
-              <p
-                className="font-serif font-light text-base"
-                style={{ color: product.originalPriceFormatted ? "#b8683a" : undefined }}
-              >
-                {product.priceFormatted}
-              </p>
-              {product.originalPriceFormatted && (
-                <p className="font-sans text-[10px] text-charcoal/35 line-through leading-none mt-0.5">
-                  {product.originalPriceFormatted}
-                </p>
+              {!product.isSoldOut && (
+                <>
+                  <p
+                    className="font-serif font-light text-base"
+                    style={{ color: product.originalPriceFormatted ? "#b8683a" : undefined }}
+                  >
+                    {product.priceFormatted}
+                  </p>
+                  {product.originalPriceFormatted && (
+                    <p className="font-sans text-[10px] text-charcoal/35 line-through leading-none mt-0.5">
+                      {product.originalPriceFormatted}
+                    </p>
+                  )}
+                </>
               )}
             </div>
             <span className="text-[8px] text-charcoal-lighter/60 tracking-widest uppercase

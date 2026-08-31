@@ -377,7 +377,7 @@ function CrossSellCard({ product, showMothersDayBadge }: { product: Product; sho
         <div className="pt-5 space-y-1.5">
           <p className="text-[7.5px] tracking-[0.22em] uppercase font-sans text-[#1A1A1A]/35">{product.category}</p>
           <p className="font-serif font-light text-[#1A1A1A] text-[1.15rem] leading-snug group-hover:text-charcoal-light transition-colors duration-300">{product.name}</p>
-          <p className="text-[11px] font-sans font-light text-[#1A1A1A]/50">{product.priceFormatted}</p>
+          <p className="text-[11px] font-sans font-light text-[#1A1A1A]/50">{product.isSoldOut ? "" : product.priceFormatted}</p>
         </div>
       </Link>
       {showMothersDayBadge && !product.isSoldOut && (
@@ -585,11 +585,16 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                         <span className="text-[6.5px] text-ivory-100/75 tracking-[0.3em] uppercase font-sans">Exclusive</span>
                       </div>
                     )}
-                    {product.isNew && (
+                    {/* Tükendi rozeti "Yeni"nin yerini alır — ikisi de sağ üstte */}
+                    {product.isSoldOut ? (
+                      <div className="absolute top-5 right-5 bg-[#0A0A0A]/70 backdrop-blur-sm px-2.5 py-1">
+                        <span className="text-[6.5px] text-ivory-100/90 tracking-[0.2em] uppercase font-sans">Tükendi</span>
+                      </div>
+                    ) : product.isNew ? (
                       <div className="absolute top-5 right-5 bg-gold px-3 py-1.5">
                         <span className="text-[6.5px] text-onyx tracking-[0.2em] uppercase font-sans">Yeni</span>
                       </div>
-                    )}
+                    ) : null}
                   </motion.div>
 
                   {/* Secondary: 2 images side by side */}
@@ -659,9 +664,9 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                     <span className="flex-1 h-px bg-[#1A1A1A]/[0.06]" />
                   </motion.div>
 
-                  {/* Price */}
-                  <motion.div variants={fadeUp} className="mb-6">
-                    {product.originalPriceFormatted && (
+                  {/* Price — tükenen üründe fiyat gösterilmez */}
+                  <motion.div variants={fadeUp} className={product.isSoldOut ? "mb-2" : "mb-6"}>
+                    {!product.isSoldOut && product.originalPriceFormatted && (
                       <div className="flex items-center gap-2.5 mb-2">
                         <span
                           className="text-[7px] tracking-[0.18em] uppercase font-sans px-2.5 py-1 font-medium"
@@ -674,18 +679,20 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                         </span>
                       </div>
                     )}
-                    <div className="flex items-baseline gap-3">
-                      <span
-                        className="font-serif font-light leading-none"
-                        style={{
-                          fontSize: "2.1rem",
-                          color: product.originalPriceFormatted ? "#b8683a" : "#1A1A1A",
-                        }}
-                      >
-                        {product.priceFormatted}
-                      </span>
-                      <span className="text-[7.5px] text-[#1A1A1A]/28 tracking-[0.22em] uppercase font-sans">KDV Dahil</span>
-                    </div>
+                    {!product.isSoldOut && (
+                      <div className="flex items-baseline gap-3">
+                        <span
+                          className="font-serif font-light leading-none"
+                          style={{
+                            fontSize: "2.1rem",
+                            color: product.originalPriceFormatted ? "#b8683a" : "#1A1A1A",
+                          }}
+                        >
+                          {product.priceFormatted}
+                        </span>
+                        <span className="text-[7.5px] text-[#1A1A1A]/28 tracking-[0.22em] uppercase font-sans">KDV Dahil</span>
+                      </div>
+                    )}
                   </motion.div>
 
                   {/* Short description */}
