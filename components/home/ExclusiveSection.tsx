@@ -4,39 +4,7 @@ import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useInView } from "framer-motion";
-
-const exclusivePieces = [
-  {
-    id: 1,
-    name: "Nebula — No. 001",
-    material: "Platin & Nadir Kashmir Safir",
-    karats: "4.2 ct Pırlanta",
-    image:
-      "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=600&q=85&fit=crop&crop=center",
-    alt: "Nadir Kashmir Safir yüzük",
-    limited: "Yalnızca 3 Adet",
-  },
-  {
-    id: 2,
-    name: "Lumière — No. 002",
-    material: "18 Ayar Altın & Burma Yakut",
-    karats: "2.8 ct Pırlanta Zincir",
-    image:
-      "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=600&q=85&fit=crop&crop=center",
-    alt: "Lüks Burma yakut kolye",
-    limited: "Yalnızca 5 Adet",
-  },
-  {
-    id: 3,
-    name: "Éternité — No. 003",
-    material: "Platin & D-Renk Pırlanta",
-    karats: "6.0 ct Oval Kesim",
-    image:
-      "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=600&q=85&fit=crop&crop=top",
-    alt: "D renk pırlanta tektaş",
-    limited: "Yalnızca 2 Adet",
-  },
-];
+import type { Product } from "@/lib/types";
 
 const containerVariants = {
   hidden: {},
@@ -52,8 +20,10 @@ const cardVariants = {
   },
 };
 
-export default function ExclusiveSection() {
+export default function ExclusiveSection({ products = [] }: { products?: Product[] }) {
   const ref = useRef<HTMLElement>(null);
+  // Yalnızca admin panelinden exclusive işaretlenmiş gerçek ürünler; en fazla 3 tanesi.
+  const pieces = products.slice(0, 3);
   const isInView = useInView(ref, { once: true, margin: "-10%" });
 
   return (
@@ -117,13 +87,14 @@ export default function ExclusiveSection() {
         </div>
 
         {/* ── Exclusive Pieces Grid ── */}
+        {pieces.length > 0 && (
         <motion.div
           className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6"
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
           variants={containerVariants}
         >
-          {exclusivePieces.map((piece, i) => (
+          {pieces.map((piece, i) => (
             <motion.div
               key={piece.id}
               variants={cardVariants}
@@ -137,8 +108,8 @@ export default function ExclusiveSection() {
                 {/* Image */}
                 <div className="relative aspect-[3/4] overflow-hidden">
                   <Image
-                    src={piece.image}
-                    alt={piece.alt}
+                    src={piece.images[0]?.src ?? "/images/mucevher/mucevher.jpg"}
+                    alt={piece.images[0]?.alt || piece.name}
                     fill
                     sizes="(max-width: 768px) 100vw, 33vw"
                     className="object-cover object-center grayscale group-hover:grayscale-0
@@ -149,23 +120,25 @@ export default function ExclusiveSection() {
                   <div className="absolute inset-0 bg-gradient-to-t from-onyx/90 via-onyx/30 to-transparent" />
 
                   {/* Limited badge */}
-                  <div className="absolute top-5 left-5 border border-gold/40 px-3 py-1.5 backdrop-blur-sm bg-onyx/30">
-                    <span className="text-[8px] text-gold/80 tracking-widest uppercase font-sans">
-                      {piece.limited}
-                    </span>
-                  </div>
+                  {piece.limitedPieces ? (
+                    <div className="absolute top-5 left-5 border border-gold/40 px-3 py-1.5 backdrop-blur-sm bg-onyx/30">
+                      <span className="text-[8px] text-gold/80 tracking-widest uppercase font-sans">
+                        Yalnızca {piece.limitedPieces} Adet
+                      </span>
+                    </div>
+                  ) : null}
                 </div>
 
                 {/* Card body */}
                 <div className="absolute bottom-0 inset-x-0 p-6">
                   <p className="text-[8px] text-gold/60 tracking-luxury uppercase font-sans mb-2">
-                    {piece.material}
+                    {piece.materials.slice(0, 2).join(" · ") || piece.category}
                   </p>
                   <h3 className="font-serif font-light text-ivory-50 text-xl md:text-2xl mb-1">
                     {piece.name}
                   </h3>
                   <p className="text-[9px] text-ivory-100/35 tracking-widest uppercase font-sans">
-                    {piece.karats}
+                    {piece.category}
                   </p>
 
                   {/* Hover CTA */}
@@ -174,7 +147,7 @@ export default function ExclusiveSection() {
                                 transition-all duration-500"
                   >
                     <Link
-                      href="/exclusive"
+                      href={`/exclusive/${piece.slug}`}
                       className="inline-flex items-center gap-2 text-[9px] text-gold tracking-luxury-wide
                                  uppercase font-sans border-b border-gold/30 pb-1
                                  hover:border-gold transition-colors duration-300"
@@ -190,6 +163,7 @@ export default function ExclusiveSection() {
             </motion.div>
           ))}
         </motion.div>
+        )}
 
         {/* ── Bottom CTA ── */}
         <motion.div

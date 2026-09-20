@@ -12,5 +12,5 @@ export const metadata: Metadata = {
 
 export default async function ExclusiveKoleksiyonPage() {
   const dbProducts = await getExclusiveProductsFromDB();
-  return <ExclusiveKoleksiyonClient initialProducts={dbProducts.length > 0 ? dbProducts : undefined} />;
+  return <ExclusiveKoleksiyonClient initialProducts={dbProducts} />;
 }

@@ -5,12 +5,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCartStore } from "@/lib/cartStore";
-import { getExclusiveProducts } from "@/lib/products";
 import type { Product } from "@/lib/types";
 
 const GOLD = "#D4AF37";
 
-const staticProducts = getExclusiveProducts();
 
 /* ─── Inquiry Modal (lightweight) ───────────────────────── */
 function QuickInquiryModal({
@@ -261,7 +259,8 @@ function ExclusiveCard({
 
 /* ─── Main Component ─────────────────────────────────────── */
 export default function ExclusiveKoleksiyonClient({ initialProducts }: { initialProducts?: Product[] }) {
-  const products = initialProducts ?? staticProducts;
+  // Yalnızca admin panelinden exclusive işaretlenmiş gerçek ürünler.
+  const products = initialProducts ?? [];
   const [inquiryProduct, setInquiryProduct] = useState<string | null>(null);
   const { openCart, totalItems } = useCartStore();
 

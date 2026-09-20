@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import ExclusivePageClient from "@/components/exclusive/ExclusivePageClient";
+import { getExclusiveProductsFromDB } from "@/lib/supabase/products";
+
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: "Exclusive Private Collection — Nadir Mücevherler",
@@ -29,6 +32,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ExclusivePage() {
-  return <ExclusivePageClient />;
+export default async function ExclusivePage() {
+  const products = await getExclusiveProductsFromDB();
+  return <ExclusivePageClient products={products} />;
 }

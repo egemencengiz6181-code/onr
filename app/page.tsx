@@ -6,14 +6,17 @@ import ProductCarousel from "@/components/home/ProductCarousel";
 import BrandStory from "@/components/home/BrandStory";
 import ExclusiveSection from "@/components/home/ExclusiveSection";
 import PageWrapper from "@/components/ui/PageWrapper";
-import { getAllPublishedProductsFromDB } from "@/lib/supabase/products";
+import { getAllPublishedProductsFromDB, getExclusiveProductsFromDB } from "@/lib/supabase/products";
 import { products as staticProducts } from "@/lib/products";
 
 export const revalidate = 60;
 
 export default async function HomePage() {
   // Admin'den eklenen ürünler önceliklidir; DB boşsa statik katalog gösterilir.
-  const dbProducts = await getAllPublishedProductsFromDB();
+  const [dbProducts, exclusiveProducts] = await Promise.all([
+    getAllPublishedProductsFromDB(),
+    getExclusiveProductsFromDB(),
+  ]);
   const carouselProducts = (dbProducts.length ? dbProducts : staticProducts).filter(
     (p) => !p.isExclusive
   );
@@ -37,7 +40,7 @@ export default async function HomePage() {
         <BrandStory />
 
         {/* 5 — Exclusive / VIP dark gallery */}
-        <ExclusiveSection />
+        <ExclusiveSection products={exclusiveProducts} />
       </main>
 
       {/* Global footer */}

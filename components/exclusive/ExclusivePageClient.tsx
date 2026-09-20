@@ -10,6 +10,7 @@ import {
   AnimatePresence,
 } from "framer-motion";
 import { useCartStore } from "@/lib/cartStore";
+import type { Product } from "@/lib/types";
 
 /* ─── Constants ──────────────────────────────────────────── */
 const GOLD = "#D4AF37";
@@ -27,56 +28,22 @@ interface ExItem {
   imgAlt: string;
 }
 
-const ITEMS: ExItem[] = [
-  {
-    id: "ex-001",
-    slug: "nebula-kashmir-safir",
-    name: "Nebula",
-    sub: "Kashmir Safir — 950 Platin",
-    edition: "N° 01/03",
-    detail:
-      "Dünyanın en nadir taşlarından Kashmir safiri, ONR atölyesinde altın oran kuralıyla çerçevelenmiştir. GRS sertifikalı, ısıl işlem uygulanmamış 4.20 ct Royal Blue safir. Bir neslin mirası ve bir servetin özü.",
-    tags: ["950 Platin", "GRS Sertifikalı", "Kashmir Safir", "Pavé 1.60 ct"],
-    img: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=1800&q=95&fit=crop",
-    imgAlt: "Nebula Kashmir Safir Yüzük",
-  },
-  {
-    id: "ex-002",
-    slug: "la-tempete",
-    name: "La Tempête",
-    sub: "Fancy Intense Pembe Pırlanta — 18K",
-    edition: "N° 01/01",
-    detail:
-      "Doğada yalnızca birkaç milyon karata bir rastlanan Fancy Intense Pink pırlanta; GIA sertifikalı 1.82 ct, VS1 saflıkta. Şiddetli bir fırtınanın sessiz anından ilham alınan bu parça dünyada yalnızca bir tane.",
-    tags: ["18K Beyaz Altın", "GIA Fancy Cut", "Pembe Pırlanta", "1.82 ct"],
-    img: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=1800&q=95&fit=crop",
-    imgAlt: "La Tempête Fancy Pink Pırlanta Yüzük",
-  },
-  {
-    id: "ex-003",
-    slug: "velours",
-    name: "Velours",
-    sub: "Kolombiya Zümrütü — 18K Sarı Altın",
-    edition: "N° 01/07",
-    detail:
-      "Kadife gibi derin bir yeşil: Muzo madeninden çıkan Kolombiya zümrütü, sarı altının sıcaklığıyla buluştuğunda varoluşun en güzel rengi ortaya çıkar. CDT sertifikalı, doğal, ısıl işlemsiz, 6.48 ct.",
-    tags: ["18K Sarı Altın", "CDT Sertifikalı", "Kolombiya Zümrüt", "6.48 ct"],
-    img: "https://images.unsplash.com/photo-1599643477877-530eb83abc8e?w=1800&q=95&fit=crop",
-    imgAlt: "Velours Kolombiya Zümrüt Kolye",
-  },
-  {
-    id: "ex-004",
-    slug: "aurore",
-    name: "Aurore",
-    sub: "Paraiba Turmalin — 950 Platin",
-    edition: "N° 01/07",
-    detail:
-      "Neon mavisi, yeryüzünün mistik parıltısı. Brezilya Paraíba'sından çıkan bu eşsiz turmalin, doğanın başka hiçbir maddesinde bulunmayan bir ışık yoğunluğuna sahiptir. AGL sertifikalı, 2.94 ct.",
-    tags: ["950 Platin", "AGL Sertifikalı", "Paraiba Turmalin", "2.94 ct"],
-    img: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=1800&q=95&fit=crop",
-    imgAlt: "Aurore Paraiba Turmalin",
-  },
-];
+/** Admin panelindeki gerçek exclusive ürünlerini bu sayfanın görsel diline çevirir. */
+function toExItems(products: Product[]): ExItem[] {
+  return products.map((p, i) => ({
+    id: p.id,
+    slug: p.slug,
+    name: p.name,
+    sub: p.materials.slice(0, 2).join(" · ") || p.category,
+    edition: p.limitedPieces
+      ? `N° 01/${String(p.limitedPieces).padStart(2, "0")}`
+      : `N° ${String(i + 1).padStart(2, "0")}`,
+    detail: p.description || p.shortDescription,
+    tags: p.materials,
+    img: p.images[0]?.src ?? "/images/mucevher/mucevher.jpg",
+    imgAlt: p.images[0]?.alt || p.name,
+  }));
+}
 
 /* ─── Curtain Entrance ───────────────────────────────────── */
 function Curtain() {
@@ -547,7 +514,7 @@ function GoldDivider({ number }: { number: string }) {
 }
 
 /* ─── Exclusive Shop Section ─────────────────────────────── */
-function ExclusiveShopSection() {
+function ExclusiveShopSection({ items }: { items: ExItem[] }) {
   return (
     <section
       className="py-28 overflow-hidden"
@@ -610,7 +577,7 @@ function ExclusiveShopSection() {
                    scrollbar-none"
         style={{ scrollbarWidth: "none" }}
       >
-        {ITEMS.map((item, i) => (
+        {items.map((item, i) => (
           <motion.div
             key={item.id}
             initial={{ opacity: 0, y: 30 }}
@@ -717,7 +684,7 @@ function ExclusiveShopSection() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: ITEMS.length * 0.08 }}
+          transition={{ duration: 0.8, delay: items.length * 0.08 }}
           className="flex-shrink-0 w-[240px] flex items-center justify-center"
         >
           <Link
@@ -1229,7 +1196,8 @@ function InquiryModal({
 }
 
 /* ─── Main Export ────────────────────────────────────────── */
-export default function ExclusivePageClient() {
+export default function ExclusivePageClient({ products = [] }: { products?: Product[] }) {
+  const items = toExItems(products);
   const [inquiryItem, setInquiryItem] = useState<ExItem | null>(null);
 
   return (
@@ -1247,18 +1215,18 @@ export default function ExclusivePageClient() {
       <HeroSection />
 
       {/* Lookbook */}
-      {ITEMS.map((item, i) => (
+      {items.map((item, i) => (
         <div key={item.id}>
           <LookbookItem item={item} index={i} onInquiry={setInquiryItem} />
-          {i < ITEMS.length - 1 && (
-            <GoldDivider number={`${String(i + 1).padStart(2, "0")} / ${String(ITEMS.length).padStart(2, "0")}`} />
+          {i < items.length - 1 && (
+            <GoldDivider number={`${String(i + 1).padStart(2, "0")} / ${String(items.length).padStart(2, "0")}`} />
           )}
         </div>
       ))}
 
       {/* Closing CTA */}
-      <ExclusiveShopSection />
-      <ClosingSection onInquiry={() => setInquiryItem(ITEMS[0])} />
+      <ExclusiveShopSection items={items} />
+      <ClosingSection onInquiry={() => items[0] && setInquiryItem(items[0])} />
 
       {/* Footer */}
       <ExclusiveFooter />
