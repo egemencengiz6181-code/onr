@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, useInView } from "framer-motion";
 import type { Product } from "@/lib/types";
+import { isPriceHidden } from "@/lib/priceDisplay";
 
 /**
  * Kategorileri sırayla dolaşarak karıştırır: yüzük → kolye → bileklik → küpe → yüzük…
@@ -163,7 +164,7 @@ export default function ProductCarousel({ products }: { products: Product[] }) {
                   {product.name}
                 </h3>
                 <p className="mt-2 text-xs font-sans text-charcoal-lighter">
-                  {product.isSoldOut ? "" : product.priceFormatted}
+                  {isPriceHidden(product) ? "" : product.priceFormatted}
                 </p>
               </div>
             </Link>

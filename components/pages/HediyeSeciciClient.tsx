@@ -9,6 +9,7 @@ import Footer from "@/components/layout/Footer";
 import PageWrapper from "@/components/ui/PageWrapper";
 import { products as staticProducts } from "@/lib/products";
 import type { Product } from "@/lib/types";
+import { isPriceHidden } from "@/lib/priceDisplay";
 
 const ease = [0.25, 0.46, 0.45, 0.94] as const;
 
@@ -140,7 +141,7 @@ function ResultCard({ product }: { product: Product }) {
         </div>
         <p className="text-[7.5px] tracking-[0.22em] uppercase font-sans text-[#1A1A1A]/35 mb-1">{product.category}</p>
         <p className="font-serif font-light text-[#1A1A1A] text-[1.1rem] leading-snug mb-1.5 group-hover:text-charcoal transition-colors duration-300">{product.name}</p>
-        <p className="text-[11px] font-sans font-light text-[#1A1A1A]/50">{product.isSoldOut ? "" : product.priceFormatted}</p>
+        <p className="text-[11px] font-sans font-light text-[#1A1A1A]/50">{isPriceHidden(product) ? "" : product.priceFormatted}</p>
       </Link>
     </motion.div>
   );

@@ -7,6 +7,7 @@ import { Product } from "@/lib/types";
 import { useCartStore } from "@/lib/cartStore";
 import { useState } from "react";
 import StockNotifyModal from "@/components/product/StockNotifyModal";
+import { isPriceHidden } from "@/lib/priceDisplay";
 
 interface ProductCardProps {
   product: Product;
@@ -111,7 +112,7 @@ export default function ProductCard({
                 {product.limitedPieces} Adet
               </span>
             )}
-            {product.originalPriceFormatted && !product.isSoldOut && (
+            {product.originalPriceFormatted && !isPriceHidden(product) && (
               <span
                 className="text-[7px] tracking-widest uppercase font-sans px-2.5 py-1 font-medium"
                 style={{ background: "#b8683a", color: "#fff" }}
@@ -172,7 +173,7 @@ export default function ProductCard({
           </p>
           <div className="flex items-center justify-between pt-1">
             <div>
-              {!product.isSoldOut && (
+              {!isPriceHidden(product) && (
                 <>
                   <p
                     className="font-serif font-light text-base"

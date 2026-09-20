@@ -12,6 +12,7 @@ import Footer from "@/components/layout/Footer";
 import PageWrapper from "@/components/ui/PageWrapper";
 import PearlCareBanner from "@/components/product/PearlCareBanner";
 import StockNotifyModal from "@/components/product/StockNotifyModal";
+import { isPriceHidden } from "@/lib/priceDisplay";
 
 /* ─── Animation Helpers ──────────────────────────────────────────── */
 const ease = [0.25, 0.46, 0.45, 0.94];
@@ -377,7 +378,7 @@ function CrossSellCard({ product, showMothersDayBadge }: { product: Product; sho
         <div className="pt-5 space-y-1.5">
           <p className="text-[7.5px] tracking-[0.22em] uppercase font-sans text-[#1A1A1A]/35">{product.category}</p>
           <p className="font-serif font-light text-[#1A1A1A] text-[1.15rem] leading-snug group-hover:text-charcoal-light transition-colors duration-300">{product.name}</p>
-          <p className="text-[11px] font-sans font-light text-[#1A1A1A]/50">{product.isSoldOut ? "" : product.priceFormatted}</p>
+          <p className="text-[11px] font-sans font-light text-[#1A1A1A]/50">{isPriceHidden(product) ? "" : product.priceFormatted}</p>
         </div>
       </Link>
       {showMothersDayBadge && !product.isSoldOut && (
@@ -665,8 +666,8 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                   </motion.div>
 
                   {/* Price — tükenen üründe fiyat gösterilmez */}
-                  <motion.div variants={fadeUp} className={product.isSoldOut ? "mb-2" : "mb-6"}>
-                    {!product.isSoldOut && product.originalPriceFormatted && (
+                  <motion.div variants={fadeUp} className={isPriceHidden(product) ? "mb-2" : "mb-6"}>
+                    {!isPriceHidden(product) && product.originalPriceFormatted && (
                       <div className="flex items-center gap-2.5 mb-2">
                         <span
                           className="text-[7px] tracking-[0.18em] uppercase font-sans px-2.5 py-1 font-medium"
@@ -679,7 +680,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                         </span>
                       </div>
                     )}
-                    {!product.isSoldOut && (
+                    {!isPriceHidden(product) && (
                       <div className="flex items-baseline gap-3">
                         <span
                           className="font-serif font-light leading-none"

@@ -9,6 +9,7 @@ import Footer from "@/components/layout/Footer";
 import PageWrapper from "@/components/ui/PageWrapper";
 import { products as staticProducts } from "@/lib/products";
 import type { Product } from "@/lib/types";
+import { isPriceHidden } from "@/lib/priceDisplay";
 
 function EditorialCard({
   product,
@@ -96,7 +97,7 @@ function EditorialCard({
                 Fiyat
               </p>
               <p className="font-serif text-2xl text-onyx">
-                {product.isSoldOut ? "" : product.priceFormatted}
+                {isPriceHidden(product) ? "" : product.priceFormatted}
               </p>
             </div>
             <Link

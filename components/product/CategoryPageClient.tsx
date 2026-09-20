@@ -10,6 +10,7 @@ import type { Product } from "@/lib/types";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import PageWrapper from "@/components/ui/PageWrapper";
+import { isPriceHidden } from "@/lib/priceDisplay";
 
 /* ═══════════════════════════════════════════════
    CONSTANTS & TYPES
@@ -728,7 +729,7 @@ function ProductTile({
             {product.name}
           </h3>
           <p className="text-charcoal font-sans font-light text-[13px] tracking-wide">
-            {product.isSoldOut ? "" : product.priceFormatted}
+            {isPriceHidden(product) ? "" : product.priceFormatted}
           </p>
         </div>
       </Link>

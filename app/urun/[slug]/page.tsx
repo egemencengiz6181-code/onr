@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { getProductBySlug } from "@/lib/products";
 import { getProductBySlugFromDB } from "@/lib/supabase/products";
 import ProductDetailClient from "@/components/product/ProductDetailClient";
+import { isPriceHidden } from "@/lib/priceDisplay";
 
 const BASE_URL = "https://www.onrmucevherat.com";
 
@@ -77,17 +78,16 @@ export default async function ProductPage({
       img.src.startsWith("http") ? img.src : `${BASE_URL}${img.src}`
     ),
     brand: { "@type": "Brand", name: "ONR Mücevherat" },
-    // Tükenen üründe fiyat sitede gösterilmiyor; arama sonuçlarında da
-    // yayınlamıyoruz, sadece stok durumunu bildiriyoruz.
+    // Sitede gizlenen fiyatı (tükendi ya da henüz fiyatlanmamış ürün) arama
+    // sonuçlarında da yayınlamıyoruz; yalnızca stok durumunu bildiriyoruz.
     offers: {
       "@type": "Offer",
-      ...(product.isSoldOut
-        ? { availability: "https://schema.org/OutOfStock" }
-        : {
-            priceCurrency: "TRY",
-            price: product.price.toString(),
-            availability: "https://schema.org/InStock",
-          }),
+      availability: product.isSoldOut
+        ? "https://schema.org/OutOfStock"
+        : "https://schema.org/InStock",
+      ...(isPriceHidden(product)
+        ? {}
+        : { priceCurrency: "TRY", price: product.price.toString() }),
       url: `${BASE_URL}/urun/${slug}`,
       seller: { "@type": "Organization", name: "ONR Mücevherat" },
     },

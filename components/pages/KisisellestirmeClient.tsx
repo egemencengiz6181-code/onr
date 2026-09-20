@@ -9,6 +9,7 @@ import Footer from "@/components/layout/Footer";
 import PageWrapper from "@/components/ui/PageWrapper";
 import { products as staticProducts } from "@/lib/products";
 import type { Product } from "@/lib/types";
+import { isPriceHidden } from "@/lib/priceDisplay";
 
 const ease = [0.25, 0.46, 0.45, 0.94] as const;
 
@@ -152,7 +153,7 @@ export default function KisisellestirmeClient({ initialProducts }: { initialProd
                   </div>
                   <p className="text-[7.5px] tracking-[0.22em] uppercase font-sans text-[#1A1A1A]/35 mb-1">{p.category}</p>
                   <p className="font-serif font-light text-[#1A1A1A] text-[1.1rem] leading-snug">{p.name}</p>
-                  <p className="text-[11px] font-sans font-light text-[#1A1A1A]/50 mt-1">{p.isSoldOut ? "" : p.priceFormatted}</p>
+                  <p className="text-[11px] font-sans font-light text-[#1A1A1A]/50 mt-1">{isPriceHidden(p) ? "" : p.priceFormatted}</p>
                 </Link>
               ))}
             </div>
