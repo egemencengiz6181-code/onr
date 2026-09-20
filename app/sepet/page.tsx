@@ -12,6 +12,7 @@ import { useCartStore } from "@/lib/cartStore";
 import { useAuthStore } from "@/lib/authStore";
 import { products } from "@/lib/products";
 import { Product } from "@/lib/types";
+import { isPriceHidden } from "@/lib/priceDisplay";
 
 function CrossSellCard({ product }: { product: Product }) {
   const { addItem } = useCartStore();
@@ -42,18 +43,27 @@ function CrossSellCard({ product }: { product: Product }) {
               {product.name}
             </p>
           </Link>
-          <p className="font-serif text-charcoal/70 text-sm mt-0.5">{product.priceFormatted}</p>
+          <p className="font-serif text-charcoal/70 text-sm mt-0.5">{isPriceHidden(product) ? "" : product.priceFormatted}</p>
         </div>
-        <button
-          onClick={handleAdd}
-          className={`mt-2 text-[8px] tracking-luxury uppercase font-sans border px-3 py-1.5 transition-all duration-300
-            ${added
-              ? "border-gold bg-gold text-onyx"
-              : "border-charcoal/20 text-charcoal hover:border-gold hover:text-gold"
-            }`}
-        >
-          {added ? "Eklendi ✓" : "Sepete Ekle"}
-        </button>
+        {isPriceHidden(product) ? (
+          <Link
+            href={`/urun/${product.slug}`}
+            className="mt-2 text-[8px] tracking-luxury uppercase font-sans border border-charcoal/20 text-charcoal hover:border-gold hover:text-gold px-3 py-1.5 transition-all duration-300 self-start"
+          >
+            Bize Ulaşın
+          </Link>
+        ) : (
+          <button
+            onClick={handleAdd}
+            className={`mt-2 text-[8px] tracking-luxury uppercase font-sans border px-3 py-1.5 transition-all duration-300
+              ${added
+                ? "border-gold bg-gold text-onyx"
+                : "border-charcoal/20 text-charcoal hover:border-gold hover:text-gold"
+              }`}
+          >
+            {added ? "Eklendi ✓" : "Sepete Ekle"}
+          </button>
+        )}
       </div>
     </div>
   );

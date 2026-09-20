@@ -7,7 +7,7 @@ import { Product } from "@/lib/types";
 import { useCartStore } from "@/lib/cartStore";
 import { useState } from "react";
 import StockNotifyModal from "@/components/product/StockNotifyModal";
-import { isPriceHidden } from "@/lib/priceDisplay";
+import { isPriceHidden, isUnpriced } from "@/lib/priceDisplay";
 
 interface ProductCardProps {
   product: Product;
@@ -128,18 +128,31 @@ export default function ProductCard({
                           transition-all duration-500 ease-out flex gap-2">
             <button
               onClick={(e) => {
+                if (product.isSoldOut) {
+                  e.preventDefault();
+                  setNotifyOpen(true);
+                  return;
+                }
+                // Fiyatsız üründe kartın kendi linki ürün sayfasına götürsün;
+                // iletişim formu orada.
+                if (isUnpriced(product)) return;
                 e.preventDefault();
-                if (product.isSoldOut) setNotifyOpen(true);
-                else addItem(product);
+                addItem(product);
               }}
               className="flex-1 btn-luxury-light text-[8px] py-2.5 justify-center"
               aria-label={
                 product.isSoldOut
                   ? `${product.name} stoğa girince haber ver`
+                  : isUnpriced(product)
+                  ? `${product.name} için bize ulaşın`
                   : `${product.name} sepete ekle`
               }
             >
-              {product.isSoldOut ? "Gelince Haber Ver" : "Sepete Ekle"}
+              {product.isSoldOut
+                ? "Gelince Haber Ver"
+                : isUnpriced(product)
+                ? "Bize Ulaşın"
+                : "Sepete Ekle"}
             </button>
           </div>
 

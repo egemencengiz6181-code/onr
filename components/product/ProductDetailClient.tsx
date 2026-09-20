@@ -12,7 +12,7 @@ import Footer from "@/components/layout/Footer";
 import PageWrapper from "@/components/ui/PageWrapper";
 import PearlCareBanner from "@/components/product/PearlCareBanner";
 import StockNotifyModal from "@/components/product/StockNotifyModal";
-import { isPriceHidden } from "@/lib/priceDisplay";
+import { isPriceHidden, isUnpriced } from "@/lib/priceDisplay";
 
 /* ─── Animation Helpers ──────────────────────────────────────────── */
 const ease = [0.25, 0.46, 0.45, 0.94];
@@ -381,7 +381,7 @@ function CrossSellCard({ product, showMothersDayBadge }: { product: Product; sho
           <p className="text-[11px] font-sans font-light text-[#1A1A1A]/50">{isPriceHidden(product) ? "" : product.priceFormatted}</p>
         </div>
       </Link>
-      {showMothersDayBadge && !product.isSoldOut && (
+      {showMothersDayBadge && !isPriceHidden(product) && (
         <button
           onClick={() => addItem(product)}
           className="mt-3 w-full text-[7.5px] tracking-[0.22em] uppercase font-sans font-medium py-2.5 transition-all duration-300 hover:opacity-70"
@@ -800,6 +800,17 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                           Gelince Haber Ver
                         </button>
                       </div>
+                    ) : isUnpriced(product) ? (
+                      /* Fiyatı girilmemiş ürün — sepete eklenemez, iletişime yönlendirilir */
+                      <button
+                        onClick={() => setExpertOpen(true)}
+                        className="w-full flex items-center justify-center gap-2.5 text-[9px] tracking-[0.3em] uppercase font-sans font-medium py-[16px] border bg-[#1A1A1A] border-[#1A1A1A] text-[#FAF9F6] hover:bg-[#1A1A1A]/80 transition-all duration-500"
+                      >
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                        </svg>
+                        Bize Ulaşın
+                      </button>
                     ) : (
                       <button
                         onClick={handleAddToCart}
@@ -820,13 +831,15 @@ export default function ProductDetailClient({ product }: { product: Product }) {
                       </button>
                     )}
 
-                    {/* Secondary: Bize Ulaşın */}
-                    <button
-                      onClick={() => setExpertOpen(true)}
-                      className="w-full flex items-center justify-center gap-2.5 text-[9px] tracking-[0.3em] uppercase font-sans font-medium py-[15px] border border-[#1A1A1A]/12 text-[#1A1A1A]/50 hover:border-[#1A1A1A]/35 hover:text-[#1A1A1A]/75 transition-all duration-300"
-                    >
-                      Bize Ulaşın
-                    </button>
+                    {/* Secondary: Bize Ulaşın — ana buton zaten buysa tekrarlanmaz */}
+                    {!isUnpriced(product) && (
+                      <button
+                        onClick={() => setExpertOpen(true)}
+                        className="w-full flex items-center justify-center gap-2.5 text-[9px] tracking-[0.3em] uppercase font-sans font-medium py-[15px] border border-[#1A1A1A]/12 text-[#1A1A1A]/50 hover:border-[#1A1A1A]/35 hover:text-[#1A1A1A]/75 transition-all duration-300"
+                      >
+                        Bize Ulaşın
+                      </button>
+                    )}
                   </motion.div>
 
                   <motion.p variants={fadeUp} className="text-[9px] text-[#1A1A1A]/25 font-sans font-light text-center leading-relaxed mb-8">

@@ -11,3 +11,12 @@ import type { Product } from "@/lib/types";
 export function isPriceHidden(product: Pick<Product, "isSoldOut" | "price">): boolean {
   return Boolean(product.isSoldOut) || !(Number(product.price) > 0);
 }
+
+/**
+ * Fiyatı henüz girilmemiş ürün (0 ₺, tükendi değil). Sepete eklenemez —
+ * yoksa müşteri 0 TL'lik sipariş oluşturabilir; bunun yerine iletişime
+ * yönlendirilir.
+ */
+export function isUnpriced(product: Pick<Product, "isSoldOut" | "price">): boolean {
+  return !product.isSoldOut && !(Number(product.price) > 0);
+}
